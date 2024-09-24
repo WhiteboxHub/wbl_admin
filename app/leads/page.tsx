@@ -40,7 +40,8 @@
 //   const timeoutRef = useRef<NodeJS.Timeout | null>(null);  // Ref to store timeout ID
 
 
-//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  
+  
 
 //   // const handleOpenModal = (rowData: any) => {
 //   //   if (rowData && rowData.leadid) {
@@ -435,6 +436,8 @@ const Leads = () => {
 
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  console.log(API_URL);
+  
 
   // const handleOpenModal = (rowData: any) => {
   //   if (rowData && rowData.leadid) {
@@ -566,11 +569,35 @@ useEffect(() => {
 
   const handleAddRow = () => setModalState(prevState => ({ ...prevState, add: true }));
 
+  // const handleSaveRow = async (newRow: any) => {
+  //   try {
+  //     await axios.post(`${API_URL}/api/insert/leads`, newRow, {
+  //       headers: { AuthToken: localStorage.getItem('token') },
+  //     });
+  //     fetchData();
+  //     handleCloseModal();
+  //     setMessage({ text: 'Row added successfully!', type: 'success' });
+  //   } catch (error) {
+  //     console.error('Error saving row data:', error);
+  //     setMessage({ text: 'Error adding row. Please try again.', type: 'error' });
+  //   }
+  // };
+
+
   const handleSaveRow = async (newRow: any) => {
     try {
-      await axios.post(`${API_URL}/api/insert/leads`, newRow, {
-        headers: { AuthToken: localStorage.getItem('token') },
+      const token = localStorage.getItem('token');
+      const url = `${API_URL}/api/leads/insert`;
+      
+      // Debugging Logs
+      console.log("URL:", url);
+      console.log("Token:", token);
+      console.log("New Row Data:", newRow);
+      await axios.post(url, newRow, {
+        headers: { AuthToken: token },
       });
+      console.log(handleSaveRow);
+      
       fetchData();
       handleCloseModal();
       setMessage({ text: 'Row added successfully!', type: 'success' });
@@ -579,6 +606,13 @@ useEffect(() => {
       setMessage({ text: 'Error adding row. Please try again.', type: 'error' });
     }
   };
+  
+
+
+
+
+
+
 
   const handleEditUpdatedRow = async (newRow: any) => {
     try {
@@ -785,3 +819,5 @@ useEffect(() => {
 };
 
 export default Leads;
+
+
