@@ -51,49 +51,76 @@
 
 
 
-import React from 'react';
-import Modal from 'react-modal';
+// import React from 'react';
+// import Modal from 'react-modal';
+
+// // Define the types for props
+// interface ViewRowModalProps {
+//   isOpen: boolean;
+//   onRequestClose: () => void;
+//   rowData: Record<string, any> | null; // Use Record<string, any> for dynamic keys
+// }
+
+// const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
+//   return (
+//     <Modal
+//       isOpen={isOpen}
+//       onRequestClose={onRequestClose}
+//       className="modal-content"
+//       overlayClassName="modal-overlay"
+//     >
+//       <div className="modal-header">
+//         <h2 className="modal-title">Row Details</h2>
+//         <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
+//       </div>
+//       <div className="modal-body">
+//         {rowData ? (
+//           <div>
+//             {Object.keys(rowData).map(key => (
+//               <div key={key} className="modal-field">
+//                 <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+//                 <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+//                   {rowData[key]}
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         ) : (
+//           <p>No data available</p>
+//         )}
+//       </div>
+//       <div className="modal-actions">
+//         <button type="button" className="cancel-button" onClick={onRequestClose}>Close</button>
+//       </div>
+//     </Modal>
+//   );
+// };
+
+// export default ViewRowModal;
+
+
+  import React from 'react';
+import ViewRowModal from './ViewRowModal';
 
 // Define the types for props
-interface ViewRowModalProps {
+interface EditRowModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   rowData: Record<string, any> | null; // Use Record<string, any> for dynamic keys
+  onSave: (data: Record<string, any>) => void; // Update this type
 }
 
-const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
+const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
+  // Your component logic here
   return (
-    <Modal
+    <ViewRowModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="modal-content"
-      overlayClassName="modal-overlay"
-    >
-      <div className="modal-header">
-        <h2 className="modal-title">Row Details</h2>
-        <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
-      </div>
-      <div className="modal-body">
-        {rowData ? (
-          <div>
-            {Object.keys(rowData).map(key => (
-              <div key={key} className="modal-field">
-                <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
-                <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                  {rowData[key]}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No data available</p>
-        )}
-      </div>
-      <div className="modal-actions">
-        <button type="button" className="cancel-button" onClick={onRequestClose}>Close</button>
-      </div>
-    </Modal>
+      rowData={rowData}
+      onSave={onSave} // Pass the onSave function here
+    />
   );
 };
 
-export default ViewRowModal;
+export default EditRowModal;
+
