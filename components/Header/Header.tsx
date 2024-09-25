@@ -21,9 +21,56 @@
 
 
 
+// import Link from 'next/link';
+
+// const Header = () => {
+//   return (
+//     <header className="bg-gray-900 text-white py-4 shadow-lg fixed top-0 left-0 right-0 z-20">
+//       <nav className="container mx-auto flex justify-between items-center px-4">
+//         <h1 className="text-2xl font-bold">Avatar</h1>
+//         <ul className="flex space-x-6">
+//           <li>
+//             <Link href="/leads" className="text-lg font-semibold hover:text-purple-400">
+//               Leads
+//             </Link>
+//           </li>
+//           <li>
+//             <Link href="/datch" className="text-lg font-semibold hover:text-purple-400">
+//               Batch
+//             </Link>
+//           </li>
+//           <li>
+//             <Link href="/profile" className="text-lg font-semibold hover:text-purple-400">
+//               Profile
+//             </Link>
+//           </li>
+//           <li>
+//             <Link href="/candidate" className="text-lg font-semibold hover:text-purple-400">
+//               Candidate
+//             </Link>
+//           </li>
+//           <li>
+//             <Link href="/logout" className="text-lg font-semibold hover:text-purple-400">
+//               Logout
+//             </Link>
+//           </li>
+//         </ul>
+//       </nav>
+//     </header>
+//   );
+// };
+
+// export default Header;
+
+
 import Link from 'next/link';
 
 const Header = () => {
+  const handleLogoutAction = () => {
+    // Add your logout logic here
+    console.log('Logout button clicked');
+  };
+
   return (
     <header className="bg-gray-900 text-white py-4 shadow-lg fixed top-0 left-0 right-0 z-20">
       <nav className="container mx-auto flex justify-between items-center px-4">
@@ -35,7 +82,7 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link href="/dashboard" className="text-lg font-semibold hover:text-purple-400">
+            <Link href="/batch" className="text-lg font-semibold hover:text-purple-400">
               Batch
             </Link>
           </li>
@@ -49,12 +96,14 @@ const Header = () => {
               Candidate
             </Link>
           </li>
-          <li>
-            <Link href="/logout" className="text-lg font-semibold hover:text-purple-400">
-              Logout
-            </Link>
-          </li>
         </ul>
+        <button
+          onClick={handleLogoutAction}
+          type="button"
+          className=" ml-3 px-4 py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition duration-300"
+        >
+          Logout
+        </button>
       </nav>
     </header>
   );
