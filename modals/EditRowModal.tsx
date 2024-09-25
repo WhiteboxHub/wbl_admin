@@ -185,133 +185,50 @@
 
 //**************************************************************************************************************** */
 
-// import React, { useState, useEffect, ChangeEvent } from 'react';
-// import Modal from 'react-modal';
-// import Lead from '@/app/leads/page';
-// import '../styles/welcome.css'; // Ensure this path is correct
-
-// Modal.setAppElement('#__next'); // Set the root element for Next.js
-
-
-//   interface EditRowModalProps {
-//     isOpen: boolean;
-//     onRequestClose: () => void;
-//     rowData: Record<string, any> | null; // Use Record<string, any> to allow for dynamic keys
-//     onSave:(data: Record<string, any>) => void;
-//   }
-
-//   // Define the type for form data
-//   type FormData = Record<string, any>;
-
-//   const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
-//     const [formData, setFormData] = useState<FormData>({});
-
-//     useEffect(() => {
-//       if (rowData) {
-//         setFormData({ ...rowData });
-//       }
-//     }, [rowData]);
-
-//     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-//       const { name, value } = e.target;
-//       setFormData({
-//         ...formData,
-//         [name]: value,
-//       });
-//     };
-
-//     const handleSave = () => {
-//       console.log('FormData on save:', formData); // Debugging line
-//       if (formData.leadid) { // Check if formData contains the leadid
-//         onSave(formData); // Pass the entire formData which includes leadid
-//         onRequestClose();
-//       } else {
-//         console.error('No leadid found in formData');
-//       }
-//     };
-
-//   return (
-//     <Modal
-//       isOpen={isOpen}
-//       onRequestClose={onRequestClose}
-//       className="modal-content"
-//       overlayClassName="modal-overlay"
-//     >
-//       <div className="modal-header">
-//         <h2 className="modal-title">Edit Row</h2>
-//         <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
-//       </div>
-//       <div className="modal-body">
-//         {Object.keys(formData).map((key) => (
-//           <div key={key} className="modal-field">
-//             <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
-//             <input
-//               type="text"
-//               id={key}
-//               name={key}
-//               value={formData[key] || ''}
-//               onChange={handleChange}
-//               className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-//             />
-//           </div>
-//         ))}
-//       </div>
-//       <div className="modal-actions">
-//         <button type="button" className="cancel-button" onClick={onRequestClose}>Cancel</button>
-//         <button type="button" className="save-button" onClick={handleSave}>Save</button>
-//       </div>
-//     </Modal>
-//   );
-// };
-
-// export default EditRowModal;
-
-
-
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import Modal from 'react-modal';
+import Lead from '@/app/leads/page';
 import '../styles/welcome.css'; // Ensure this path is correct
 
 Modal.setAppElement('#__next'); // Set the root element for Next.js
 
-interface Lead {
-  leadid: number;
-  [key: string]: string | number | boolean | undefined; // Allow additional fields
-}
 
-interface EditRowModalProps {
-  isOpen: boolean;
-  onRequestClose: () => void;
-  rowData: Lead | null; // Use Lead type for rowData
-  onSave: (data: Lead) => void; // Use Lead type for onSave
-}
+  interface EditRowModalProps {
+    isOpen: boolean;
+    onRequestClose: () => void;
+    rowData: Record<string, any> | null; // Use Record<string, any> to allow for dynamic keys
+    onSave:(data: Record<string, any>) => void;
+  }
 
-const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
-  const [formData, setFormData] = useState<Lead>({ leadid: 0 });
+  // Define the type for form data
+  type FormData = Record<string, any>;
 
-  useEffect(() => {
-    if (rowData) {
-      setFormData({ ...rowData });
-    }
-  }, [rowData]);
+  const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
+    const [formData, setFormData] = useState<FormData>({});
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+    useEffect(() => {
+      if (rowData) {
+        setFormData({ ...rowData });
+      }
+    }, [rowData]);
 
-  const handleSave = () => {
-    console.log('FormData on save:', formData); // Debugging line
-    if (formData.leadid) { // Check if formData contains the leadid
-      onSave(formData); // Pass the entire formData which includes leadid
-      onRequestClose();
-    } else {
-      console.error('No leadid found in formData');
-    }
-  };
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    };
+
+    const handleSave = () => {
+      console.log('FormData on save:', formData); // Debugging line
+      if (formData.leadid) { // Check if formData contains the leadid
+        onSave(formData); // Pass the entire formData which includes leadid
+        onRequestClose();
+      } else {
+        console.error('No leadid found in formData');
+      }
+    };
 
   return (
     <Modal
@@ -348,3 +265,9 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
 };
 
 export default EditRowModal;
+
+
+
+
+
+
