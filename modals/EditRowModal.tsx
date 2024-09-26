@@ -1,273 +1,189 @@
-// import React, { useState, useEffect, ChangeEvent } from 'react';
+// import React, { useEffect, useState } from 'react';
+// import Modal from 'react-modal';
+// import axios from 'axios';
 
-// // Define the types for props
 // interface EditRowModalProps {
 //   isOpen: boolean;
 //   onRequestClose: () => void;
-//   rowData: Record<string, any> | null; // Use Record<string, any> to allow for dynamic keys
-//   onSave: (data: Record<string, any>) => void;
+//   rowData: { [key: string]: unknown } | null;
+//   onSave: () => void;
 // }
 
-// // Define the type for form data
-// type FormData = Record<string, any>;
-
 // const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
-//   const [formData, setFormData] = useState<FormData>({});
+//   const [formData, setFormData] = useState<{ [key: string]: string }>({});
 
 //   useEffect(() => {
 //     if (rowData) {
-//       setFormData({ ...rowData });
+//       setFormData(rowData as { [key: string]: string });
 //     }
 //   }, [rowData]);
 
-//   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = e.target;
-//     setFormData({
-//       ...formData,
-//       [name]: value,
-//     });
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
 //   };
 
-//   const handleSave = () => {
-//     console.log('FormData on save:', formData); // Debugging line
-//     if (formData.leadid) { // Check if formData contains the leadid
-//       onSave(formData); // Pass the entire formData which includes leadid
+//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     try {
+//       const API_URL = process.env.NEXT_PUBLIC_API_URL;
+//       await axios.put(`${API_URL}/api/leads/update/${formData.leadid}`, formData, {
+//         headers: { AuthToken: localStorage.getItem('token') },
+//       });
+//       onSave();
 //       onRequestClose();
-//     } else {
-//       console.error('No leadid found in formData');
+//     } catch (error) {
+//       console.error('Error updating row:', error);
 //     }
 //   };
 
-//   if (!isOpen) return null;
-
 //   return (
-//     <div className="fixed inset-0 flex items-center justify-center z-50">
-//       {/* Background overlay */}
-//       <div className="fixed inset-0 bg-gray-800 opacity-50"></div>
-
-//       {/* Modal content with scrollable container */}
-//       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full z-10 max-h-full overflow-y-auto">
-//         <h2 className="text-2xl font-bold mb-4">Edit Row</h2>
-        
-//         {/* Scrollable form */}
-//         <div className="space-y-4 max-h-96 overflow-y-auto">
-//           {Object.keys(formData).map((key) => (
-//             <div key={key}>
-//               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={key}>
-//                 {key.charAt(0).toUpperCase() + key.slice(1)}
-//               </label>
-//               <input
-//                 type="text"
-//                 name={key}
-//                 value={formData[key] || ''}
-//                 onChange={handleChange}
-//                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-//               />
-//             </div>
-//           ))}
+//     <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal">
+//       <h2 className="text-xl font-bold mb-4">Edit Lead</h2>
+//       <form onSubmit={handleSubmit}>
+//         <input name="name" placeholder="Name" value={formData.name} onChange={handleChange} className="border rounded p-2 mb-4 w-full" required />
+//         <input name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="border rounded p-2 mb-4 w-full" required />
+//         <div className="flex justify-between">
+//           <button type="button" onClick={onRequestClose} className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Cancel</button>
+//           <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Update</button>
 //         </div>
-
-//         <div className="flex justify-end mt-4">
-//           <button
-//             onClick={onRequestClose}
-//             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
-//           >
-//             Cancel
-//           </button>
-//           <button
-//             onClick={handleSave}
-//             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-//           >
-//             Save
-//           </button>
-//         </div>
-//       </div>
-//     </div>
+//       </form>
+//     </Modal>
 //   );
 // };
 
 // export default EditRowModal;
 
 
+// import React, { useEffect, useState } from 'react';
+// import Modal from 'react-modal';
+// import axios from 'axios';
 
-
-
-// import React, { useState, useEffect, ChangeEvent } from 'react';
-
-// // Define the types for props
 // interface EditRowModalProps {
 //   isOpen: boolean;
 //   onRequestClose: () => void;
-//   rowData: Record<string, any> | null; // Use Record<string, any> to allow for dynamic keys
-//   onSave: (data: Record<string, any>) => void;
+//   rowData: { [key: string]: unknown } | null;
+//   onSave: () => void;
 // }
 
-// // Define the type for form data
-// type FormData = Record<string, any>;
-
 // const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
-//   const [formData, setFormData] = useState<FormData>({});
+//   const [formData, setFormData] = useState<{ [key: string]: unknown }>({});
 
 //   useEffect(() => {
 //     if (rowData) {
-//       setFormData({ ...rowData });
+//       setFormData(rowData);
 //     }
 //   }, [rowData]);
 
-//   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = e.target;
-//     setFormData({
-//       ...formData,
-//       [name]: value,
-//     });
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
 //   };
 
-//   const handleSave = () => {
-//     console.log('FormData on save:', formData); // Debugging line
-//     if (formData.leadid) { // Check if formData contains the leadid
-//       onSave(formData); // Pass the entire formData which includes leadid
+//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     try {
+//       await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/update/${formData.leadid}`, formData, { headers: { AuthToken: localStorage.getItem('token') } });
+//       onSave();
 //       onRequestClose();
-//     } else {
-//       console.error('No leadid found in formData');
+//     } catch (error) {
+//       console.error('Error updating row:', error);
 //     }
 //   };
 
-//   if (!isOpen) return null;
-
 //   return (
-//     <div className="fixed inset-0 flex items-center justify-center z-50">
-//       {/* Background overlay */}
-//       <div className="fixed inset-0 bg-gray-800 opacity-50"></div>
-
-//       {/* Modal content with scrollable container */}
-//       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full z-10 max-h-full overflow-y-auto">
-//         <h2 className="text-2xl font-bold mb-4 text-black">Edit Row</h2>
-        
-//         {/* Scrollable form */}
-//         <div className="space-y-4 max-h-96 overflow-y-auto">
-//           {Object.keys(formData).map((key) => (
-//             <div key={key}>
-//               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={key}>
-//                 {key.charAt(0).toUpperCase() + key.slice(1)}
-//               </label>
-//               <input
-//                 type="text"
-//                 name={key}
-//                 value={formData[key] || ''}
-//                 onChange={handleChange}
-//                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-//               />
-//             </div>
-//           ))}
-//         </div>
-
-//         <div className="flex justify-end mt-4">
-//           <button
-//             onClick={onRequestClose}
-//             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
-//           >
-//             Cancel
-//           </button>
-//           <button
-//             onClick={handleSave}
-//             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-//           >
-//             Save
-//           </button>
-//         </div>
-//       </div>
-//     </div>
+//     <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal">
+//       <h2 className="text-xl font-bold">Edit Lead</h2>
+//       <form onSubmit={handleSubmit} className="mt-4">
+//         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Lead Name" className="border rounded-md p-2 w-full" />
+//         {/* Add more fields as needed */}
+//         <button type="submit" className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md">Update Lead</button>
+//       </form>
+//     </Modal>
 //   );
 // };
 
 // export default EditRowModal;
 
-
-//**************************************************************************************************************** */
-
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import Lead from '@/app/leads/page';
-import '../styles/welcome.css'; // Ensure this path is correct
+import axios from 'axios';
+import { Lead } from '../types/index'; // Adjust the import path accordingly
 
-Modal.setAppElement('#__next'); // Set the root element for Next.js
+// interface Lead {
+//   leadid: string;
+//   name: string;
+//   email: string;
+//   // Add other fields as necessary
+// }
 
+interface EditRowModalProps {
+  isOpen: boolean;
+  onRequestClose: () => void;
+  rowData: Lead | null;
+  onSave: () => void;
+}
 
-  interface EditRowModalProps {
-    isOpen: boolean;
-    onRequestClose: () => void;
-    rowData: Record<string, any> | null; // Use Record<string, any> to allow for dynamic keys
-    onSave:(data: Record<string, any>) => void;
-  }
+const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
+  const [formData, setFormData] = useState<Lead | null>(null);
 
-  // Define the type for form data
-  type FormData = Record<string, any>;
+  useEffect(() => {
+    if (rowData) {
+      setFormData(rowData);
+    }
+  }, [rowData]);
 
-  const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
-    const [formData, setFormData] = useState<FormData>({});
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (formData) {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
 
-    useEffect(() => {
-      if (rowData) {
-        setFormData({ ...rowData });
-      }
-    }, [rowData]);
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    };
-
-    const handleSave = () => {
-      console.log('FormData on save:', formData); // Debugging line
-      if (formData.leadid) { // Check if formData contains the leadid
-        onSave(formData); // Pass the entire formData which includes leadid
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (formData) {
+      try {
+        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/update/${formData.leadid}`, formData, {
+          headers: { AuthToken: localStorage.getItem('token') },
+        });
+        onSave();
         onRequestClose();
-      } else {
-        console.error('No leadid found in formData');
+      } catch (error) {
+        console.error('Error updating row:', error);
       }
-    };
+    }
+  };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className="modal-content"
-      overlayClassName="modal-overlay"
-    >
-      <div className="modal-header">
-        <h2 className="modal-title">Edit Row</h2>
-        <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
-      </div>
-      <div className="modal-body">
-        {Object.keys(formData).map((key) => (
-          <div key={key} className="modal-field">
-            <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
-            <input
-              type="text"
-              id={key}
-              name={key}
-              value={formData[key] || ''}
-              onChange={handleChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-        ))}
-      </div>
-      <div className="modal-actions">
-        <button type="button" className="cancel-button" onClick={onRequestClose}>Cancel</button>
-        <button type="button" className="save-button" onClick={handleSave}>Save</button>
-      </div>
+    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay">
+      <h2 className="text-xl font-bold mb-4">Edit Lead</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          name="name"
+          value={formData?.name || ''}
+          onChange={handleChange}
+          placeholder="Lead Name"
+          className="border rounded-md p-2 w-full"
+        />
+        <input
+          type="email"
+          name="email"
+          value={formData?.email || ''}
+          onChange={handleChange}
+          placeholder="Email"
+          className="border rounded-md p-2 w-full"
+        />
+        {/* Add more fields as needed */}
+        <div className="flex justify-between mt-4">
+          <button type="button" onClick={onRequestClose} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">
+            Cancel
+          </button>
+          <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+            Update Lead
+          </button>
+        </div>
+      </form>
     </Modal>
   );
 };
 
 export default EditRowModal;
-
-
-
-
-
-

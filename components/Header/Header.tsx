@@ -1,109 +1,98 @@
 // import Link from 'next/link';
+// import Image from 'next/image';
+// import logo from '../../public/images/ip_logo1.jpg'; // Adjust the path to your logo image
 
 // const Header = () => {
+//   // const handleLogoutAction = () => {
+//   //   // Add your logout logic here
+//   //   console.log('Logout button clicked');
+//   // };
+
 //   return (
-//     <header className="header">
-//       <nav className="nav">
-//         <ul className="nav-list">
-//           <li><Link href="/leads">Leads</Link></li>
-//           <li><Link href="/dashboard">Batch</Link></li>
-//           <li><Link href="/profile">Profile</Link></li>
-//           <li><Link href="/profile">Candidate</Link></li>
-//           <li><Link href="/logout">Logout</Link></li>
-//         </ul>
-//       </nav>
-//     </header>
-//   );
-// };
-
-// export default Header;
-
-
-
-
-// import Link from 'next/link';
-
-// const Header = () => {
-//   return (
-//     <header className="bg-gray-900 text-white py-4 shadow-lg fixed top-0 left-0 right-0 z-20">
+//     <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 shadow-lg fixed top-0 left-0 right-0 z-20">
 //       <nav className="container mx-auto flex justify-between items-center px-4">
-//         <h1 className="text-2xl font-bold">Avatar</h1>
-//         <ul className="flex space-x-6">
-//           <li>
-//             <Link href="/leads" className="text-lg font-semibold hover:text-purple-400">
-//               Leads
-//             </Link>
-//           </li>
-//           <li>
-//             <Link href="/datch" className="text-lg font-semibold hover:text-purple-400">
-//               Batch
-//             </Link>
-//           </li>
-//           <li>
-//             <Link href="/profile" className="text-lg font-semibold hover:text-purple-400">
-//               Profile
-//             </Link>
-//           </li>
-//           <li>
-//             <Link href="/candidate" className="text-lg font-semibold hover:text-purple-400">
-//               Candidate
-//             </Link>
-//           </li>
-//           <li>
-//             <Link href="/logout" className="text-lg font-semibold hover:text-purple-400">
-//               Logout
-//             </Link>
-//           </li>
-//         </ul>
+//         {/* Logo and Navigation */}
+//         <div className="flex items-center">
+//           {/* Logo with larger margin */}
+//           <Image src={logo} alt="Logo" width={40} height={40} className="rounded-full" />
+//           {/* Add margin between logo and nav */}
+//           <ul className="flex ml-8 space-x-8">
+//             <li>
+//               <Link href="/leads" className="relative text-lg font-semibold hover:text-gray-300 transition duration-300">
+//                 Leads
+//               </Link>
+//             </li>
+//             <li>
+//               <Link href="/batch" className="relative text-lg font-semibold hover:text-gray-300 transition duration-300">
+//                 Batch
+//               </Link>
+//             </li>
+//             <li>
+//               <Link href="/profile" className="relative text-lg font-semibold hover:text-gray-300 transition duration-300">
+//                 Profile
+//               </Link>
+//             </li>
+//             <li>
+//               <Link href="/candidate" className="relative text-lg font-semibold hover:text-gray-300 transition duration-300">
+//                 Candidate
+//               </Link>
+//             </li>
+//           </ul>
+//         </div>
+//         {/* Logout Button */}
+//         <div>
+//           <Link href="/login" className="relative text-lg font-semibold hover:text-red-300 transition duration-300">
+//             Logout
+//           </Link>
+//         </div>
 //       </nav>
 //     </header>
 //   );
 // };
 
 // export default Header;
+
+
 
 
 import Link from 'next/link';
+import Image from 'next/image';
+import logo from '../../public/images/ip_logo1.jpg'; // Adjust the path to your logo image
 
 const Header = () => {
-  const handleLogoutAction = () => {
-    // Add your logout logic here
-    console.log('Logout button clicked');
-  };
-
   return (
-    <header className="bg-gray-900 text-white py-4 shadow-lg fixed top-0 left-0 right-0 z-20">
+    <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 shadow-lg fixed top-0 left-0 right-0 z-20">
       <nav className="container mx-auto flex justify-between items-center px-4">
-        <h1 className="text-2xl font-bold">Avatar</h1>
-        <ul className="flex space-x-6">
-          <li>
-            <Link href="/leads" className="text-lg font-semibold hover:text-purple-400">
-              Leads
-            </Link>
-          </li>
-          <li>
-            <Link href="/batch" className="text-lg font-semibold hover:text-purple-400">
-              Batch
-            </Link>
-          </li>
-          <li>
-            <Link href="/profile" className="text-lg font-semibold hover:text-purple-400">
-              Profile
-            </Link>
-          </li>
-          <li>
-            <Link href="/candidate" className="text-lg font-semibold hover:text-purple-400">
-              Candidate
-            </Link>
-          </li>
-        </ul>
-        <button
-          onClick={handleLogoutAction}
-          type="button"
-          className=" ml-3 px-4 py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition duration-300"
-        >
-          Logout
-        </button>
+        <div className="flex items-center">
+          <Image src={logo} alt="Logo" width={40} height={40} className="rounded-full" />
+          <ul className="flex ml-8 space-x-6">
+            <li>
+              <Link href="/leads" className="text-lg font-semibold hover:text-gray-300 transition duration-300">
+                Leads
+              </Link>
+            </li>
+            <li>
+              <Link href="/batch" className="text-lg font-semibold hover:text-gray-300 transition duration-300">
+                Batch
+              </Link>
+            </li>
+            <li>
+              <Link href="/profile" className="text-lg font-semibold hover:text-gray-300 transition duration-300">
+                Profile
+              </Link>
+            </li>
+            <li>
+              <Link href="/candidate" className="text-lg font-semibold hover:text-gray-300 transition duration-300">
+                Candidate
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <Link href="/login" className="text-lg font-semibold hover:text-red-300 transition duration-300">
+            Logout
+          </Link>
+        </div>
       </nav>
     </header>
   );
