@@ -63,32 +63,83 @@
 
 
 // modals/ViewRowModal.tsx
+// import React from 'react';
+// import { Lead } from '../types/index'; // Adjust the import path accordingly
+
+// interface ViewRowModalProps {
+//   isOpen: boolean;
+//   onRequestClose: () => void;
+//   rowData: Lead | null; // Make sure rowData uses the Lead type
+// }
+
+// const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
+//   if (!isOpen || !rowData) return null; // Don't render if not open or no data
+
+//   return (
+//     <div className="fixed inset-0 flex items-center justify-center z-50">
+//       <div className="bg-white p-5 rounded shadow-lg">
+//         <h2 className="text-lg font-semibold">View Lead</h2>
+//         <div>
+//           <p><strong>Name:</strong> {rowData.name}</p>
+//           <p><strong>Email:</strong> {rowData.email}</p>
+//           {/* Add other fields as necessary */}
+//         </div>
+//         <button onClick={onRequestClose} className="mt-4 bg-blue-500 text-white rounded p-2">
+//           Close
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ViewRowModal;
+
+
+
+
+
 import React from 'react';
+import Modal from 'react-modal';
 import { Lead } from '../types/index'; // Adjust the import path accordingly
 
 interface ViewRowModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  rowData: Lead | null; // Make sure rowData uses the Lead type
+  rowData: Lead | null;
 }
 
 const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
-  if (!isOpen || !rowData) return null; // Don't render if not open or no data
-
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white p-5 rounded shadow-lg">
-        <h2 className="text-lg font-semibold">View Lead</h2>
-        <div>
-          <p><strong>Name:</strong> {rowData.name}</p>
-          <p><strong>Email:</strong> {rowData.email}</p>
-          {/* Add other fields as necessary */}
-        </div>
-        <button onClick={onRequestClose} className="mt-4 bg-blue-500 text-white rounded p-2">
-          Close
-        </button>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      className="modal-content"
+      overlayClassName="modal-overlay"
+    >
+      <div className="modal-header">
+        <h2 className="modal-title">Row Details</h2>
+        <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
       </div>
-    </div>
+      <div className="modal-body">
+        {rowData ? (
+          <div>
+            {Object.keys(rowData).map(key => (
+              <div key={key} className="modal-field">
+                <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+                <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+                  {rowData[key as keyof Lead]}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No data available</p>
+        )}
+      </div>
+      <div className="modal-actions">
+        <button type="button" className="cancel-button" onClick={onRequestClose}>Close</button>
+      </div>
+    </Modal>
   );
 };
 
