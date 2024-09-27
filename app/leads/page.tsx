@@ -50,7 +50,6 @@
 //   //   }
 //   // };
 
-
 //   const fetchData = async (searchValue = "") => {
 //     try {
 //       const response = await axios.get(`${API_URL}/api/leads`, {
@@ -71,16 +70,15 @@
 //     }
 //   };
 
-
 //   //   const fetchData = async (searchTerm: string = '') => {
 //   //     try {
-//   //         const response = await axios.get(`${API_URL}/api/leads`, { 
-//   //             params: { 
-//   //                 page: currentPage, 
-//   //                 pageSize: paginationPageSize, 
+//   //         const response = await axios.get(`${API_URL}/api/leads`, {
+//   //             params: {
+//   //                 page: currentPage,
+//   //                 pageSize: paginationPageSize,
 //   //                 search: searchTerm // Pass the search term
-//   //             }, 
-//   //             headers: { AuthToken: localStorage.getItem('token') } 
+//   //             },
+//   //             headers: { AuthToken: localStorage.getItem('token') }
 //   //         });
 //   //         const { data, totalRows } = response.data;
 //   //         setRowData(data);
@@ -89,8 +87,6 @@
 //   //         console.error('Error loading data:', error);
 //   //     }
 //   // };
-
-
 
 //   const setupColumns = (data: Lead[]) => {
 //     if (data.length > 0) {
@@ -121,12 +117,10 @@
 //     }
 //   };
 
-
 //   const handleSearch = () => {
 //     setCurrentPage(1);  // Reset to the first page for new search
 //     fetchData(searchValue);  // Fetch data using the search term
 //   };
-
 
 //   const handleViewRow = () => {
 //     if (gridRef.current) {
@@ -233,10 +227,6 @@
 //             <AiOutlineReload className="mr-1" /> Reload
 //           </button>
 
-
-
-
-
 //           <input
 //             type="text"
 //             className="border rounded-md px-2 py-1"
@@ -277,7 +267,6 @@
 // };
 
 // export default Leads;
-
 
 "use client";
 import React, { useState, useEffect, useRef } from "react";
@@ -334,10 +323,10 @@ const Leads = () => {
   //     console.error("Error loading data:", error);
   //   }
   // };
-// ----------------------------------------------------------
-// -----------------------------------------------------------
-  // missing dependency need to optimize the searching data 
-  
+  // ----------------------------------------------------------
+  // -----------------------------------------------------------
+  // missing dependency need to optimize the searching data
+
   const fetchData = async (searchQuery = "") => {
     try {
       const response = await axios.get(`${API_URL}/api/leads/search`, {
@@ -348,7 +337,7 @@ const Leads = () => {
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-  
+
       const { data, totalRows } = response.data;
       setRowData(data); // Set the table data
       setTotalRows(totalRows); // Set the total rows for pagination
@@ -357,12 +346,11 @@ const Leads = () => {
       console.error("Error loading data:", error);
     }
   };
-  
+
   // Call fetchData when currentPage or searchValue changes
   useEffect(() => {
     fetchData(searchValue);
   }, [currentPage, searchValue]);
-  
 
   const setupColumns = (data: Lead[]) => {
     if (data.length > 0) {
@@ -381,7 +369,7 @@ const Leads = () => {
 
   const handleAddRow = () =>
     setModalState((prevState) => ({ ...prevState, add: true }));
-    
+
   const handleEditRow = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
@@ -406,15 +394,50 @@ const Leads = () => {
     }
   };
 
+  // const handleDeleteRow = async () => {
+  //   if (gridRef.current) {
+  //     const selectedRows = gridRef.current.api.getSelectedRows();
+  //     if (selectedRows.length > 0) {
+  //       const leadId = selectedRows[0].leadid;
+  //       await axios.delete(`${API_URL}/api/leads/delete/${leadId}`, {
+  //         headers: { AuthToken: localStorage.getItem("token") },
+  //       });
+  //       fetchData(searchValue); // Refresh data after deletion
+  //     } else {
+  //       alert("Please select a row to delete.");
+  //     }
+  //   }
+  // };
+
   const handleDeleteRow = async () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
         const leadId = selectedRows[0].leadid;
-        await axios.delete(`${API_URL}/api/leads/delete/${leadId}`, {
-          headers: { AuthToken: localStorage.getItem("token") },
-        });
-        fetchData(searchValue); // Refresh data after deletion
+        if (leadId) {
+          const confirmation = window.confirm(
+            `Are you sure you want to delete lead ID ${leadId}?`
+          );
+          if (!confirmation) return;
+
+          try {
+            await axios.delete(`${API_URL}/api/leads/delete/${leadId}`, {
+              headers: { AuthToken: localStorage.getItem("token") },
+            });
+            alert("Lead deleted successfully.");
+            fetchData(searchValue); // Refresh data after deletion
+          } catch (error) {
+            console.error("Error deleting lead:", error);
+            alert(
+              `Failed to delete lead: ${
+                // error.response?.data?.message || error.message
+                (error as any).response?.data?.message || (error as any).message
+              }`
+            );
+          }
+        } else {
+          alert("No valid lead ID found for the selected row.");
+        }
       } else {
         alert("Please select a row to delete.");
       }
@@ -433,108 +456,110 @@ const Leads = () => {
   };
 
   return (
-    <div className="p-4 mt-20 bg-gray-100 rounded-lg shadow-md relative">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">Lead Management</h1>
-        <div className="flex space-x-2">
-          <button
-            onClick={handleAddRow}
-            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
-          >
-            <MdAdd className="mr-2" /> Add Lead
-          </button>
-          <button
-            onClick={handleEditRow}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-          >
-            <AiOutlineEdit className="mr-2" /> Edit
-          </button>
-          <button
-            onClick={handleViewRow}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-          >
-            <AiOutlineEdit className="mr-2" /> View
-          </button>
-          <button
-            onClick={handleDeleteRow}
-            className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
-          >
-            <AiOutlineDelete className="mr-2" /> Delete
-          </button>
+    <div className="relative">
+      <div className="p-4 mt-20 bg-gray-100 rounded-lg shadow-md relative">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-3xl font-bold text-gray-800">Lead Management</h1>
+          <div className="flex space-x-2">
+            <button
+              onClick={handleAddRow}
+              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
+            >
+              <MdAdd className="mr-2" /> Add Lead
+            </button>
+            <button
+              onClick={handleEditRow}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+            >
+              <AiOutlineEdit className="mr-2" /> Edit
+            </button>
+            <button
+              onClick={handleViewRow}
+              className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
+            >
+              <AiOutlineEdit className="mr-2" /> View
+            </button>
+            <button
+              onClick={handleDeleteRow}
+              className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
+            >
+              <AiOutlineDelete className="mr-2" /> Delete
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div
-        className="ag-theme-alpine"
-        style={{ height: "400px", width: "100%", overflowY: "auto" }}
-      >
-        <AgGridReact
-          ref={gridRef}
-          rowData={rowData}
-          columnDefs={columnDefs}
-          pagination={false} // Set to false for manual pagination
-          domLayout="autoHeight"
-          rowSelection="single"
-          defaultColDef={{
-            sortable: true,
-            filter: true,
-            cellStyle: { color: "#333" },
-          }}
+        <div
+          className="ag-theme-alpine"
+          style={{ height: "400px", width: "100%", overflowY: "auto" }}
+        >
+          <AgGridReact
+            ref={gridRef}
+            rowData={rowData}
+            columnDefs={columnDefs}
+            pagination={false} // Set to false for manual pagination
+            domLayout="autoHeight"
+            rowSelection="single"
+            defaultColDef={{
+              sortable: true,
+              filter: true,
+              cellStyle: { color: "#333" },
+            }}
+          />
+        </div>
+        <div className="flex justify-between mt-4">
+          <select
+            className="border rounded-md px-2 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-200"
+            value={currentPage}
+            onChange={(e) => handlePageChange(Number(e.target.value))}
+          >
+            {pageOptions.map((page) => (
+              <option key={page} value={page}>
+                Page {page}
+              </option>
+            ))}
+          </select>
+
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => fetchData(searchValue)} // Refresh data with current search
+              className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
+            >
+              <AiOutlineReload className="mr-1" /> Reload
+            </button>
+
+            <input
+              type="text"
+              className="border rounded-md px-2 py-1"
+              placeholder="Search"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)} // Update search value on input change
+            />
+            <button
+              onClick={handleSearch} // Call handleSearch when clicked
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+            >
+              <AiOutlineSearch className="mr-1" /> Search
+            </button>
+          </div>
+        </div>
+        {/* Modals */}
+        <AddRowModal
+          isOpen={modalState.add}
+          onRequestClose={() => setModalState({ ...modalState, add: false })}
+          onSave={fetchData}
+        />
+        <EditRowModal
+          isOpen={modalState.edit}
+          onRequestClose={() => setModalState({ ...modalState, edit: false })}
+          rowData={selectedRow}
+          onSave={fetchData}
+        />
+        <ViewRowModal
+          isOpen={modalState.view}
+          onRequestClose={() => setModalState({ ...modalState, view: false })}
+          rowData={selectedRow}
         />
       </div>
-      <div className="flex justify-between mt-4">
-        <select 
-          className="border rounded-md px-2 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-200" 
-          value={currentPage} 
-          onChange={(e) => handlePageChange(Number(e.target.value))}
-        >
-          {pageOptions.map(page => (
-            <option key={page} value={page}>
-              Page {page}
-            </option>
-          ))}
-        </select>
-
-        <div className="flex items-center space-x-2">
-          <button
-            onClick={() => fetchData(searchValue)} // Refresh data with current search
-            className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
-          >
-            <AiOutlineReload className="mr-1" /> Reload
-          </button>
-
-          <input
-            type="text"
-            className="border rounded-md px-2 py-1"
-            placeholder="Search"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)} // Update search value on input change
-          />
-          <button 
-            onClick={handleSearch} // Call handleSearch when clicked
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-          >
-            <AiOutlineSearch className="mr-1" /> Search
-          </button>
-        </div>
-      </div>
-      {/* Modals */}
-      <AddRowModal
-        isOpen={modalState.add}
-        onRequestClose={() => setModalState({ ...modalState, add: false })}
-        onSave={fetchData}
-      />
-      <EditRowModal
-        isOpen={modalState.edit}
-        onRequestClose={() => setModalState({ ...modalState, edit: false })}
-        rowData={selectedRow}
-        onSave={fetchData}
-      />
-      <ViewRowModal
-        isOpen={modalState.view}
-        onRequestClose={() => setModalState({ ...modalState, view: false })}
-        rowData={selectedRow}
-      />
     </div>
   );
 };

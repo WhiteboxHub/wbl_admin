@@ -170,8 +170,6 @@
 // };
 
 // export default AddRowModal;
-
-
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -274,6 +272,31 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onRequestClose, onSav
       className="modal-content"
       overlayClassName="modal-overlay"
     >
+      <style jsx>{`
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+
+        .modal-content {
+          position: relative;
+          background-color: white;
+          padding: 20px;
+          border-radius: 8px;
+          max-width: 80%;
+          max-height: 80%;
+          overflow-y: auto;
+          width: 600px;
+        }
+      `}</style>
       <div className="modal-header">
         <h2 className="modal-title">Add New Lead</h2>
         <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
