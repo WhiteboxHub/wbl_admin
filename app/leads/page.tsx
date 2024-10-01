@@ -146,6 +146,7 @@ const Leads = () => {
             alert(
               `Failed to delete lead: ${
                 (error as Error).message || "Unknown error occurred"
+                // (error).response?.data?.message || (error).message
               }`
             );
           }
