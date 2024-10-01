@@ -20,6 +20,7 @@ import {
   AiOutlineSearch,
   AiOutlineReload,
   AiOutlineEye,
+  AiOutlineDownload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
 import { Lead } from "../../types/index"; // Adjust the import path accordingly
@@ -228,38 +229,54 @@ const Leads = () => {
       <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">Lead Management</h1>
-          <div className="flex space-x-2">
-            <button
-              onClick={handleAddRow}
-              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
-            >
-              <MdAdd className="mr-2" /> Add Lead
-            </button>
-            <button
-              onClick={handleEditRow}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-            >
-              <AiOutlineEdit className="mr-2" /> Edit
-            </button>
-            <button
-              onClick={handleViewRow}
-              className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
-            >
-              <AiOutlineEye className="mr-2" /> View
-            </button>
-            <button
-              onClick={handleDeleteRow}
-              className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
-            >
-              <AiOutlineDeleteRow className="mr-2" /> Delete
-            </button>
-            <button
-              onClick={handleRefresh}
-              className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
-            >
-              <AiOutlineReload className="mr-2" /> Refresh
-            </button>
-            <Dropdown
+        </div>
+        
+        <div className="flex flex-wrap mb-4 items-center gap-4"> 
+          <input
+            type="text"
+            className="border rounded-md px-3 py-2 w-64"
+            placeholder="Search"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <button
+            onClick={handleSearch}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+          >
+            <AiOutlineSearch className="mr-2" /> Search
+          </button>
+          
+          <button
+            onClick={handleAddRow}
+            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
+          >
+            <MdAdd className="mr-2" /> Add Lead
+          </button>
+          <button
+            onClick={handleEditRow}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+          >
+            <AiOutlineEdit className="mr-2" /> Edit
+          </button>
+          <button
+            onClick={handleViewRow}
+            className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
+          >
+            <AiOutlineEye className="mr-2" /> View
+          </button>
+          <button
+            onClick={handleDeleteRow}
+            className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
+          >
+            <AiOutlineDeleteRow className="mr-2" /> Delete
+          </button>
+          <button
+            onClick={handleRefresh}
+            className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
+          >
+            <AiOutlineReload className="mr-2" /> Refresh
+          </button>
+          <Dropdown
             options={options}
             value={defaultOption}
             onChange={(selectedOption) => {
@@ -269,14 +286,13 @@ const Leads = () => {
                 handleExportToExcel();
               }
             }}
-              placeholder="Select an option"
-              className="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700"
-              controlClassName="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 border-none"
-              menuClassName="bg-purple-600 text-black rounded-lg transition duration-300"
-              arrowClassName="text-black"
-              placeholderClassName="text-black"
-            />
-          </div>
+            placeholder="Select an option"
+            className="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700"
+            controlClassName="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 border-none px-4 py-2"
+            menuClassName="bg-purple-600 text-black rounded-lg transition duration-300"
+            arrowClassName="text-black"
+            placeholderClassName="text-black"
+          />
         </div>
 
         <div
@@ -309,22 +325,6 @@ const Leads = () => {
               </option>
             ))}
           </select>
-
-          <div className="flex items-center space-x-2">
-            <input
-              type="text"
-              className="border rounded-md px-2 py-1"
-              placeholder="Search"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-            <button
-              onClick={handleSearch}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-            >
-              <AiOutlineSearch className="mr-1" /> Search
-            </button>
-          </div>
         </div>
         <AddRowModal
           isOpen={modalState.add}
