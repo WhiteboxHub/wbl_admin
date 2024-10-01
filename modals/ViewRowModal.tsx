@@ -10,41 +10,6 @@
 // const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
 //   return (
 //     <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal">
-//       <h2 className="text-xl font-bold mb-4">View Lead</h2>
-//       {rowData ? (
-//         <div>
-//           {Object.entries(rowData).map(([key, value]) => (
-//             <div key={key} className="mb-2">
-//               <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {String(value)}
-//             </div>
-//           ))}
-//           <div className="flex justify-end">
-//             <button onClick={onRequestClose} className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Close</button>
-//           </div>
-//         </div>
-//       ) : (
-//         <div>No data available.</div>
-//       )}
-//     </Modal>
-//   );
-// };
-
-// export default ViewRowModal;
-
-
-
-// import React from 'react';
-// import Modal from 'react-modal';
-
-// interface ViewRowModalProps {
-//   isOpen: boolean;
-//   onRequestClose: () => void;
-//   rowData: { [key: string]: unknown } | null;
-// }
-
-// const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
-//   return (
-//     <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal">
 //       <h2 className="text-xl font-bold">View Lead</h2>
 //       <div className="mt-4">
 //         {rowData && Object.entries(rowData).map(([key, value]) => (
@@ -98,6 +63,58 @@
 
 
 
+// import React from 'react';
+// import Modal from 'react-modal';
+// import { Lead } from '../types/index'; // Adjust the import path accordingly
+
+// interface ViewRowModalProps {
+//   isOpen: boolean;
+//   onRequestClose: () => void;
+//   rowData: Lead | null;
+// }
+
+// const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
+//   return (
+//     <Modal
+//       isOpen={isOpen}
+//       onRequestClose={onRequestClose}
+//       className="modal-content"
+//       overlayClassName="modal-overlay"
+//     >
+//       <div className="modal-header">
+//         <h2 className="modal-title">Row Details</h2>
+//         <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
+//       </div>
+//       <div className="modal-body">
+//         {rowData ? (
+//           <div>
+//             {Object.keys(rowData).map(key => (
+//               <div key={key} className="modal-field">
+//                 <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+//                 <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+//                   {rowData[key as keyof Lead]}
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         ) : (
+//           <p>No data available</p>
+//         )}
+//       </div>
+//       <div className="modal-actions">
+//         <button type="button" className="cancel-button" onClick={onRequestClose}>Close</button>
+//       </div>
+//     </Modal>
+//   );
+// };
+
+// export default ViewRowModal;
+
+
+
+
+
+
 import React from 'react';
 import Modal from 'react-modal';
 import { Lead } from '../types/index'; // Adjust the import path accordingly
@@ -109,26 +126,39 @@ interface ViewRowModalProps {
 }
 
 const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, rowData }) => {
+  const customStyles: ReactModal.Styles = {
+    content: {
+      top: '15%',  // Position the modal at the top of the page
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      transform: 'translate(-50%, 0)',  // Center the modal horizontally
+      overflowY: 'auto',  // Enable vertical scrolling
+      maxHeight: '80vh',  // Set a max height for the modal
+      width: '40%',  // Increase the horizontal size of the modal
+      padding: '20px',  // Add padding to the modal content
+    },
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="modal-content"
-      overlayClassName="modal-overlay"
+      style={customStyles}
+      contentLabel="View Row Modal"
     >
       <div className="modal-header">
-        <h2 className="modal-title">Row Details</h2>
-        <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
+        <h1 className="text-xl font-bold mb-4">Row Details</h1>
+
+        {/* <button className="modal-close-button" onClick={onRequestClose}>&times;</button> */}
       </div>
-      <div className="modal-body">
+      <div className="modal-body ">
         {rowData ? (
-          <div>
+          <div className="grid grid-cols-2 gap-4">
             {Object.keys(rowData).map(key => (
               <div key={key} className="modal-field">
-                <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
-                <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                  {rowData[key as keyof Lead]}
-                </div>
+                <label htmlFor={key} className="font-bold">{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+                <p className="text-gray-700">{rowData[key as keyof Lead]}</p>
               </div>
             ))}
           </div>
@@ -136,8 +166,8 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
           <p>No data available</p>
         )}
       </div>
-      <div className="modal-actions">
-        <button type="button" className="cancel-button" onClick={onRequestClose}>Close</button>
+      <div className="modal-actions flex justify-end mb-4">
+      <button type="button" className="mb-4 flex items-center py-2 px-4 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500" onClick={onRequestClose}>Close</button>
       </div>
     </Modal>
   );

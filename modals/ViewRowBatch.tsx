@@ -6,11 +6,11 @@ import { AiOutlineClose } from 'react-icons/ai'; // Adjust the import path accor
 interface ViewRowModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onRequestClose: () => void;
+ // onRequestClose: () => void;
   rowData: Batch | null;
 }
 
-const ViewRowBatch: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose,onClose, rowData }) => {
+const ViewRowBatch: React.FC<ViewRowModalProps> = ({ isOpen, onClose, rowData }) => {
   const customStyles = {
     content: {
       top: '15%',
@@ -27,7 +27,7 @@ const ViewRowBatch: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose,onCl
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onRequestClose} // Ensure this function is correctly defined in the parent
+     // onRequestClose={onRequestClose} // Ensure this function is correctly defined in the parent
       style={customStyles}
       contentLabel="View Row Modal"
       ariaHideApp={false} // Disable aria app for accessibility if needed
