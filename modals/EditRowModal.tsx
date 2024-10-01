@@ -234,12 +234,52 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
 
   return (
 
-    <Modal
-    isOpen={isOpen}
-    onRequestClose={onRequestClose}
-    style={{
-      content: {
-        top: '15%',
+  //   <Modal
+  //   isOpen={isOpen}
+  //   onRequestClose={onRequestClose}
+  //   style={{
+  //     content: {
+  //       top: '15%',
+  //     left: '50%',
+  //     right: 'auto',
+  //     bottom: 'auto',
+  //     transform: 'translate(-50%, 0)',
+  //     overflowY: 'auto',
+  //     maxHeight: '80vh',
+  //     width: '40%',
+  //     },
+  //   }}
+  // > {/* // <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay"> */}
+  //     <h2 className="text-xl font-bold mb-4">Edit Lead</h2>
+  //     <form onSubmit={handleSubmit} className="space-y-4">
+  //       {formData && Object.keys(formData).map((key) => (
+  //         <input
+  //           key={key}
+  //           type="text"
+  //           name={key}
+  //           value={formData[key as keyof Lead]}
+  //           onChange={handleChange}
+  //           placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+  //           className="border rounded-md p-2 w-full"
+  //         />
+  //       ))}
+  //       <div className="flex justify-between mt-4">
+  //         <button type="button" onClick={onRequestClose} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">
+  //           Cancel
+  //         </button>
+  //         <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+  //           Update Lead
+  //         </button>
+  //       </div>
+  //     </form>
+  //   </Modal>
+
+<Modal
+  isOpen={isOpen}
+  onRequestClose={onRequestClose}
+  style={{
+    content: {
+      top: '15%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
@@ -247,32 +287,54 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
       overflowY: 'auto',
       maxHeight: '80vh',
       width: '40%',
-      },
-    }}
-  > {/* // <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay"> */}
-      <h2 className="text-xl font-bold mb-4">Edit Lead</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {formData && Object.keys(formData).map((key) => (
-          <input
-            key={key}
-            type="text"
-            name={key}
-            value={formData[key as keyof Lead]}
-            onChange={handleChange}
-            placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-            className="border rounded-md p-2 w-full"
-          />
-        ))}
-        <div className="flex justify-between mt-4">
-          <button type="button" onClick={onRequestClose} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">
-            Cancel
-          </button>
-          <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-            Update Lead
-          </button>
-        </div>
-      </form>
-    </Modal>
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+    },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    },
+  }}
+>
+  <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Lead</h2>
+
+  <form onSubmit={handleSubmit} className="space-y-6">
+    {formData && Object.keys(formData).map((key) => (
+      <div key={key} className="modal-field">
+        <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-2">
+          {key.charAt(0).toUpperCase() + key.slice(1)}
+        </label>
+        <input
+          type="text"
+          id={key}
+          name={key}
+          value={formData[key as keyof Lead]}
+          onChange={handleChange}
+          placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+        />
+      </div>
+    ))}
+
+    <div className="flex justify-between items-center mt-6">
+      <button
+        type="button"
+        onClick={onRequestClose}
+        className="bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition duration-200"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        className="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200"
+      >
+        Update Lead
+      </button>
+    </div>
+  </form>
+</Modal>
+
+
   );
 };
 
