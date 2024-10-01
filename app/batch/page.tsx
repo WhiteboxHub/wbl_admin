@@ -44,14 +44,14 @@ const Batches = () => {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const fetchData = async (searchTerm: string = "") => {
+  const fetchData = async () => {
     setLoading(true);
     try {
       const response = await axios.get(`${API_URL}/api/batches`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
-          search: searchTerm,
+          // search: searchTerm,
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
@@ -71,24 +71,25 @@ const Batches = () => {
     try {
       const response = await axios.get(`${API_URL}/api/batches/search`, {
         params: {
-          page: currentPage,
-          pageSize: paginationPageSize,
-          search: searchQuery,
+          page: currentPage, // Pass current page for pagination
+          pageSize: paginationPageSize, // Pass pageSize for pagination
+          search: searchQuery, // Pass the search query to the backend
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
   
       const { data, totalRows } = response.data;
-      setRowData(data);
-      setTotalRows(totalRows);
+      setRowData(data); // Set the table data
+      setTotalRows(totalRows); // Set the total rows for pagination
       setupColumns(data); // Optional: If needed for dynamic columns
     } catch (error) {
       console.error("Error loading data:", error);
     }
   };
-  useEffect(() => {
-    fetchBatches(searchValue);
-  }, [currentPage, searchValue]);
+  
+  // useEffect(() => {
+  //   fetchBatches(searchValue);
+  // }, [currentPage, searchValue]);
     
   const handleSearch = () => {
     fetchBatches(searchValue); // Fetch data using the search term
@@ -125,7 +126,7 @@ const Batches = () => {
   };
   
   useEffect(() => {
-    fetchData();
+    fetchData(searchValue);
   }, [currentPage]);
 
   const handleAddRow = () =>
@@ -268,7 +269,7 @@ const Batches = () => {
           />
           <button
             onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-700"
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
           >
             <AiOutlineSearch className="mr-2" /> Search
           </button>
@@ -280,24 +281,27 @@ const Batches = () => {
         </div>
       ) : (
         <div
-          className="ag-theme-alpine"
-          style={{ height: "400px", width: "100%", overflowY: "auto" }}
-        >
-          <AgGridReact
-            ref={gridRef}
-            rowData={rowData}
-            columnDefs={columnDefs}
-            pagination={true}
-            paginationPageSize={paginationPageSize}
-            domLayout="autoHeight"
-            rowSelection="single"
-            defaultColDef={{
-              sortable: true,
-              filter: true,
-              cellStyle: { color: "#333" },
-            }}
-          />
-        </div>
+        className="ag-theme-alpine"
+        style={{ height: "400px", width: "100%", overflowY: "auto" }}
+      >
+        <AgGridReact
+          ref={gridRef}
+          rowData={rowData}
+          columnDefs={columnDefs}
+          pagination={true}
+          paginationPageSize={paginationPageSize}
+          rowSelection="single"
+          onRowClicked={(event) => setSelectedRow(event.data)}
+        />
+      </div>
+
+
+
+
+
+
+
+        
       )}
 
       <div className="flex justify-between mt-4">
@@ -326,7 +330,7 @@ const Batches = () => {
       {modalState.edit && selectedRow && (
         <EditRowModal
           isOpen={modalState.edit}
-          onClose={() => setModalState((prev) => ({ ...prev, edit: false }))}
+          onRequestClose={() => setModalState((prev) => ({ ...prev, edit: false }))}
           rowData={selectedRow}
           refreshData={fetchData}
         />
