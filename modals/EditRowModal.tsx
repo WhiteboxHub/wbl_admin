@@ -233,7 +233,23 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay">
+
+    <Modal
+    isOpen={isOpen}
+    onRequestClose={onRequestClose}
+    style={{
+      content: {
+        top: '15%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      transform: 'translate(-50%, 0)',
+      overflowY: 'auto',
+      maxHeight: '80vh',
+      width: '40%',
+      },
+    }}
+  > {/* // <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay"> */}
       <h2 className="text-xl font-bold mb-4">Edit Lead</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {formData && Object.keys(formData).map((key) => (

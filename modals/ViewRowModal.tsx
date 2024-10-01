@@ -148,10 +148,11 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
       contentLabel="View Row Modal"
     >
       <div className="modal-header">
-        <h2 className="modal-title">Row Details</h2>
-        <button className="modal-close-button" onClick={onRequestClose}>&times;</button>
+        <h1 className="text-xl font-bold mb-4">Row Details</h1>
+
+        {/* <button className="modal-close-button" onClick={onRequestClose}>&times;</button> */}
       </div>
-      <div className="modal-body">
+      <div className="modal-body ">
         {rowData ? (
           <div className="grid grid-cols-2 gap-4">
             {Object.keys(rowData).map(key => (
@@ -165,8 +166,8 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
           <p>No data available</p>
         )}
       </div>
-      <div className="modal-actions">
-        <button type="button" className="cancel-button" onClick={onRequestClose}>Close</button>
+      <div className="modal-actions flex justify-end mb-4">
+      <button type="button" className="mb-4 flex items-center py-2 px-4 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500" onClick={onRequestClose}>Close</button>
       </div>
     </Modal>
   );

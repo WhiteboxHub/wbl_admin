@@ -170,7 +170,7 @@
 // };
 
 // export default AddRowModal;
-
+``
 // import React, { useState } from 'react';
 // import Modal from 'react-modal';
 // import axios from 'axios';
@@ -274,6 +274,40 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { Lead } from '../types/index'; // Adjust the import path accordingly
+
+interface FormData {
+  name: string;
+  startdate: string;
+  phone: string;
+  email: string;
+  priority: string;
+  workstatus: string;
+  source: string;
+  workexperience: string;
+  sourcename: string;
+  course: string;
+  intent: string;
+  attendedclass: string;
+  siteaccess: string;
+  assignedto: string;
+  status: string;
+  secondaryemail: string;
+  secondaryphone: string;
+  address: string;
+  spousename: string;
+  spouseemail: string;
+  spousephone: string;
+  spouseoccupationinfo: string;
+  city: string;
+  state: string;
+  country: string;
+  zip: string;
+  faq: string;
+  callsmade: string;
+  closedate: string;
+  notes: string;
+}
 
 interface AddRowModalProps {
   isOpen: boolean;
@@ -281,44 +315,48 @@ interface AddRowModalProps {
   onSave: () => void;
 }
 
-interface Candidate {
-  id?: number;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  dateOfBirth: string;
-  position: string;
-  experience: number;
-  education: string;
-  skills: string;
-  status: string;
-  // Add more fields as per your table schema
-}
-
 const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onRequestClose, onSave }) => {
-  const [formData, setFormData] = useState<Candidate>({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
-    email: '',
+    startdate: '',
     phone: '',
-    address: '',
-    dateOfBirth: '',
-    position: '',
-    experience: 0,
-    education: '',
-    skills: '',
+    email: '',
+    priority: '',
+    workstatus: '',
+    source: '',
+    workexperience: '',
+    sourcename: '',
+    course: '',
+    intent: '',
+    attendedclass: '',
+    siteaccess: '',
+    assignedto: '',
     status: '',
-    // Initialize more fields here
+    secondaryemail: '',
+    secondaryphone: '',
+    address: '',
+    spousename: '',
+    spouseemail: '',
+    spousephone: '',
+    spouseoccupationinfo: '',
+    city: '',
+    state: '',
+    country: '',
+    zip: '',
+    faq: '',
+    callsmade: '',
+    closedate: '',
+    notes: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/candidates/insert`, formData, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/leads/insert`, formData, {
         headers: { AuthToken: localStorage.getItem('token') },
       });
       onSave();
@@ -328,91 +366,64 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onRequestClose, onSav
     }
   };
 
+
+
+  const customStyles: ReactModal.Styles = {
+    content: {
+      top: '13%',  // Position the modal at the top of the page
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      transform: 'translate(-50%, 0)',  // Center the modal horizontally
+      overflowY: 'auto',  // Enable vertical scrolling
+      maxHeight: '80vh',  // Set a max height for the modal
+      width: '20%',  // Increase the horizontal size of the modal
+      padding: '20px',  // Add padding to the modal content
+    },
+  };
+
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modal" overlayClassName="modal-overlay">
-      <h2 className="text-xl font-bold mb-4">Add New Candidate</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="name"
-          onChange={handleChange}
-          placeholder="Candidate Name"
-          className="border rounded-md p-2 w-full"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          onChange={handleChange}
-          placeholder="Email"
-          className="border rounded-md p-2 w-full"
-          required
-        />
-        <input
-          type="text"
-          name="phone"
-          onChange={handleChange}
-          placeholder="Phone"
-          className="border rounded-md p-2 w-full"
-        />
-        <input
-          type="text"
-          name="address"
-          onChange={handleChange}
-          placeholder="Address"
-          className="border rounded-md p-2 w-full"
-        />
-        <input
-          type="date"
-          name="dateOfBirth"
-          onChange={handleChange}
-          placeholder="Date of Birth"
-          className="border rounded-md p-2 w-full"
-        />
-        <input
-          type="text"
-          name="position"
-          onChange={handleChange}
-          placeholder="Position"
-          className="border rounded-md p-2 w-full"
-        />
-        <input
-          type="number"
-          name="experience"
-          onChange={handleChange}
-          placeholder="Experience (years)"
-          className="border rounded-md p-2 w-full"
-        />
-        <input
-          type="text"
-          name="education"
-          onChange={handleChange}
-          placeholder="Education"
-          className="border rounded-md p-2 w-full"
-        />
-        <input
-          type="text"
-          name="skills"
-          onChange={handleChange}
-          placeholder="Skills"
-          className="border rounded-md p-2 w-full"
-        />
-        <input
-          type="text"
-          name="status"
-          onChange={handleChange}
-          placeholder="Status"
-          className="border rounded-md p-2 w-full"
-        />
-        {/* Add more fields as needed */}
-        <div className="flex justify-between mt-4">
-          <button type="button" onClick={onRequestClose} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600">
-            Cancel
-          </button>
-          <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-            Add
-          </button>
-        </div>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      // className="modal-content"
+      // overlayClassName="modal-overlay"
+      style={{
+        content: {
+          top: '15%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        transform: 'translate(-50%, 0)',
+        overflowY: 'auto',
+        maxHeight: '80vh',
+        width: '40%',
+        },
+      }}
+
+    >
+      <div className="modal-header">
+        <h2 className="text-xl font-bold mb-4" >Add New Lead</h2>
+        {/* <button className="modal-close-button" onClick={onRequestClose}>&times;</button> */}
+      </div>
+      <form onSubmit={handleSubmit} className="modal-body">
+        {Object.keys(formData).map((key) => (
+          <div key={key} className="modal-field">
+            <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+            <input
+              type="text"
+              id={key}
+              name={key}
+              value={formData[key as keyof FormData]}
+              onChange={handleChange}
+              className="border rounded-md p-2 "
+            />
+          </div>
+        ))}
+      <div className="modal-actions flex justify-between">
+  <button type="button" className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500" onClick={onRequestClose}>Cancel</button>
+  <button type="submit" className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-500">Add Lead</button>
+</div>
       </form>
     </Modal>
   );
