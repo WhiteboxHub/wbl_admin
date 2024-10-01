@@ -51,8 +51,7 @@
 //         </div>
 //         <button onClick={onRequestClose} className="mt-4 bg-blue-500 text-white rounded p-2">
 //           Close
-//         </button>
-//       </div>
+//         </button>//       </div>
 //     </div>
 //   );
 // };
@@ -141,35 +140,79 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      style={customStyles}
-      contentLabel="View Row Modal"
-    >
-      <div className="modal-header">
-        <h1 className="text-xl font-bold mb-4">Row Details</h1>
+    // <Modal
+    //   isOpen={isOpen}
+    //   onRequestClose={onRequestClose}
+    //   style={customStyles}
+    //   contentLabel="View Row Modal"
+    // >
+    //   <div className="modal-header">
+    //     <h1 className="text-xl font-bold mb-4">Row Details</h1>
 
-        {/* <button className="modal-close-button" onClick={onRequestClose}>&times;</button> */}
-      </div>
-      <div className="modal-body ">
-        {rowData ? (
-          <div className="grid grid-cols-2 gap-4">
-            {Object.keys(rowData).map(key => (
-              <div key={key} className="modal-field">
-                <label htmlFor={key} className="font-bold">{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
-                <p className="text-gray-700">{rowData[key as keyof Lead]}</p>
-              </div>
-            ))}
+    //     {/* <button className="modal-close-button" onClick={onRequestClose}>&times;</button> */}
+    //   </div>
+    //   <div className="modal-body ">
+    //     {rowData ? (
+    //       <div className="grid grid-cols-2 gap-4">
+    //         {Object.keys(rowData).map(key => (
+    //           <div key={key} className="modal-field">
+    //             <label htmlFor={key} className="font-bold">{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}</label>
+    //             <p className="text-gray-700">{rowData[key as keyof Lead]}</p>
+    //           </div>
+    //         ))}
+    //       </div>
+    //     ) : (
+    //       <p>No data available</p>
+    //     )}
+    //   </div>
+    //   <div className="modal-actions flex justify-end mb-4">
+    //   <button type="button" className="mb-4 flex items-center py-2 px-4 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500" onClick={onRequestClose}>Close</button>
+    //   </div>
+    // </Modal>
+
+
+<Modal
+  isOpen={isOpen}
+  onRequestClose={onRequestClose}
+  style={customStyles}
+  contentLabel="View Row Modal"
+>
+  <div className="modal-header flex justify-between items-center mb-6">
+    <h1 className="text-2xl font-bold text-gray-800">Row Details</h1>
+    {/* You can add a close button here if necessary */}
+  </div>
+
+  <div className="modal-body">
+    {rowData ? (
+      <div className="grid grid-cols-2 gap-6">
+        {Object.keys(rowData).map((key) => (
+          <div key={key} className="modal-field">
+            <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1">
+              {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+            </label>
+            <p className="text-gray-700 bg-gray-100 p-2 rounded-md">{rowData[key as keyof Lead] || 'N/A'}</p>
           </div>
-        ) : (
-          <p>No data available</p>
-        )}
+        ))}
       </div>
-      <div className="modal-actions flex justify-end mb-4">
-      <button type="button" className="mb-4 flex items-center py-2 px-4 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500" onClick={onRequestClose}>Close</button>
-      </div>
-    </Modal>
+    ) : (
+      <p className="text-gray-600">No data available</p>
+    )}
+  </div>
+
+  <div className="modal-actions flex justify-end mt-6">
+    <button
+      type="button"
+      className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500 mb-4"
+      onClick={onRequestClose}
+    >
+      Close
+    </button>
+  </div>
+</Modal>
+
+
+
+
   );
 };
 
