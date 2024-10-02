@@ -13,10 +13,10 @@ import { FaDownload } from "react-icons/fa";
 import AddRowModal from "../../modals/AddRowBatch";
 import EditRowModal from "../../modals/EditRowBatch";
 import ViewRowModal from "../../modals/ViewRowBatch";
+import { MdDelete } from "react-icons/md";
 
 import {
   AiOutlineEdit,
-  AiOutlineDeleteRow,
   AiOutlineEye,
   AiOutlineSearch,
   AiOutlineReload,
@@ -55,7 +55,7 @@ const Batches = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/api/batches`, {
+      const response = await axios.get(`${API_URL}/batches`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
@@ -241,7 +241,7 @@ const handleDownloadPDF = () => {
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
           >
-            <AiOutlineDeleteRow className="mr-2" /> Delete
+            <MdDelete className="mr-2" /> Delete
           </button>
           <button
             onClick={handleViewRow}

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "ag-grid-community": "^32.2.0",
     "ag-grid-react": "^32.2.0",
     "axios": "^1.7.7",
