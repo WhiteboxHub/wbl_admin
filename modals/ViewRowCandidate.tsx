@@ -1,11 +1,12 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { candidate } from '../types/index';
+import { Candidate } from '../types/index';
 import { AiOutlineClose } from 'react-icons/ai'; // Adjust the import path accordingly
 
 interface ViewRowCandidateProps {
   isOpen: boolean;
   onClose: () => void;
+  onRequestClose: () => void;
   rowData: Candidate | null;
 }
 

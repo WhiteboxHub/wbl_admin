@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { candidate } from '../types/index'; // Adjust the import path accordingly
+import { Candidate } from '../types/index'; // Adjust the import path accordingly
 
 interface FormData {
   name: string;

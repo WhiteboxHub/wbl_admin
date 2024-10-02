@@ -17,10 +17,10 @@ import {
   AiOutlineDownload,
 } from "react-icons/ai";
 import { MdAdd, MdDelete } from "react-icons/md";
-import { Lead } from "../../types/index"; // Adjust the import path accordingly
+import { Candidate } from "../../types/index"; // Adjust the import path accordingly
 
-const Leads = () => {
-  const [rowData, setRowData] = useState<Lead[]>([]);
+const Candidates = () => {
+  const [rowData, setRowData] = useState<Candidate[]>([]);
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);
@@ -32,7 +32,7 @@ const Leads = () => {
     edit: boolean;
     view: boolean;
   }>({ add: false, edit: false, view: false });
-  const [selectedRow, setSelectedRow] = useState<Lead | null>(null);
+  const [selectedRow, setSelectedRow] = useState<Candidate | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const gridRef = useRef<AgGridReact>(null);
 
@@ -55,7 +55,7 @@ const Leads = () => {
 
 
 
-  const setupColumns = (data: Lead[]) => {
+  const setupColumns = (data: Candidate[]) => {
     if (data.length > 0) {
       const keys = Object.keys(data[0]);
       const columns = keys.map((key) => ({
@@ -90,8 +90,8 @@ const Leads = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        const leadId = selectedRows[0].leadid;
-        await axios.delete(`${API_URL}/leads/delete/${leadId}`, {
+        const candidateId = selectedRows[0].candidateid;
+        await axios.delete(`${API_URL}/candidates/delete/${candidateId}`, {
           headers: { AuthToken: localStorage.getItem("token") },
         });
         fetchData(); // Refresh data
@@ -117,7 +117,7 @@ const Leads = () => {
             onClick={handleAddRow}
             className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
           >
-            <MdAdd className="mr-2" /> Add Lead
+            <MdAdd className="mr-2" /> Add Candidates
           </button>
           <button
             onClick={handleEditRow}
@@ -228,11 +228,12 @@ const Leads = () => {
       <ViewRowModal
         isOpen={modalState.view}
         onRequestClose={() => setModalState({ ...modalState, view: false })}
+        onClose={() => setModalState((prev) => ({ ...prev, add: false }))}
         rowData={selectedRow}
       />
     </div>
   );
 };
 
-export default Leads;
+export default Candidates;
 
