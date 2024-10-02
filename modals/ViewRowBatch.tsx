@@ -11,24 +11,42 @@ interface ViewRowModalProps {
 }
 
 const ViewRowBatch: React.FC<ViewRowModalProps> = ({ isOpen, onClose, rowData }) => {
-  const customStyles = {
-    content: {
-      top: '15%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      transform: 'translate(-50%, 0)',
-      overflowY: 'auto',
-      maxHeight: '80vh',
-      width: '40%',
-    },
-  };
+  // const customStyles = {
+  //   content: {
+  //     top: '15%',
+  //     left: '50%',
+  //     right: 'auto',
+  //     bottom: 'auto',
+  //     transform: 'translate(-50%, 0)',
+  //     overflowY: 'auto',
+  //     maxHeight: '80vh',
+  //     width: '40%',
+  //   },
+  // };
 
   return (
     <Modal
       isOpen={isOpen}
      // onRequestClose={onRequestClose} // Ensure this function is correctly defined in the parent
-      style={customStyles}
+      //style={customStyles}
+      style={{
+        content: {
+          top: '15%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          transform: 'translate(-50%, 0)',
+          overflowY: 'auto',
+          maxHeight: '80vh',
+          width: '40%',
+          padding: '20px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+        },
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+      }}
       contentLabel="View Row Modal"
       ariaHideApp={false} // Disable aria app for accessibility if needed
     >

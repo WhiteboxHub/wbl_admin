@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import ReactModal from 'react-modal';
+import { Styles } from 'react-modal';
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -32,7 +34,7 @@ interface AddRowModalProps {
   refreshData: () => void;
 }
 
-const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, rowData, refreshData}) => {
+const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData}) => {
   const [formData, setFormData] = useState<Batch>({
     batchname: '',
     current: 'Y',
@@ -51,18 +53,23 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, rowData, ref
     courseid: '',
   });
 
-  const customStyles = {
-    content: {
-      top: '15%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      transform: 'translate(-50%, 0)',
-      overflowY: 'auto',
-      maxHeight: '80vh',
-      width: '40%', // Set a max height for the modal
-    },
-  };
+
+
+// Assuming OverflowY is defined as follows (this is just an example, you should check the actual definition)
+
+
+// const customStyles: ReactModal.Styles = {
+//   content: {
+//     top: '50%',
+//     left: '50%',
+//     right: 'auto',
+//     bottom: 'auto',
+//     transform: 'translate(-50%, -50%)',
+//     overflowY: 'auto' as const, // Explicitly set the type to one of the allowed values // Ensure this is one of the accepted values
+//     maxHeight: '80%',
+//     width: '80%',
+//   },
+//};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -77,7 +84,7 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, rowData, ref
       
       // Here, use the newly created batch data for the refreshData
       const newBatch = response.data; // assuming the API returns the new batch
-      refreshData(newBatch); // Pass the new batch to be added
+      refreshData(); // Pass the new batch to be added
       onClose();
     } catch (error) {
       console.error('Error adding row:', error);
@@ -89,8 +96,25 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, rowData, ref
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      style={customStyles}
-      contentLabel="Add Batch Modal"
+      style={{
+        content: {
+          top: '15%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          transform: 'translate(-50%, 0)',
+          overflowY: 'auto',
+          maxHeight: '80vh',
+          width: '40%',
+          padding: '20px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+        },
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        },
+      }}
+      // contentLabel="Add Batch Modal"
     >
       <div className="">
       <div className="relative">

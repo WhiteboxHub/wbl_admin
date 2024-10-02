@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 import { AxiosError } from 'axios';
 import { AgGridReact } from "ag-grid-react";
@@ -30,7 +31,7 @@ import { Batch } from "../../types/index";
 //   width?: number;
 // }
 
-
+jsPDF.prototype.autoTable = autoTable;
 const Batches = () => {
   const [rowData, setRowData] = useState<Batch[]>([]);
   const [columnDefs, setColumnDefs] = useState<
@@ -190,59 +191,30 @@ const Batches = () => {
       }
     }
   };
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Batch Data", 20, 10);
-  
-    // Prepare data for PDF
-    const pdfData = rowData.map((row) => Object.values(row));
-    const headers = columnDefs.map((col) => col.headerName);
-  
-    // Set initial positions
-    let y = 20;
-    const xStart = 20;
-    const yStart = y + 10; // Initial y position for the table
-    const cellWidth = 30;
-    const cellHeight = 10;
-  
-    // Draw table headers
-    headers.forEach((header, index) => {
-      doc.text(String(header), xStart + (index * cellWidth), y);
-    });
-  
-    // Draw table data
-    pdfData.forEach((row) => {
-      y += cellHeight;
-      row.forEach((cell, index) => {
-        let cellText = '';
-        if (Array.isArray(cell)) {
-          cellText = cell.join(', ');
-        } else if (typeof cell === 'object' && cell !== null) {
-          cellText = JSON.stringify(cell);
-        } else {
-          cellText = String(cell);
-        }
-        doc.text(cellText, xStart + (index * cellWidth), y);
-      });
-    });
-  
-    // Draw table borders
-    const tableWidth = headers.length * cellWidth;
-    const tableHeight = (pdfData.length + 1) * cellHeight;
-  
-    // Draw horizontal lines
-    for (let i = 0; i <= pdfData.length + 1; i++) {
-      doc.line(xStart, yStart + (i * cellHeight), xStart + tableWidth, yStart + (i * cellHeight));
-    }
-  
-    // Draw vertical lines
-    for (let i = 0; i <= headers.length; i++) {
-      doc.line(xStart + (i * cellWidth), yStart, xStart + (i * cellWidth), yStart + tableHeight);
-    }
-  
-    doc.save("batch_data.pdf");
-  };
-  
+
+const handleDownloadPDF = () => {
+  // Create a new instance of jsPDF
+  const doc = new jsPDF();
+
+  // Add title text
+  doc.text("Batch Data", 20, 10);
+
+  // Prepare data for PDF
+  const pdfData = rowData.map((row) => Object.values(row));
+  const headers = columnDefs.map((col) => col.headerName);
+
+  // Create the autoTable
+  autoTable(doc, {
+      head: [headers],
+      body: pdfData,
+      theme: 'grid', // Optional: set the theme for the table
+      styles: { fontSize: 10 }, // Optional: adjust font size
+  });
+
+  // Save the PDF
+  doc.save("batch_data.pdf");
+};
+
 
   
   const totalPages = Math.ceil(totalRows / paginationPageSize);
