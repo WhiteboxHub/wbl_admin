@@ -55,7 +55,7 @@ const Batches = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/api/batches`, {
+      const response = await axios.get(`${API_URL}/batches`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
