@@ -4,15 +4,17 @@ import axios from "axios";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import AddRowModal from "../../modals/AddRowModal";
-import EditRowModal from "../../modals/EditRowModal";
-import ViewRowModal from "../../modals/ViewRowModal";
+import AddRowModal from "../../modals/AddRowCandidate";
+import EditRowModal from "../../modals/EditRowCandidate";
+import ViewRowModal from "../../modals/ViewRowCandidate";
 // 
 import {
   AiOutlineEdit,
   AiOutlineDeleteRow, // Changed from AiOutlineDelete
   AiOutlineSearch,
   AiOutlineReload,
+  AiOutlineEye,
+  AiOutlineDownload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
 import { Lead } from "../../types/index"; // Adjust the import path accordingly
@@ -123,6 +125,12 @@ const Leads = () => {
           >
             <AiOutlineEdit className="mr-2" /> Edit
           </button>
+          {/* <button
+            onClick={handleRefresh}
+            className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
+          >
+            <AiOutlineReload className="mr-2" /> Refresh
+          </button> */}
           <button
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
@@ -131,16 +139,16 @@ const Leads = () => {
           </button>
           <button
             onClick={handleAddRow}
-            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
+            className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
-            <MdAdd className="mr-2" />view
+            <AiOutlineEye className="mr-2" />view
           </button>
 
           <button
             onClick={handleAddRow}
-            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
+            className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
           >
-            <MdAdd className="mr-2" />Download
+            <AiOutlineDownload className="mr-2" />Download
           </button>
         </div>
       </div>
@@ -200,8 +208,7 @@ const Leads = () => {
         }
         <button 
     // onClick={handleSearch} // Call handleSearch when clicked
-    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
->
+    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700">
     <AiOutlineSearch className="mr-1" /> Search
 </button>
     </div>

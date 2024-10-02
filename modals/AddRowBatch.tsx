@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import ReactModal from 'react-modal';
