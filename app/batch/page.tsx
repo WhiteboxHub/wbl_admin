@@ -155,7 +155,7 @@ const Batches = () => {
           if (!confirmation) return;
 
           try {
-            await axios.delete(`${API_URL}/api/batches/delete/${batchId}`, {
+            await axios.delete(`${API_URL}/batches/delete/${batchId}`, {
               headers: { AuthToken: localStorage.getItem("token") },
             });
             alert("Batch deleted successfully.");
