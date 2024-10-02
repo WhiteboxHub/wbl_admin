@@ -53,18 +53,18 @@ const EditRowBatch: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
     }
   }, [rowData]);
 
-  const customStyles = {
-    content: {
-      top: '15%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      transform: 'translate(-50%, 0)',
-      overflowY: 'auto',
-      maxHeight: '80vh',
-      width: '40%',  // Set a max height for the modal
-    },
-  };
+  // const customStyles = {
+  //   content: {
+  //     top: '15%',
+  //     left: '50%',
+  //     right: 'auto',
+  //     bottom: 'auto',
+  //     transform: 'translate(-50%, 0)',
+  //     overflowY: 'auto',
+  //     maxHeight: '80vh',
+  //     width: '40%',  // Set a max height for the modal
+  //   },
+  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -90,7 +90,25 @@ const EditRowBatch: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      style={customStyles}
+     // style={customStyles}
+     style={{
+      content: {
+        top: '15%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        transform: 'translate(-50%, 0)',
+        overflowY: 'auto',
+        maxHeight: '80vh',
+        width: '40%',
+        padding: '20px',
+        borderRadius: '10px',
+        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+      },
+      overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
+    }}
       contentLabel="Add Batch Modal"
     >
       <div className="">

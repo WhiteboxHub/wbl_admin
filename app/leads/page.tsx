@@ -144,12 +144,7 @@ const Leads = () => {
             console.error("Error deleting lead:", error);
             alert(
               `Failed to delete lead: ${
-<<<<<<< HEAD
-                // error.response?.data?.message || error.message
-                (error).response?.data?.message || (error).message
-=======
                 (error as Error).message || "Unknown error occurred"
->>>>>>> 66271647e497e9af80f165a4b508fd42206bd09b
               }`
             );
           }
