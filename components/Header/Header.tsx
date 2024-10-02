@@ -108,10 +108,10 @@ import { useState } from 'react'; // Import useState for managing submenu state
 
 const Header = () => {
   // State to manage which submenu is open
-  const [openSubMenu, setOpenSubMenu] = useState(null);
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
-  // Function to toggle submenu
-  const toggleSubMenu = (name) => {
+ 
+  const toggleSubMenu = (name: string) => {
     setOpenSubMenu(openSubMenu === name ? null : name);
   };
 
@@ -139,7 +139,7 @@ const Header = () => {
                 key={item.name}
                 className="relative group"
                 onMouseEnter={() => toggleSubMenu(item.name)} // Show submenu on hover
-                onMouseLeave={() => toggleSubMenu(null)} // Hide submenu on mouse leave
+                onMouseLeave={() => toggleSubMenu(null as unknown as string) } // Hide submenu on mouse leave
               >
                 <div
                   onClick={(e) => {

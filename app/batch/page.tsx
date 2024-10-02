@@ -1,18 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -30,7 +15,7 @@ import ViewRowModal from "../../modals/ViewRowBatch";
 
 import {
   AiOutlineEdit,
-  AiOutlineDelete,
+  AiOutlineDeleteRow,
   AiOutlineEye,
   AiOutlineSearch,
   AiOutlineReload,
@@ -284,7 +269,7 @@ const Batches = () => {
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
           >
-            <AiOutlineDelete className="mr-2" /> Delete
+            <AiOutlineDeleteRow className="mr-2" /> Delete
           </button>
           <button
             onClick={handleViewRow}

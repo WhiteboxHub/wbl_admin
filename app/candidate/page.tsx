@@ -7,9 +7,10 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import AddRowModal from "../../modals/AddRowModal";
 import EditRowModal from "../../modals/EditRowModal";
 import ViewRowModal from "../../modals/ViewRowModal";
+// 
 import {
   AiOutlineEdit,
-  AiOutlineDelete,
+  AiOutlineDeleteRow, // Changed from AiOutlineDelete
   AiOutlineSearch,
   AiOutlineReload,
 } from "react-icons/ai";
@@ -126,7 +127,7 @@ const Leads = () => {
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
           >
-            <AiOutlineDelete className="mr-2" /> Delete
+            <AiOutlineDeleteRow className="mr-2" /> Delete
           </button>
           <button
             onClick={handleAddRow}
