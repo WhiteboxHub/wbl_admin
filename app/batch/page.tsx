@@ -80,7 +80,7 @@ const Batches = () => {
 
   const fetchBatches = async (searchQuery = "") => {
     try {
-      const response = await axios.get(`${API_URL}/api/batches/search`, {
+      const response = await axios.get(`${API_URL}/batches/search`, {
         params: {
           page: currentPage, // Pass current page for pagination
           pageSize: paginationPageSize, // Pass pageSize for pagination
