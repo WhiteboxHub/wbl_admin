@@ -16,7 +16,7 @@ import {
   AiOutlineEye,
   AiOutlineDownload,
 } from "react-icons/ai";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdDelete } from "react-icons/md";
 import { Lead } from "../../types/index"; // Adjust the import path accordingly
 
 const Leads = () => {
