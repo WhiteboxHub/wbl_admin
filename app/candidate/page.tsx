@@ -7,10 +7,11 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import AddRowModal from "../../modals/AddRowModal";
 import EditRowModal from "../../modals/EditRowModal";
 import ViewRowModal from "../../modals/ViewRowModal";
+import { MdDelete } from "react-icons/md";
 // 
 import {
   AiOutlineEdit,
-  AiOutlineDeleteRow, // Changed from AiOutlineDelete
+ 
   AiOutlineSearch,
   AiOutlineReload,
 } from "react-icons/ai";
@@ -38,7 +39,7 @@ const Leads = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/candidates`, {
+      const response = await axios.get(`${API_URL}/candidates`, {
         params: { page: currentPage, pageSize: paginationPageSize },
         headers: { AuthToken: localStorage.getItem("token") },
       });
@@ -89,7 +90,7 @@ const Leads = () => {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
         const leadId = selectedRows[0].leadid;
-        await axios.delete(`${API_URL}/api/leads/delete/${leadId}`, {
+        await axios.delete(`${API_URL}/leads/delete/${leadId}`, {
           headers: { AuthToken: localStorage.getItem("token") },
         });
         fetchData(); // Refresh data
@@ -127,7 +128,7 @@ const Leads = () => {
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
           >
-            <AiOutlineDeleteRow className="mr-2" /> Delete
+            <MdDelete  className="mr-2" /> Delete
           </button>
           <button
             onClick={handleAddRow}

@@ -1,8 +1,3 @@
-
-
-
-
-
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import ReactModal from 'react-modal';
@@ -78,7 +73,7 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData}
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/batches/insert`, formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/batches/insert`, formData, {
         headers: { AuthToken: localStorage.getItem('token') },
       });
       
