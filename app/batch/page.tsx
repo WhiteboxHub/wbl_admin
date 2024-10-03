@@ -59,20 +59,28 @@ const Batches = () => {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
-          // search: searchTerm,
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
+  
       const { data, totalRows } = response.data;
-      setRowData(data);
+  
+      // Add serial numbers to each row
+      const dataWithSerials = data.map((item: Batch, index: number) => ({
+        ...item,
+        serialNo: (currentPage - 1) * paginationPageSize + index + 1,
+      }));
+  
+      setRowData(dataWithSerials);
       setTotalRows(totalRows);
-      setupColumns(data);
+      setupColumns(dataWithSerials);
     } catch (error) {
       console.error("Error loading data:", error);
     } finally {
       setLoading(false);
     }
   };
+  
   interface ErrorResponse {
     message: string;
     // Add other properties if needed
@@ -109,15 +117,17 @@ const Batches = () => {
 
   const setupColumns = (data: Batch[]) => {
     if (data.length > 0) {
-      const keys = Object.keys(data[0]);
-      const columns = keys.map((key) => ({
-        headerName: key.charAt(0).toUpperCase() + key.slice(1),
-        field: key,
-      }));
+      const columns = [
+        { headerName: "Serial No", field: "serialNo", width: 100 }, // Add this line for serial numbers
+        ...Object.keys(data[0]).map((key) => ({
+          headerName: key.charAt(0).toUpperCase() + key.slice(1),
+          field: key,
+        })),
+      ];
       setColumnDefs(columns);
     }
   };
-
+  
 
   
   useEffect(() => {
@@ -131,6 +141,8 @@ const Batches = () => {
   const handleAddRow = () =>
     setModalState((prevState) => ({ ...prevState, add: true }));
 
+
+  
   const handleEditRow = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
