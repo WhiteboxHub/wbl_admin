@@ -103,9 +103,14 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
       backgroundColor: 'rgba(0, 0, 0, 0.4)',
     },
   }}
->
+><div className="relative">
+  <button
+  onClick={onRequestClose}
+  className="absolute top-4 right-0 text-2xl font-semibold text-gray-500 hover:text-gray-800 transition duration-200">
+  &times;</button>
+  </div>
   <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Lead</h2>
-
+  {/* <button className="text-2xl font-semibold hover:text-red-500 transition" onClick={onRequestClose}>&times;</button> */}
   <form onSubmit={handleSubmit} className="space-y-6">
     {formData && Object.keys(formData).map((key) => (
       <div key={key} className="modal-field">
@@ -124,20 +129,21 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
       </div>
     ))}
 
-    <div className="flex justify-between items-center mt-6">
-      <button
-        type="button"
-        onClick={onRequestClose}
-        className="bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition duration-200"
-      >
-        Cancel
-      </button>
-      <button
-        type="submit"
-        className="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200"
-      >
-        Update Lead
-      </button>
+<div className="flex justify-between items-center mt-6">
+    <button
+            type="submit"
+            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Save Batch
+          </button>
+
+          <button
+            type="button"
+            onClick={onRequestClose}
+            className="mt-4 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
+          >
+            Cancel
+          </button>
     </div>
   </form>
 </Modal>

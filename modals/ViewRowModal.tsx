@@ -179,6 +179,9 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
 >
   <div className="modal-header flex justify-between items-center mb-6">
     <h1 className="text-2xl font-bold text-gray-800">Row Details</h1>
+    <button className="text-2xl font-semibold hover:text-red-500 transition" onClick={onRequestClose}>
+      &times;
+    </button>
     {/* You can add a close button here if necessary */}
   </div>
 
@@ -202,7 +205,7 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
   <div className="modal-actions flex justify-end mt-6">
     <button
       type="button"
-      className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500 mb-4"
+       className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
       onClick={onRequestClose}
     >
       Close

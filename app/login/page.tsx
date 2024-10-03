@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { ApiError } from "next/dist/server/api-utils";
+// import { ApiError } from "next/dist/server/api-utils";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -24,6 +24,9 @@ const Login = () => {
         username,
         password,
       });
+   
+        console.log(response);
+      
       const token = response.data.token;
 
       localStorage.setItem("token", token); // Save token to localStorage for auth management
