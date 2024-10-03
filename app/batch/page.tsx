@@ -14,7 +14,7 @@ import AddRowModal from "../../modals/AddRowBatch";
 import EditRowModal from "../../modals/EditRowBatch";
 import ViewRowModal from "../../modals/ViewRowBatch";
 import { MdDelete } from "react-icons/md";
-
+ 
 import {
   AiOutlineEdit,
   AiOutlineEye,
