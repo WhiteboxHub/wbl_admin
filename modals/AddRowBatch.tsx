@@ -30,10 +30,11 @@ interface AddRowModalProps {
 }
 
 const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData}) => {
+  const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
   const [formData, setFormData] = useState<Batch>({
     batchname: '',
     current: 'Y',
-    orientationdate: '',
+    orientationdate: currentDate, // Set default to current date
     subject: 'ML',
     startdate: '',
     enddate: '',
@@ -304,16 +305,18 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData}
 
           {/* Course ID */}
           <div>
-            <label className="block text-gray-700">Course ID</label>
-            <input
-              type="text"
-              name="courseid"
-              value={formData.courseid}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter course ID"
-            />
-          </div>
+          <label className="block text-gray-700">Course ID</label>
+          <input
+            type="text"
+            name="courseid"
+            value={formData.courseid}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            placeholder="Enter course ID"
+            required // Make the input required
+          />
+        </div>
+        
 
           <button
             type="submit"
