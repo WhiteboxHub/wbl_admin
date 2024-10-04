@@ -125,7 +125,12 @@ return (
         <ul className="flex ml-8 space-x-12"> {/* Increased space between menu items */}
           {/* Menu Items */}
           {[
-            { name: 'Recruiting', href: '', subMenu: [{ name: 'Leads', href: '/leads' }] },
+            { name: 'Recruiting',
+              href: '',
+              subMenu: [
+                { name: 'Leads', href: '/leads' },
+                { name:'Access',href:'/access'}
+              ] },
             {
               name: 'Training',
               href: '',
