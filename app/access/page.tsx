@@ -1,32 +1,30 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-import Dropdown from "react-dropdown";
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
+// import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import * as XLSX from "xlsx";
+// import * as XLSX from "xlsx";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import AddRowModal from "../../modals/AddRowModal";
-import EditRowModal from "../../modals/EditRowModal";
-import ViewRowModal from "../../modals/ViewRowModal";
-import { MdDelete } from "react-icons/md";
+//import AddRowModal from "../../modals/AddRowUser.";
+import EditRowModal from "../../modals/EditRowUser";
+import ViewRowModal from "../../modals/ViewRowUser";
 import { debounce } from "lodash";
 
 import {
   AiOutlineEdit,
-
   AiOutlineSearch,
   AiOutlineReload,
   AiOutlineEye,
 } from "react-icons/ai";
-import { MdAdd } from "react-icons/md";
-import { Lead } from "../../types/index"; // Adjust the import path accordingly
+// import { MdAdd } from "react-icons/md";
+import { User } from "../../types/index"; // Adjust the import path accordingly
 
-const Leads = () => {
-  const [rowData, setRowData] = useState<Lead[]>([]);
+const Users = () => {
+  const [rowData, setRowData] = useState<User[]>([]);
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);
@@ -38,7 +36,7 @@ const Leads = () => {
     edit: boolean;
     view: boolean;
   }>({ add: false, edit: false, view: false });
-  const [selectedRow, setSelectedRow] = useState<Lead | null>(null);
+  const [selectedRow, setSelectedRow] = useState<User | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const gridRef = useRef<AgGridReact>(null);
 
@@ -54,7 +52,7 @@ const Leads = () => {
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-
+  
       const { data, totalRows } = response.data;
       setRowData(data);
       setTotalRows(totalRows);
@@ -86,7 +84,7 @@ const Leads = () => {
     }
   }, [currentPage, fetchData, searchValue]);
 
-  const setupColumns = (data: Lead[]) => {
+  const setupColumns = (data: User[]) => {
     if (data.length > 0) {
       const keys = Object.keys(data[0]);
       const columns = keys.map((key) => ({
@@ -97,8 +95,8 @@ const Leads = () => {
     }
   };
 
-  const handleAddRow = () =>
-    setModalState((prevState) => ({ ...prevState, add: true }));
+  // const handleAddRow = () =>
+  //   setModalState((prevState) => ({ ...prevState, add: true }));
 
   const handleEditRow = () => {
     if (gridRef.current) {
@@ -124,40 +122,6 @@ const Leads = () => {
     }
   };
 
-  const handleDeleteRow = async () => {
-    if (gridRef.current) {
-      const selectedRows = gridRef.current.api.getSelectedRows();
-      if (selectedRows.length > 0) {
-        const leadId = selectedRows[0].leadid;
-        if (leadId) {
-          const confirmation = window.confirm(
-            `Are you sure you want to delete lead ID ${leadId}?`
-          );
-          if (!confirmation) return;
-
-          try {
-            await axios.delete(`${API_URL}/users/delete/${leadId}`, {
-              headers: { AuthToken: localStorage.getItem("token") },
-            });
-            alert("Users deleted successfully.");
-            fetchData(searchValue);
-          } catch (error) {
-            console.error("Error deleting Users:", error);
-            alert(
-              `Failed to delete Users: ${
-                (error as Error).message || "Unknown error occurred"
-              }`
-            );
-          }
-        } else {
-          alert("No valid lead ID found for the selected row.");
-        }
-      } else {
-        alert("Please select a row to delete.");
-      }
-    }
-  };
-
   const handleRefresh = () => {
     setSearchValue("");
     fetchData();
@@ -172,55 +136,6 @@ const Leads = () => {
     fetchData(searchValue);
   };
 
-  const handleDownloadPDF = () => {
-    if (gridRef.current) {
-      const selectedRows = gridRef.current.api.getSelectedRows();
-      console.log("Selected Rows:", selectedRows);
-      if (selectedRows.length > 0) {
-        const doc = new jsPDF();
-        doc.text("Selected Users Data", 20, 10);
-        const pdfData = selectedRows.map((row) => [
-          row.name,
-          row.email,
-          row.phone,
-          row.address,
-          row.city,
-          row.state,
-          row.country,
-          row.zip,
-          row.spousename,
-          row.spouseemail,
-          row.spousephone,
-        ]);
-        (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
-          head: [["Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", "Spouse Name", "Spouse Email", "Spouse Phone"]],
-          body: pdfData,
-        });
-  
-        doc.save("Selected_Lead_data.pdf");
-      } else {
-        alert("Please select a row to download.");
-      }
-    }
-  };
-
-  const handleExportToExcel = () => {
-    if (gridRef.current) {
-      const selectedRows = gridRef.current.api.getSelectedRows() as Lead[];
-      if (selectedRows.length > 0) {
-        const ws = XLSX.utils.json_to_sheet(selectedRows);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Selected Lead Data");
-        XLSX.writeFile(wb, "Selected_Lead_data.xlsx");
-      } else {
-        alert("Please select a row to export.");
-      }
-    }
-  };
-
-  const options = ["Export to PDF", "Export to Excel"];
-  const defaultOption = "Download";
-
   const totalPages = Math.ceil(totalRows / paginationPageSize);
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -230,69 +145,42 @@ const Leads = () => {
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">Access Management</h1>
         </div>
-        
-        <div className="flex flex-wrap mb-4 items-center gap-4"> 
+
+        <div className="flex flex-wrap mb-4 items-center gap-4">
+        <div className="flex-grow">
           <input
             type="text"
             className="border rounded-md px-3 py-2 w-64"
             placeholder="Search"
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
+            onChange={(e) => setSearchValue(e.target.value)}/>
           <button
             onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-          >
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700">
             <AiOutlineSearch className="mr-2" /> Search
           </button>
-          
-          <button
-            onClick={handleAddRow}
-            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
-          >
-            <MdAdd className="mr-2" /> Add User
-          </button>
+        </div>
           <button
             onClick={handleEditRow}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
           >
             <AiOutlineEdit className="mr-2" /> Edit
-          </button>
+          </button>  
           <button
             onClick={handleViewRow}
             className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
             <AiOutlineEye className="mr-2" /> View
           </button>
-          <button
-            onClick={handleDeleteRow}
-            className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
-          >
-            <MdDelete className="mr-2" /> Delete
-          </button>
+
           <button
             onClick={handleRefresh}
             className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
             <AiOutlineReload className="mr-2" /> Refresh
           </button>
-          <Dropdown
-            options={options}
-            value={defaultOption}
-            onChange={(selectedOption) => {
-              if (selectedOption.value === "Export to PDF") {
-                handleDownloadPDF();
-              } else if (selectedOption.value === "Export to Excel") {
-                handleExportToExcel();
-              }
-            }}
-            placeholder="Select an option"
-            className="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700"
-            controlClassName="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 border-none px-4 py-2"
-            menuClassName="bg-purple-600 text-black rounded-lg transition duration-300"
-            arrowClassName="text-black"
-            placeholderClassName="text-black"
-          />
+          
+
         </div>
 
         <div
@@ -326,11 +214,6 @@ const Leads = () => {
             ))}
           </select>
         </div>
-        <AddRowModal
-          isOpen={modalState.add}
-          onRequestClose={() => setModalState({ ...modalState, add: false })}
-          onSave={fetchData}
-        />
         <EditRowModal
           isOpen={modalState.edit}
           onRequestClose={() => setModalState({ ...modalState, edit: false })}
@@ -347,4 +230,6 @@ const Leads = () => {
   );
 };
 
-export default Leads;
+export default Users;
+
+

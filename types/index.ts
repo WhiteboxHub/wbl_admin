@@ -24,3 +24,34 @@ export interface Lead {
     [key: string]: any; // Allows additional properties that may not be explicitly defined
   }
   
+
+  export type User = {
+    id: number;
+    uname: string;
+    passwd: string;
+    dailypwd: string;
+    team: string;
+    level: string;
+    instructor: string;
+    override: string;
+    status: string;
+    lastlogin: string;
+    logincount: number;
+    fullname: string;
+    address: string;
+    phone: string;
+    state: string;
+    zip: string;
+    city: string;
+    country: string;
+    message: string;
+    registereddate: string;
+    level3date: string;
+    lastmoddatetime: string;
+    demo: string;
+    enddate: string;
+    googleId: string;
+    reset_token: string;
+    token_expiry: string;
+  };
+  
