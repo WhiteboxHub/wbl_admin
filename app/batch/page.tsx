@@ -299,37 +299,28 @@ const handleDownloadPDF = () => {
         className="ag-theme-alpine"
         style={{ height: "400px", width: "100%", overflowY: "auto" }}
       >
-        {/* <AgGridReact
-          ref={gridRef}
-          rowData={rowData}
-          columnDefs={columnDefs}
-          pagination={true}
-          paginationPageSize={paginationPageSize}
-          rowSelection="single"
-          onRowClicked={(event) => setSelectedRow(event.data)}
-        /> */}
+        {<AgGridReact
+        ref={gridRef}
+        rowData={rowData}
+        columnDefs={columnDefs}
+        pagination={false}
+        domLayout="printLayout"
+        rowSelection="single"
+        defaultColDef={{
+          sortable: true,
+          filter: true,
+          cellStyle: { color: "#333", fontSize: "0.75rem",padding: "1px" },
+          rowStyle: {
+            paddingTop: "5px", // Add padding-top property for rows
+          },
+          minWidth: 60, // Set a minimum width for columns
+          maxWidth: 100, // Set a maximum width for columns
+        }}
+        rowHeight={30}
+        headerHeight={35}
+      /> }
 
-           <AgGridReact
-            ref={gridRef}
-            rowData={rowData}
-            columnDefs={columnDefs}
-            pagination={false}
-            domLayout="printLayout"
-            rowSelection="single"
-            defaultColDef={{
-              sortable: true,
-              filter: true,
-              cellStyle: { color: "#333", fontSize: "0.75rem",padding: "1px" },
-              rowStyle: {
-                paddingTop: "5px", // Add padding-top property for rows
-              },
-              minWidth: 60, // Set a minimum width for columns
-              maxWidth: 100, // Set a maximum width for columns
-            }}
-            rowHeight={30}
-            headerHeight={35}
-          />
-
+           
 
 
 

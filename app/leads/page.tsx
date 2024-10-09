@@ -33,6 +33,7 @@ const Leads = () => {
   const [paginationPageSize] = useState<number>(200);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
+  const [loading,] = useState<boolean>(false);
   const [modalState, setModalState] = useState<{
     add: boolean;
     edit: boolean;
@@ -56,9 +57,13 @@ const Leads = () => {
       });
 
       const { data, totalRows } = response.data;
-      setRowData(data);
+      const dataWithSerials = data.map((item: User, index: number) => ({
+        ...item,
+        serialNo: (currentPage - 1) * paginationPageSize + index + 1,
+      }));
+      setRowData(dataWithSerials);
       setTotalRows(totalRows);
-      setupColumns(data);
+      setupColumns(dataWithSerials);
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -86,13 +91,16 @@ const Leads = () => {
     }
   }, [currentPage, fetchData, searchValue]);
 
-  const setupColumns = (data: Lead[]) => {
+
+  const setupColumns = (data: Batch[]) => {
     if (data.length > 0) {
-      const keys = Object.keys(data[0]);
-      const columns = keys.map((key) => ({
-        headerName: key.charAt(0).toUpperCase() + key.slice(1),
-        field: key,
-      }));
+      const columns = [
+        { headerName: "Serial No", field: "serialNo", width: 100 }, // Add this line for serial numbers
+        ...Object.keys(data[0]).map((key) => ({
+          headerName: key.charAt(0).toUpperCase() + key.slice(1),
+          field: key,
+        })),
+      ];
       setColumnDefs(columns);
     }
   };
@@ -225,27 +233,11 @@ const Leads = () => {
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <div className="relative">
-      <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
-        <div className="flex justify-between items-center mb-4">
+   
+    <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+      <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">Lead Management</h1>
-        </div>
-        
-        <div className="flex flex-wrap mb-4 items-center gap-4"> 
-          <input
-            type="text"
-            className="border rounded-md px-3 py-2 w-64"
-            placeholder="Search"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-          >
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-          
+        <div className="flex space-x-2">
           <button
             onClick={handleAddRow}
             className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
@@ -294,77 +286,109 @@ const Leads = () => {
             placeholderClassName="text-black"
           />
         </div>
-
-        <div
-          className="ag-theme-alpine"
-          style={{ height: "400px", width: "100%", overflowY: "auto" }}
+      </div>
+        {/* Search Functionality */}
+        <div className="flex mb-4">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+         onChange={(e) => setSearchValue(e.target.value)}
+          className="border border-gray-300 rounded-md p-2 w-64"
+        />
+        <button
+          onClick={handleSearch}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
         >
-          <AgGridReact
-        ref={gridRef}
-        rowData={rowData}
-        columnDefs={columnDefs}
-        pagination={false}
-        domLayout="printLayout"
-        rowSelection="single"
-        defaultColDef={{
-          sortable: true,
-          filter: true,
-          cellStyle: { color: "#333", fontSize: "0.75rem",padding: "1px" },
-          rowStyle: {
-            paddingTop: "5px", // Add padding-top property for rows
-          },
-          minWidth: 60, // Set a minimum width for columns
-          maxWidth: 100, // Set a maximum width for columns
-        }}
-        rowHeight={30}
-        headerHeight={35}
-      />
-          {/* <AgGridReact
-            ref={gridRef}
-            rowData={rowData}
-            columnDefs={columnDefs}
-            pagination={false}
-            domLayout="autoHeight"
-            rowSelection="single"
-            defaultColDef={{
-              sortable: true,
-              filter: true,
-              cellStyle: { color: "#333" },
-            }}
-          /> */}
+          <AiOutlineSearch className="mr-2" /> Search
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center items-center h-48">
+          <span className="text-xl">Loading...</span>
         </div>
-        <div className="flex justify-between mt-4">
-          <select
-            className="border rounded-md px-2 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-200"
-            value={currentPage}
-            onChange={(e) => handlePageChange(Number(e.target.value))}
-          >
-            {pageOptions.map((page) => (
-              <option key={page} value={page}>
-                Page {page}
-              </option>
-            ))}
-          </select>
-        </div>
+      ) : (
+        <div
+        className="ag-theme-alpine"
+        style={{ height: "400px", width: "100%", overflowY: "auto" }}
+      >
+        {<AgGridReact
+          ref={gridRef}
+          rowData={rowData}
+          columnDefs={columnDefs}
+          pagination={false}
+          domLayout="print"  // Corrected value for domLayout
+          rowSelection="single"
+          defaultColDef={{
+            sortable: true,
+            filter: true,
+            cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+            // Removed rowStyle, as it doesn't belong here
+            minWidth: 60,
+            maxWidth: 100,
+          }}
+          rowHeight={30}
+          headerHeight={35}
+          rowStyle={{ paddingTop: "5px" }}  // Applied rowStyle at the grid level
+        />
+         }
+
+           
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+        
+      )}
+
+      <div className="flex justify-between mt-4">
+        <select
+          className="border rounded-md px-2 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-200"
+          value={currentPage}
+          onChange={(e) => handlePageChange(Number(e.target.value))}
+        >
+          {pageOptions.map((page) => (
+            <option key={page} value={page}>
+              Page {page}
+            </option>
+          ))}
+        </select>
+
+      
+      </div>
+
+      {modalState.add && (
         <AddRowModal
           isOpen={modalState.add}
-          onRequestClose={() => setModalState({ ...modalState, add: false })}
-          onSave={fetchData}
+          onClose={() => setModalState((prev) => ({ ...prev, add: false }))}
+          refreshData={fetchData}
         />
+      )}
+      {modalState.edit && selectedRow && (
         <EditRowModal
           isOpen={modalState.edit}
-          onRequestClose={() => setModalState({ ...modalState, edit: false })}
+          onRequestClose={() => setModalState((prev) => ({ ...prev, edit: false }))}
           rowData={selectedRow}
           onSave={fetchData}
         />
+      )}
+      {modalState.view && selectedRow && (
         <ViewRowModal
           isOpen={modalState.view}
-          onRequestClose={() => setModalState({ ...modalState, view: false })}
+          onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
           rowData={selectedRow}
         />
-      </div>
+      )}
     </div>
   );
 };
-
 export default Leads;

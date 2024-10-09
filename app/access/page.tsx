@@ -196,7 +196,7 @@ const Users = () => {
           className="ag-theme-alpine"
           style={{ height: "370px", width: "100%", overflowY: 'visible' ,overflowX:'visible'}}
         >
-          <AgGridReact
+          {<AgGridReact
             ref={gridRef}
             rowData={rowData}
             columnDefs={columnDefs}
@@ -215,7 +215,7 @@ const Users = () => {
             }}
             rowHeight={30}
             headerHeight={35}
-          />
+          />}
         </div>
         <div className="flex justify-between mt-4">
           <select
