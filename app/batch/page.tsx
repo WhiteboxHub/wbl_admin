@@ -218,7 +218,7 @@ const handleDownloadPDF = () => {
       head: [headers],
       body: pdfData,
       theme: 'grid', // Optional: set the theme for the table
-      styles: { fontSize: 10 }, // Optional: adjust font size
+      styles: { fontSize: 5 }, // Optional: adjust font size
   });
 
   // Save the PDF
@@ -307,6 +307,11 @@ const handleDownloadPDF = () => {
           paginationPageSize={paginationPageSize}
           rowSelection="single"
           onRowClicked={(event) => setSelectedRow(event.data)}
+          defaultColDef={{
+            sortable: true,
+            filter: true,
+            cellStyle: { color: "#333"  },
+          }}
         />
       </div>
 

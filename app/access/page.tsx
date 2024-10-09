@@ -86,11 +86,13 @@ const Users = () => {
 
   const setupColumns = (data: User[]) => {
     if (data.length > 0) {
-      const keys = Object.keys(data[0]);
-      const columns = keys.map((key) => ({
-        headerName: key.charAt(0).toUpperCase() + key.slice(1),
-        field: key,
-      }));
+      const columns = [
+        { headerName: "Serial No", field: "serialNo", width: 100 }, // Add this line for serial numbers
+        ...Object.keys(data[0]).map((key) => ({
+          headerName: key.charAt(0).toUpperCase() + key.slice(1),
+          field: key,
+        })),
+      ];
       setColumnDefs(columns);
     }
   };
@@ -147,19 +149,24 @@ const Users = () => {
         </div>
 
         <div className="flex flex-wrap mb-4 items-center gap-4">
-        <div className="flex-grow">
-          <input
-            type="text"
-            className="border rounded-md px-3 py-2 w-64"
-            placeholder="Search"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}/>
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700">
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-        </div>
+        <div className="flex grow">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+         onChange={(e) => setSearchValue(e.target.value)}
+          className="border border-gray-300 rounded-md p-2 w-64"
+        />
+        <button
+          onClick={handleSearch}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+        >
+          <AiOutlineSearch className="mr-2" /> Search
+        </button>
+      </div>
+
+
+        
           <button
             onClick={handleEditRow}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
@@ -185,7 +192,7 @@ const Users = () => {
 
         <div
           className="ag-theme-alpine"
-          style={{ height: "400px", width: "100%", overflowY: "auto" }}
+          style={{ height: "350px", width: "100%", overflowY: "auto" }}
         >
           <AgGridReact
             ref={gridRef}
@@ -197,7 +204,7 @@ const Users = () => {
             defaultColDef={{
               sortable: true,
               filter: true,
-              cellStyle: { color: "#333" },
+              cellStyle: { color: "#333"  },
             }}
           />
         </div>
