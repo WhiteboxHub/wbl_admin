@@ -224,7 +224,12 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
           backgroundColor: 'rgba(0, 0, 0, 0.4)',
         },
       }}
-    >
+    ><div className="relative">
+    <button
+    onClick={onRequestClose}
+    className="absolute top-4 right-0 text-2xl font-semibold text-gray-500 hover:text-gray-800 transition duration-200">
+    &times;</button>
+    </div>
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Candidate</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -246,24 +251,29 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
         ))}
 
         <div className="flex justify-between items-center mt-6">
-          <button
-            type="button"
-            onClick={onRequestClose}
-            className="bg-red-500 text-white py-2 px-6 rounded-md hover:bg-red-600 transition duration-200"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200"
-          >
-            Update Candidate
-          </button>
+        <button
+                type="submit"
+                className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+              >
+                Save Lead
+              </button>
+    
+              <button
+                type="button"
+                onClick={onRequestClose}
+                className="mt-4 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
+              >
+                Cancel
+              </button>
         </div>
       </form>
     </Modal>
   );
 };
 
+<<<<<<< HEAD
 export default EditRowCandidate;
 
+=======
+export default EditRowCandidate;
+>>>>>>> 49a35bde45ca8a93376e4a35101e143fbe23d8e9
