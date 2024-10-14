@@ -22,13 +22,6 @@ import {
 import { MdAdd } from "react-icons/md";
 import { Batch } from "../../types/index";
 
-// interface ColumnDef {
-//   headerName: string;
-//   field: string; // Ensure this is a required property
-//   valueGetter?: (params: ValueGetterParams) => number;
-//   width?: number;
-// }
-
 jsPDF.prototype.autoTable = autoTable;
 const Batches = () => {
   const [rowData, setRowData] = useState<Batch[]>([]);
@@ -299,41 +292,24 @@ const handleDownloadPDF = () => {
         className="ag-theme-alpine"
         style={{ height: "400px", width: "100%", overflowY: "auto" }}
       >
-        {<AgGridReact
+        <AgGridReact
         ref={gridRef}
         rowData={rowData}
         columnDefs={columnDefs}
         pagination={false}
-        domLayout="printLayout"
+        domLayout="normal"
         rowSelection="single"
         defaultColDef={{
           sortable: true,
           filter: true,
-          cellStyle: { color: "#333", fontSize: "0.75rem",padding: "1px" },
-          rowStyle: {
-            paddingTop: "5px", // Add padding-top property for rows
-          },
-          minWidth: 60, // Set a minimum width for columns
-          maxWidth: 100, // Set a maximum width for columns
+          cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+          minWidth: 60,
+          maxWidth: 100,
         }}
         rowHeight={30}
         headerHeight={35}
-      /> }
-
-           
-
-
-
-
-      </div>
-
-
-
-
-
-
-
-        
+      />
+      </div>  
       )}
 
       <div className="flex justify-between mt-4">
@@ -379,4 +355,3 @@ const handleDownloadPDF = () => {
 };
 
 export default Batches;
-

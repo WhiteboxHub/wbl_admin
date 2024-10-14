@@ -1,15 +1,10 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
-// import jsPDF from "jspdf";
-// import "jspdf-autotable";
-// import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-// import * as XLSX from "xlsx";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-//import AddRowModal from "../../modals/AddRowUser.";
 import EditRowModal from "../../modals/EditRowUser";
 import ViewRowModal from "../../modals/ViewRowUser";
 import { debounce } from "lodash";
@@ -20,7 +15,6 @@ import {
   AiOutlineReload,
   AiOutlineEye,
 } from "react-icons/ai";
-// import { MdAdd } from "react-icons/md";
 import { User } from "../../types/index"; // Adjust the import path accordingly
 
 const Users = () => {
@@ -64,7 +58,7 @@ const Users = () => {
     } catch (error) {
       console.error("Error loading data:", error);
     }
-  }, [paginationPageSize, API_URL]);
+  }, [paginationPageSize, API_URL, currentPage]);
 
   const debouncedFetchData = useCallback(
     debounce((query: string) => {
@@ -91,7 +85,7 @@ const Users = () => {
   const setupColumns = (data: User[]) => {
     if (data.length > 0) {
       const columns = [
-        { headerName: "Serial No", field: "serialNo", width: 100 }, // Add this line for serial numbers
+        { headerName: "Serial No", field: "serialNo", width: 100 },
         ...Object.keys(data[0]).map((key) => ({
           headerName: key.charAt(0).toUpperCase() + key.slice(1),
           field: key,
@@ -100,9 +94,6 @@ const Users = () => {
       setColumnDefs(columns);
     }
   };
-
-  // const handleAddRow = () =>
-  //   setModalState((prevState) => ({ ...prevState, add: true }));
 
   const handleEditRow = () => {
     if (gridRef.current) {
@@ -201,17 +192,14 @@ const Users = () => {
             rowData={rowData}
             columnDefs={columnDefs}
             pagination={false}
-            domLayout="printLayout"
+            domLayout="normal"
             rowSelection="single"
             defaultColDef={{
               sortable: true,
               filter: true,
-              cellStyle: { color: "#333", fontSize: "0.75rem",padding: "1px" },
-              rowStyle: {
-                paddingTop: "5px", // Add padding-top property for rows
-              },
-              minWidth: 60, // Set a minimum width for columns
-              maxWidth: 100, // Set a maximum width for columns
+              cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+              minWidth: 60,
+              maxWidth: 100,
             }}
             rowHeight={30}
             headerHeight={35}
