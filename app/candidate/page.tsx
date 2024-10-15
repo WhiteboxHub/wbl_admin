@@ -30,6 +30,7 @@ const Candidates = () => {
   >([]);
   const [paginationPageSize] = useState<number>(200); // Increased records per page to 200
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [groupedData, setGroupedData] = useState({});
   const [totalRows, setTotalRows] = useState<number>(0);
   const [loading,] = useState<boolean>(false);
   const [modalState, setModalState] = useState<{
@@ -50,9 +51,49 @@ const Candidates = () => {
         headers: { AuthToken: localStorage.getItem("token") },
       });
       const { data, totalRows } = response.data;
-      setRowData(data);
-      setTotalRows(totalRows);
-      setupColumns(data);
+  
+      // Filter candidates to keep only those with a batchname or batchid
+      const filteredData = data.filter(candidate => candidate.batchname || candidate.batchid);
+  
+      if (filteredData.length > 0) {
+        setTotalRows(totalRows);
+  
+        // Group candidates by 'batchname'
+        const groupedData = filteredData.reduce((acc, candidate) => {
+          const batch = candidate.batchname;
+          if (!acc[batch]) {
+            acc[batch] = [];
+          }
+          acc[batch].push(candidate);
+          return acc;
+        }, {});
+  
+        // Transform grouped data into a hierarchical format
+        const transformedRowData = [];
+        for (const batch in groupedData) {
+          // Add a parent row for the batchname
+          transformedRowData.push({
+            batchname: batch,
+            isBatch: true, // Flag to identify this as a batch row
+          });
+  
+          // Add child rows for the candidates, without the batchname field
+          groupedData[batch].forEach(candidate => {
+            const { batchname, ...candidateData } = candidate; // Exclude batchname
+            transformedRowData.push({ ...candidateData, isBatch: false }); // Indicate this is not a batch row
+          });
+        }
+  
+        // Set the transformed row data
+        setRowData(transformedRowData);
+        setGroupedData(groupedData);
+  
+        // Setup columns based on filtered data
+        setupColumns(filteredData);
+      } else {
+        setRowData([]); // Clear row data if no candidates are available
+        setGroupedData({}); // Clear grouped data
+      }
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -83,11 +124,14 @@ const Candidates = () => {
 
   const setupColumns = (data: Candidate[]) => {
     if (data.length > 0) {
-      const keys = Object.keys(data[0]);
-      const columns = keys.map((key) => ({
+      // Only create columns for candidate properties (excluding batchname)
+      const candidateKeys = Object.keys(data[0]).filter(key => key !== "batchname");
+      const columns = candidateKeys.map((key) => ({
         headerName: key.charAt(0).toUpperCase() + key.slice(1),
         field: key,
+        editable: false, // Set editable to false for candidate fields
       }));
+  
       setColumnDefs(columns);
     }
   };
@@ -268,25 +312,28 @@ const Candidates = () => {
         style={{ height: "400px", width: "100%", overflowY: "auto" }}
       >
         {<AgGridReact
-          ref={gridRef}
-          rowData={rowData}
-          columnDefs={columnDefs}
-          pagination={false}
-          domLayout="printLayout"
-          rowSelection="single"
-          defaultColDef={{
-            sortable: true,
-            filter: true,
-            cellStyle: { color: "#333", fontSize: "0.75rem",padding: "1px" },
-            rowStyle: {
-              paddingTop: "5px", // Add padding-top property for rows
-            },
-            minWidth: 60, // Set a minimum width for columns
-            maxWidth: 100, // Set a maximum width for columns
-          }}
-          rowHeight={30}
-          headerHeight={35}
-        /> }
+  ref={gridRef}
+  rowData={rowData}
+  columnDefs={columnDefs}
+  pagination={false}
+  domLayout="printLayout"
+  rowSelection="single"
+  defaultColDef={{
+    sortable: true,
+    filter: true,
+    cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+    rowStyle: params => ({
+      paddingTop: "5px",
+      backgroundColor: params.data.isBatch ? '#f0f0f0' : '#ffffff', // Different background for batch rows
+      fontWeight: params.data.isBatch ? 'bold' : 'normal', // Bold text for batch rows
+    }),
+    minWidth: 60,
+    maxWidth: 100,
+  }}
+  rowHeight={30}
+  headerHeight={35}
+  getRowHeight={params => params.data.isBatch ? 40 : 30} // Set a taller height for batch rows
+/>}
 
            
 

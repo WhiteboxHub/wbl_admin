@@ -21,7 +21,7 @@ export interface Lead {
     email: string;
     course: string;
     phone: string;
-    status: string; // Allows additional properties that may not be explicitly defined
+    // Allows additional properties that may not be explicitly defined
   }
   
 

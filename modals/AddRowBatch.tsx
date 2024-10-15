@@ -316,23 +316,20 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData}
             required // Make the input required
           />
         </div>
-        
-
-          <button
-            type="submit"
-            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-          >
-            Save Batch
-          </button>
-
-          <button
+        <button
             type="button"
             onClick={onClose}
             className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
           >
             Cancel
           </button>
-        </form>
+          <button
+            type="submit"
+            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Save Batch
+          </button>
+          </form>
       </div>
     </Modal>
   );
