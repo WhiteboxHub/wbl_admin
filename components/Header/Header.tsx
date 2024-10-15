@@ -121,7 +121,7 @@ return (
   <header className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 shadow-lg fixed top-0 left-0 right-0 z-20">
     <nav className="container mx-auto flex justify-between items-center px-4">
       <div className="flex items-center">
-        <Image src={logo} alt="Logo" width={40} height={40} className="rounded-full" />
+        <Image src={logo} alt="Logo" width={170} height={170} className="rounded-full" />
         <ul className="flex ml-8 space-x-12"> {/* Increased space between menu items */}
           {/* Menu Items */}
           {[

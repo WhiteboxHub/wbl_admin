@@ -9,7 +9,7 @@ import * as XLSX from "xlsx";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { FaDownload } from "react-icons/fa";
+// import { FaDownload } from "react-icons/fa";
 import AddRowModal from "../../modals/AddRowModal";
 import EditRowModal from "../../modals/EditRowModal";
 import ViewRowModal from "../../modals/ViewRowModal";

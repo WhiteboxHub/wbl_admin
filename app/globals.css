@@ -11,7 +11,7 @@
   :root {
     --foreground: #ededed;
   }
-}
+} 
 
 body {
   color: var(--foreground);

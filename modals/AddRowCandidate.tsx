@@ -210,6 +210,7 @@ const AddRowCandidate: React.FC<AddRowCandidateProps> = ({ isOpen, refreshData, 
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter name"
+              required
             />
           </div>
 
@@ -235,6 +236,7 @@ const AddRowCandidate: React.FC<AddRowCandidateProps> = ({ isOpen, refreshData, 
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter email"
+              required
             />
           </div>
 
@@ -870,6 +872,7 @@ const AddRowCandidate: React.FC<AddRowCandidateProps> = ({ isOpen, refreshData, 
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter batch name"
+              required
             />
           </div>
 
