@@ -90,22 +90,22 @@ const UserEditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose,
           </div>
         ))}
 
-        <div className="flex justify-between items-center mt-6">
-          <button
-            type="submit"
-            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-          >
-            Save User
-          </button>
-
-          <button
-            type="button"
-            onClick={onRequestClose}
-            className="mt-4 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
-          >
-            Cancel
-          </button>
-        </div>
+     
+        <button
+        type="submit"
+        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 mb-4"  // Added mb-4
+      >
+        Save 
+      </button>
+      
+      <button
+        type="button"
+        onClick={onRequestClose}
+        className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
+      >
+        Cancel
+      </button>
+   
       </form>
     </Modal>
   );

@@ -185,21 +185,23 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onRequestClose, onSav
       </div>
     ))}
 
-    <div className="modal-actions flex justify-between mt-4">
-      <button
-        type="button"
-        className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-500"
-        onClick={onRequestClose}
-      >
-        Cancel
-      </button>
-      <button
-        type="submit"
-        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-500"
-      >
-        Add Lead
-      </button>
-    </div>
+   
+   
+    <button
+    type="submit"
+    className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 mb-4"  // Added mb-4
+  >
+    Add Lead
+  </button>
+  
+  <button
+    type="button"
+    onClick={onRequestClose}
+    className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200 mb-4"
+  >
+    Cancel
+  </button>
+
   </form>
 </Modal>
 

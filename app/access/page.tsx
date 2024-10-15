@@ -50,7 +50,7 @@ const Users = () => {
       const { data, totalRows } = response.data;
       const dataWithSerials = data.map((item: User, index: number) => ({
         ...item,
-        serialNo: (currentPage - 1) * paginationPageSize + index + 1,
+       // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
       }));
       setRowData(dataWithSerials);
       setTotalRows(totalRows);
@@ -85,7 +85,7 @@ const Users = () => {
   const setupColumns = (data: User[]) => {
     if (data.length > 0) {
       const columns = [
-        { headerName: "Serial No", field: "serialNo", width: 100 },
+        //{ headerName: "Serial No", field: "serialNo", width: 100 },
         ...Object.keys(data[0]).map((key) => ({
           headerName: key.charAt(0).toUpperCase() + key.slice(1),
           field: key,

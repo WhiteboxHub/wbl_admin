@@ -25,6 +25,8 @@ import { Candidate } from "../../types/index"; // Adjust the import path accordi
 
 const Candidates = () => {
   const [rowData, setRowData] = useState<Candidate[]>([]);
+
+  const [groupedData, setGroupedData] = useState({});
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);
@@ -42,7 +44,6 @@ const Candidates = () => {
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
   const fetchData = async () => {
     try {
       const response = await axios.get(`${API_URL}/candidates`, {
@@ -50,13 +51,58 @@ const Candidates = () => {
         headers: { AuthToken: localStorage.getItem("token") },
       });
       const { data, totalRows } = response.data;
-      setRowData(data);
-      setTotalRows(totalRows);
-      setupColumns(data);
+  
+      // Filter candidates to keep only those with a batchname or batchid
+      const filteredData = data.filter(candidate => candidate.batchname || candidate.batchid);
+  
+      if (filteredData.length > 0) {
+        setTotalRows(totalRows);
+  
+        // Group candidates by 'batchname'
+        const groupedData = filteredData.reduce((acc, candidate) => {
+          const batch = candidate.batchname;
+          if (!acc[batch]) {
+            acc[batch] = [];
+          }
+          acc[batch].push(candidate);
+          return acc;
+        }, {});
+  
+        // Transform grouped data into a hierarchical format
+        const transformedRowData = [];
+        for (const batch in groupedData) {
+          // Add a parent row for the batchname
+          transformedRowData.push({
+            batchname: batch,
+            isBatch: true, // This is a batch (parent) row
+          });
+  
+          // Add child rows for the candidates (without batchname)
+          groupedData[batch].forEach(candidate => {
+            transformedRowData.push({
+              ...candidate,
+              batchname: '', // Clear batchname for candidate rows
+              isBatch: false, // This is a candidate row
+            });
+          });
+        }
+  
+        // Set the transformed row data
+        setRowData(transformedRowData);
+        setGroupedData(groupedData);
+  
+        // Setup columns based on filtered data
+        setupColumns(filteredData);
+      } else {
+        setRowData([]); // Clear row data if no candidates are available
+        setGroupedData({}); // Clear grouped data
+      }
     } catch (error) {
       console.error("Error loading data:", error);
     }
   };
+  
+  
   interface ErrorResponse {
     message: string;
     // Add other properties if needed
@@ -80,17 +126,49 @@ const Candidates = () => {
       console.error("Error loading data:", error);
     }
   };
-
-  const setupColumns = (data: Candidate[]) => {
-    if (data.length > 0) {
-      const keys = Object.keys(data[0]);
-      const columns = keys.map((key) => ({
-        headerName: key.charAt(0).toUpperCase() + key.slice(1),
-        field: key,
-      }));
-      setColumnDefs(columns);
-    }
+  const BatchNameRenderer = (props) => {
+    return (
+      <div style={{ height: '100%', display: 'flex', alignItems: 'center', padding: '0 10px' }}>
+        {props.data.isBatch ? (
+          <span className='font-bold'>{props.data.batchname}</span> // Bold batchname
+        ) : (
+          ''
+        )}
+      </div>
+    );
   };
+  
+  const setupColumns = (data: Candidate[]) => {
+  if (data.length > 0) {
+    const keys = Object.keys(data[0]);
+
+    const columns = keys.map((key) => ({
+      headerName: key.charAt(0).toUpperCase() + key.slice(1),
+      field: key,
+      editable: key === "batchname",
+      cellEditor: key === "batchname" ? "agSelectCellEditor" : undefined,
+      cellRenderer: key === "batchname" ? 'batchNameRenderer' : undefined,
+      cellStyle: key === "batchname" ? { fontWeight: 'bold' } : {}, // Make batchname column bold
+    }));
+
+    const batchnameCol = {
+      headerName: "Batch Name",
+      field: "batchname",
+      editable: true,
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: {
+        values: Array.from(new Set(data.map((candidate) => candidate.batchname))),
+      },
+      cellStyle: { fontWeight: 'bold' }, // Make batchname column bold
+    };
+
+    const filteredColumns = columns.filter(col => col.field !== "batchname");
+
+    setColumnDefs([batchnameCol, ...filteredColumns]);
+  }
+};
+
+  
   const handleSearch = () => {
     fetchBatches(searchValue); // Fetch data using the search term
   };
@@ -277,16 +355,24 @@ const Candidates = () => {
           defaultColDef={{
             sortable: true,
             filter: true,
-            cellStyle: { color: "#333", fontSize: "0.75rem",padding: "1px" },
-            rowStyle: {
-              paddingTop: "5px", // Add padding-top property for rows
-            },
-            minWidth: 60, // Set a minimum width for columns
-            maxWidth: 100, // Set a maximum width for columns
+            cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+            rowStyle: params => ({
+              paddingTop: "5px",
+              backgroundColor: params.data.isBatch ? '#f0f0f0' : '#ffffff', // Different background for batch rows
+              fontWeight: params.data.isBatch ? 'bold' : 'normal', // Bold text for batch rows
+            }),
+            minWidth: 60,
+            maxWidth: 100,
           }}
           rowHeight={30}
           headerHeight={35}
-        /> }
+          getRowHeight={params => params.data.isBatch ? 40 : 30} // Set a taller height for batch rows
+          frameworkComponents={{
+            batchNameRenderer: BatchNameRenderer // Custom component for rendering batch names
+          }}
+        />
+        
+         }
 
            
 
