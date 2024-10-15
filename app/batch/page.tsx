@@ -802,7 +802,7 @@ const Batches = () => {
       const { data, totalRows } = response.data;
   
       // Add serial numbers to each row
-      const dataWithSerials = data.map((item: Batch, index: number) => ({
+      const dataWithSerials = data.map((item: Batch) => ({
         ...item,
       //  serialNo: (currentPage - 1) * paginationPageSize + index + 1,
       }));

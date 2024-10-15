@@ -48,7 +48,7 @@ const Users = () => {
       });
      
       const { data, totalRows } = response.data;
-      const dataWithSerials = data.map((item: User, index: number) => ({
+      const dataWithSerials = data.map((item: User) => ({
         ...item,
        // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
       }));

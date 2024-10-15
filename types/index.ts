@@ -15,15 +15,58 @@ export interface Lead {
     [key: string]: any; // Allows additional properties that may not be explicitly defined
   }
   
-  export interface Candidate {
-    name: string;
-    enrolleddate: string;
-    email: string;
-    course: string;
-    phone: string;
-    status: string; // Allows additional properties that may not be explicitly defined
-  }
-  
+// types/index.ts
+export interface Candidate {
+  batchname?: any;
+  name?: string;
+  enrolleddate?: string;
+  email?: string;
+  course?: string;
+  phone?: string;
+  status?: string; // Allows additional properties that may not be explicitly defined
+  // Add any additional properties you need here
+  candidateid?: number; // Optional if it can be undefined
+  workstatus?: string;
+  education?: string;
+  workexperience?: string;
+  ssn?: string;
+  agreement?: boolean;
+  promissory?: boolean;
+  driverslicense?: string;
+  workpermit?: boolean;
+  wpexpirationdate?: string; // Adjust type if necessary
+  offerletter?: string;
+  secondaryemail?: string;
+  secondaryphone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  zip?: string;
+  linkedin?: string;
+  dob?: string; // Adjust type if necessary
+  emergcontactphone?: string;
+  ssnvalidated?: boolean;
+  bgv?: boolean;
+  term?: string;
+  feepaid?: boolean;
+  feedue?: number;
+  salary0?: number;
+  salary6?: number;
+  salary12?: number;
+  guarantorname?: string;
+  guarantordesignation?: string;
+  guarantorcompany?: string;
+  contracturl?: string;
+  empagreementurl?: string;
+  offerletterurl?: string;
+  workpermiturl?: string;
+  referralid?: string;
+  portalid?: string;
+  avatarid?: string;
+  notes?: string;
+}
+
 
   export type User = {
     id: number;

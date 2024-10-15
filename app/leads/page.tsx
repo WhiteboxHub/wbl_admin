@@ -283,84 +283,84 @@ const Leads = () => {
 
 
 
+interface jsPDFPageData {
+  settings: {
+    margin: {
+      left: number;
+      right: number;
+      top: number;
+      bottom?: number; // Optional bottom margin if needed
+    };
+  };
+}
 
 const handleDownloadPDF = () => {
   if (gridRef.current) {
-      const selectedRows = gridRef.current.api.getSelectedRows();
-      if (selectedRows.length > 0) {
-          const doc = new jsPDF({ orientation: "landscape" });
+    const selectedRows = gridRef.current.api.getSelectedRows();
+    if (selectedRows.length > 0) {
+      const doc = new jsPDF({ orientation: "landscape" });
 
-          // Add Title
-          doc.text("Selected Lead Data", 15, 10);
+      // Add Title
+      doc.text("Selected Lead Data", 15, 10);
 
-          // Prepare the data for the table
-          const pdfData = selectedRows.map((row) => [
-              row.name,
-              row.email,
-              row.phone,
-              row.address,
-              row.city,
-              row.state,
-              row.country,
-              row.zip,
-              row.course,
-              row.status,
-              row.spousename,
-              row.spouseemail,
-              row.spousephone,
-              row.faq,
-              row.callsmade,
-              row.closedate,
-              row.notes,
-          ]);
+      // Prepare the data for the table
+      const pdfData = selectedRows.map((row) => [
+        row.name,
+        row.email,
+        row.phone,
+        row.address,
+        row.city,
+        row.state,
+        row.country,
+        row.zip,
+        row.course,
+        row.status,
+        row.spousename,
+        row.spouseemail,
+        row.spousephone,
+        row.faq,
+        row.callsmade,
+        row.closedate,
+        row.notes,
+      ]);
 
-          // Add autoTable with adjusted styling
-          (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
-              head: [[
-                  "Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", 
-                  "Course", "Status", "Spouse Name", "Spouse Email", "Spouse Phone", 
-                  "FAQ", "Calls Made", "Close Date", "Notes"
-              ]],
-              body: pdfData,
-              styles: {
-                  fontSize: 8, // Slightly smaller font
-                  cellPadding: 4, // Add padding for readability
-              },
-              columnStyles: {
-                  0: { cellWidth: 20 }, // Adjust column widths based on content
-                  1: { cellWidth: 20 },
-                  2: { cellWidth: 20 },
-                  3: { cellWidth: 20 },
-                  4: { cellWidth: 20 },
-                  5: { cellWidth: 20 },
-                  6: { cellWidth: 20 },
-                  7: { cellWidth: 20 },
-                  8: { cellWidth: 20 },
-                  9: { cellWidth: 20 },
-                  10: { cellWidth: 20 },
-                  11: { cellWidth: 20 },
-                  12: { cellWidth: 20 },
-                  13: { cellWidth: 20 },
-                  14: { cellWidth: 20 },
-                  15: { cellWidth: 20 },
-                  16: { cellWidth: 20 }, // Adjust based on importance of content
-              },
-              margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
-              pageBreak: 'auto', // Automatically break table rows if too long
-              didDrawPage: function (data) {
-                  // Draw custom header/footer if needed
-                  doc.setFontSize(10);
-                  doc.text('Page ' + doc.internal.getNumberOfPages(), data.settings.margin.left, doc.internal.pageSize.height - 10);
-              },
-          });
+      // Add autoTable with adjusted styling
+      (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
+        head: [[
+          "Name", "Email", "Phone", "Address", "City", "State", "Country", "Zip", 
+          "Course", "Status", "Spouse Name", "Spouse Email", "Spouse Phone", 
+          "FAQ", "Calls Made", "Close Date", "Notes"
+        ]],
+        body: pdfData,
+        styles: {
+          fontSize: 8, // Slightly smaller font
+          cellPadding: 4, // Add padding for readability
+        },
+        columnStyles: {
+          0: { cellWidth: 20 }, 1: { cellWidth: 20 }, 2: { cellWidth: 20 },
+          3: { cellWidth: 20 }, 4: { cellWidth: 20 }, 5: { cellWidth: 20 },
+          6: { cellWidth: 20 }, 7: { cellWidth: 20 }, 8: { cellWidth: 20 },
+          9: { cellWidth: 20 }, 10: { cellWidth: 20 }, 11: { cellWidth: 20 },
+          12: { cellWidth: 20 }, 13: { cellWidth: 20 }, 14: { cellWidth: 20 },
+          15: { cellWidth: 20 }, 16: { cellWidth: 20 }, // Adjust based on importance of content
+        },
+        margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
+        pageBreak: 'auto', // Automatically break table rows if too long
+        didDrawPage: function (data: jsPDFPageData) { // Use the defined type for the data parameter
+          // Draw custom header/footer if needed
+          doc.setFontSize(10);
+          doc.text('Page ' + doc.internal.pages.length, data.settings.margin.left, doc.internal.pageSize.height - 10); 
+        },
+      });
 
-          // Save the PDF
-          doc.save("Selected_Lead_data.pdf");
-      } else {
-          alert("Please select a row to download.");
-      }
+      // Save the PDF
+      doc.save("Selected_Lead_data.pdf");
+    } else {
+      alert("Please select a row to download.");
+    }
   }
 };
+
   const handleExportToExcel = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows() as Lead[];

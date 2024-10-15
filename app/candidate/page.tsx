@@ -14,7 +14,6 @@ import ViewRowModal from "../../modals/ViewRowCandidate";
 // 
 import {
   AiOutlineEdit,
- 
   AiOutlineSearch,
   AiOutlineReload,
   AiOutlineEye,
@@ -23,10 +22,13 @@ import { MdDelete } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import { Candidate } from "../../types/index"; // Adjust the import path accordingly
 
+interface GroupedData {
+  [batch: string]: Candidate[];
+}
+
 const Candidates = () => {
   const [rowData, setRowData] = useState<Candidate[]>([]);
-
-  const [groupedData, setGroupedData] = useState({});
+  const [, setGroupedData] = useState<GroupedData>({});
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);
@@ -44,6 +46,7 @@ const Candidates = () => {
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  
   const fetchData = async () => {
     try {
       const response = await axios.get(`${API_URL}/candidates`, {
@@ -53,22 +56,22 @@ const Candidates = () => {
       const { data, totalRows } = response.data;
   
       // Filter candidates to keep only those with a batchname or batchid
-      const filteredData = data.filter(candidate => candidate.batchname || candidate.batchid);
+      const filteredData = data.filter((candidate: { batchname: string; batchid: number }) => candidate.batchname || candidate.batchid);
   
       if (filteredData.length > 0) {
         setTotalRows(totalRows);
   
         // Group candidates by 'batchname'
-        const groupedData = filteredData.reduce((acc, candidate) => {
+        const groupedData = filteredData.reduce((acc: GroupedData, candidate: Candidate) => {
           const batch = candidate.batchname;
-          if (!acc[batch]) {
+          if (!Array.isArray(acc[batch])) {
             acc[batch] = [];
           }
           acc[batch].push(candidate);
           return acc;
         }, {});
   
-        // Transform grouped data into a hierarchical format
+        // Transform grouped data into a hierarchical format for display (but not for rowData)
         const transformedRowData = [];
         for (const batch in groupedData) {
           // Add a parent row for the batchname
@@ -78,7 +81,7 @@ const Candidates = () => {
           });
   
           // Add child rows for the candidates (without batchname)
-          groupedData[batch].forEach(candidate => {
+          groupedData[batch].forEach((candidate: Candidate) => {
             transformedRowData.push({
               ...candidate,
               batchname: '', // Clear batchname for candidate rows
@@ -87,10 +90,10 @@ const Candidates = () => {
           });
         }
   
-        // Set the transformed row data
-        setRowData(transformedRowData);
+        // Only set Candidate objects in rowData
+        setRowData(filteredData);
         setGroupedData(groupedData);
-  
+
         // Setup columns based on filtered data
         setupColumns(filteredData);
       } else {
@@ -101,6 +104,8 @@ const Candidates = () => {
       console.error("Error loading data:", error);
     }
   };
+
+
   
   
   interface ErrorResponse {
@@ -126,7 +131,14 @@ const Candidates = () => {
       console.error("Error loading data:", error);
     }
   };
-  const BatchNameRenderer = (props) => {
+  interface BatchNameRendererProps {
+    data: {
+      isBatch: boolean; // Adjust the type if necessary
+      batchname: string | number | null | undefined; // Adjust the type if necessary
+    };
+  }
+  
+  const BatchNameRenderer: React.FC<BatchNameRendererProps> = (props) => {
     return (
       <div style={{ height: '100%', display: 'flex', alignItems: 'center', padding: '0 10px' }}>
         {props.data.isBatch ? (
@@ -137,6 +149,7 @@ const Candidates = () => {
       </div>
     );
   };
+  
   
   const setupColumns = (data: Candidate[]) => {
   if (data.length > 0) {
@@ -350,25 +363,25 @@ const Candidates = () => {
           rowData={rowData}
           columnDefs={columnDefs}
           pagination={false}
-          domLayout="printLayout"
+          domLayout="normal" 
           rowSelection="single"
           defaultColDef={{
             sortable: true,
             filter: true,
             cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-            rowStyle: params => ({
-              paddingTop: "5px",
-              backgroundColor: params.data.isBatch ? '#f0f0f0' : '#ffffff', // Different background for batch rows
-              fontWeight: params.data.isBatch ? 'bold' : 'normal', // Bold text for batch rows
-            }),
             minWidth: 60,
             maxWidth: 100,
           }}
           rowHeight={30}
           headerHeight={35}
-          getRowHeight={params => params.data.isBatch ? 40 : 30} // Set a taller height for batch rows
-          frameworkComponents={{
-            batchNameRenderer: BatchNameRenderer // Custom component for rendering batch names
+          getRowHeight={(params) => (params.data.isBatch ? 40 : 30)} // Set a taller height for batch rows
+          getRowStyle={(params) => ({
+            paddingTop: "5px",
+            backgroundColor: params.data.isBatch ? '#f0f0f0' : '#ffffff', // Different background for batch rows
+            fontWeight: params.data.isBatch ? 'bold' : 'normal', // Bold text for batch rows
+          })} // Set a taller height for batch rows
+          components={{
+            batchNameRenderer: BatchNameRenderer, // Custom component for rendering batch names
           }}
         />
         
@@ -424,10 +437,11 @@ const Candidates = () => {
       )}
       {modalState.view && selectedRow && (
         <ViewRowModal
-          isOpen={modalState.view}
-          onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
-          rowData={selectedRow}
-        />
+        isOpen={modalState.view}
+        onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
+        onRequestClose={() => setModalState((prev) => ({ ...prev, view: false }))}  // Pass the missing prop
+        rowData={selectedRow}
+      />
       )}
     </div>
   );
