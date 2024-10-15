@@ -34,6 +34,7 @@ const Candidates = () => {
   >([]);
   const [paginationPageSize] = useState<number>(200); // Increased records per page to 200
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [groupedData, setGroupedData] = useState({});
   const [totalRows, setTotalRows] = useState<number>(0);
   const [loading,] = useState<boolean>(false);
   const [modalState, setModalState] = useState<{
