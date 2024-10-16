@@ -34,7 +34,7 @@ const Candidates = () => {
   >([]);
   const [paginationPageSize] = useState<number>(200); // Increased records per page to 200
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [groupedData, setGroupedData] = useState({});
+  //const [groupedData, setGroupedData] = useState({});
   const [totalRows, setTotalRows] = useState<number>(0);
   const [loading,] = useState<boolean>(false);
   const [modalState, setModalState] = useState<{
@@ -48,6 +48,8 @@ const Candidates = () => {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   
+  
+
   const fetchData = async () => {
     try {
       const response = await axios.get(`${API_URL}/candidates`, {
@@ -72,7 +74,7 @@ const Candidates = () => {
           return acc;
         }, {});
   
-        // Transform grouped data into a hierarchical format for display (but not for rowData)
+        // Transform grouped data into a hierarchical format for display
         const transformedRowData = [];
         for (const batch in groupedData) {
           // Add a parent row for the batchname
@@ -82,19 +84,22 @@ const Candidates = () => {
           });
   
           // Add child rows for the candidates (without batchname)
-          groupedData[batch].forEach((candidate: Candidate) => {
+          const candidates = groupedData[batch];
+          candidates.forEach((candidate: Candidate) => {
             transformedRowData.push({
               ...candidate,
               batchname: '', // Clear batchname for candidate rows
               isBatch: false, // This is a candidate row
             });
           });
+  
+     
         }
   
         // Only set Candidate objects in rowData
-        setRowData(filteredData);
+        setRowData(transformedRowData); // Use transformedRowData instead of filteredData
         setGroupedData(groupedData);
-
+  
         // Setup columns based on filtered data
         setupColumns(filteredData);
       } else {
@@ -105,8 +110,7 @@ const Candidates = () => {
       console.error("Error loading data:", error);
     }
   };
-
-
+  
   
   
   interface ErrorResponse {
