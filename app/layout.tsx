@@ -27,8 +27,8 @@ import { AuthProvider } from '../components/AuthContext'; // Import AuthProvider
 import ClientLayout from './ClientLayout'; // Import the client-side layout component
 
 export const metadata: Metadata = {
-  title: 'wbl Admin',
-  description: 'This is whitebox-learning admin page',
+  title: 'Avatar',
+  description: 'Innovapath Admin page',
 };
 
 export default function RootLayout({
