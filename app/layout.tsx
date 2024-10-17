@@ -20,7 +20,7 @@
 //   );
 // }
 
-
+// wbl_admin\app\layout.tsx
 import { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from '../components/AuthContext'; // Import AuthProvider
