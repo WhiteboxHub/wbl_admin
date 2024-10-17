@@ -16,7 +16,7 @@ const Hero = () => {
   return (
     <div className="min-h-screen relative z-10 overflow-hidden pt-24 pb-16 flex flex-col items-center justify-center bg-gray-100">
       <div className="bg-gray-300 p-8 rounded-lg shadow-lg text-center max-w-lg w-full">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Welcome to Avathar </h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">Welcome to Avatar </h1>
         <p className="text-gray-600 mb-6">Please login to continue.</p>
         <div className="flex flex-col space-y-4">
           <button
