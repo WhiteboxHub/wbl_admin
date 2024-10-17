@@ -378,7 +378,7 @@ const Leads = () => {
             <Dropdown
               options={options as Option[]} // Cast options as Option[] since label is JSX now
               value={defaultOption} // Set default option
-              onChange={(selectedOption: any) => {
+              onChange={(selectedOption) => {
                 if (selectedOption.value === "Export to PDF") {
                   handleDownloadPDF();
                 } else if (selectedOption.value === "Export to Excel") {
