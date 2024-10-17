@@ -7,6 +7,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import { FaDownload } from "react-icons/fa";
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import AddRowModal from "../../modals/AddRowCandidate";
 import EditRowModal from "../../modals/EditRowCandidate";
@@ -369,7 +370,7 @@ const Candidates = () => {
           columnDefs={columnDefs}
           pagination={false}
           domLayout="normal" 
-          rowSelection="single"
+          rowSelection="multiple"
           defaultColDef={{
             sortable: true,
             filter: true,
@@ -407,22 +408,52 @@ const Candidates = () => {
 
         
       )}
-
       <div className="flex justify-between mt-4">
-        <select
-          className="border rounded-md px-2 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-200"
-          value={currentPage}
-          onChange={(e) => handlePageChange(Number(e.target.value))}
+      <div className="flex items-center">
+        {/* Double Left Icon */}
+        <button 
+          onClick={() => handlePageChange(1)} 
+          disabled={currentPage === 1}
+          className="p-2 disabled:opacity-50"
         >
-          {pageOptions.map((page) => (
-            <option key={page} value={page}>
-              Page {page}
-            </option>
-          ))}
-        </select>
-
-      
+          <FaAngleDoubleLeft />
+        </button>
+        {/* Left Icon */}
+        <button 
+          onClick={() => handlePageChange(currentPage - 1)} 
+          disabled={currentPage === 1}
+          className="p-2 disabled:opacity-50"
+        >
+          <FaChevronLeft />
+        </button>
+        {/* Page Numbers */}
+        {pageOptions.map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+          >
+            {page}
+          </button>
+        ))}
+        {/* Right Icon */}
+        <button 
+          onClick={() => handlePageChange(currentPage + 1)} 
+          disabled={currentPage === totalPages}
+          className="p-2 disabled:opacity-50"
+        >
+          <FaChevronRight />
+        </button>
+        {/* Double Right Icon */}
+        <button 
+          onClick={() => handlePageChange(totalPages)} 
+          disabled={currentPage === totalPages}
+          className="p-2 disabled:opacity-50"
+        >
+          <FaAngleDoubleRight />
+        </button>
       </div>
+    </div>
 
       {modalState.add && (
         <AddRowModal
