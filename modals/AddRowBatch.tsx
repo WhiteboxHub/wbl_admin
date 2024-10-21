@@ -5,6 +5,7 @@ import { Styles } from 'react-modal';
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 
+
 interface Batch {
   batchname?: string;
   current?: string;
