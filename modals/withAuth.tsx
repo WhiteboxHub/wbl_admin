@@ -1,35 +1,35 @@
-"use client"
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; // Correct import from 'next/router'
-import { useAuth } from '../components/AuthContext'; // Adjust the path to your AuthContext
+// "use client"
+// import { useEffect, useState } from 'react';
+// import { useRouter } from 'next/navigation'; // Correct import from 'next/router'
+// import { useAuth } from '../components/AuthContext'; // Adjust the path to your AuthContext
 
-const withAuth = (WrappedComponent: React.FC) => {
-  return (props: any) => {
-    const { auth } = useAuth();
-    const router = useRouter();
-    const [isMounted, setIsMounted] = useState(false);
+// const withAuth = (WrappedComponent: React.FC) => {
+//   return (props: any) => {
+//     const { auth } = useAuth();
+//     const router = useRouter();
+//     const [isMounted, setIsMounted] = useState(false);
 
-    useEffect(() => {
-      // Ensure the component is only rendered on the client side
-      setIsMounted(true);
-    }, []);
+//     useEffect(() => {
+//       // Ensure the component is only rendered on the client side
+//       setIsMounted(true);
+//     }, []);
 
-    useEffect(() => {
-      if (isMounted && !auth.isAuthenticated) {
-        router.push('/login'); // Redirect to login page if not authenticated
-      }
-    }, [auth, isMounted, router]);
+//     useEffect(() => {
+//       if (isMounted && !auth.isAuthenticated) {
+//         router.push('/login'); // Redirect to login page if not authenticated
+//       }
+//     }, [auth, isMounted, router]);
 
-    // Render nothing if the component is not mounted yet or user is not authenticated
-    if (!isMounted || !auth.isAuthenticated) {
-      return null; // Optionally, you could return a loader or spinner here
-    }
+//     // Render nothing if the component is not mounted yet or user is not authenticated
+//     if (!isMounted || !auth.isAuthenticated) {
+//       return null; // Optionally, you could return a loader or spinner here
+//     }
 
-    return <WrappedComponent {...props} />;
-  };
-};
+//     return <WrappedComponent {...props} />;
+//   };
+// };
 
-export default withAuth;
+// export default withAuth;
 
 // ------------------------------old code ------------------------------------------------
 
@@ -61,3 +61,39 @@ export default withAuth;
 // export default withAuth;
 
 // --------------------------------------------------------------------------------------------------------
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../components/AuthContext';
+
+const withAuth = (WrappedComponent: React.FC) => {
+  const AuthenticatedComponent: React.FC = (props: any) => {
+    const { auth, isLoading } = useAuth(); // Access auth state from context
+    const router = useRouter();
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+      setIsMounted(true); // Make sure the component is mounted before checking auth status
+
+      // If not loading and the user is not authenticated, redirect to login
+      if (!isLoading && !auth.isAuthenticated) {
+        router.push('/login');
+      }
+    }, [auth.isAuthenticated, isLoading, router]);
+
+    if (!isMounted || isLoading) {
+      return <div>Loading...</div>; // Show loading while the auth status is being checked
+    }
+
+    if (auth.isAuthenticated) {
+      return <WrappedComponent {...props} />;
+    }
+
+    return null; // Avoid rendering if user is being redirected
+  };
+
+  return AuthenticatedComponent;
+};
+
+export default withAuth;

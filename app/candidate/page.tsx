@@ -250,10 +250,7 @@ const Candidates = () => {
       }
     }
   };
-
-
-
-  const handleDeleteRow = async () => {
+    const handleDeleteRow = async () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
@@ -394,21 +391,8 @@ const Candidates = () => {
         
          }
 
-           
-
-
-
-
       </div>
-
-
-
-
-
-
-
-        
-      )}
+     )}
       <div className="flex justify-between mt-4">
       <div className="flex items-center">
         {/* Double Left Icon */}

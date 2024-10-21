@@ -23,10 +23,10 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
     education: rowData?.education,
     workexperience: rowData?.workexperience,
     ssn: rowData?.ssn,
-    agreement: rowData?.agreement || 'N', // Default to N
+    agreement: rowData?.agreement === true ? 'Y' : 'N', // Default to N
     promissory: rowData?.promissory,
-    driverslicense: rowData?.driverslicense || 'N', // Default to N
-    workpermit: rowData?.workpermit || 'N', // Default to N
+    driverslicense: rowData?.driverslicense === true ? 'Y' : 'N', // Default to N
+    workpermit: rowData?.workpermit === true ? 'Y' : 'N', // Default to N
     wpexpirationdate: rowData?.wpexpirationdate,
     offerletter: rowData?.offerletter,
     secondaryemail: rowData?.secondaryemail,
@@ -77,10 +77,10 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
         education: rowData.education,
         workexperience: rowData.workexperience,
         ssn: rowData.ssn,
-        agreement: rowData.agreement || 'N',
+        agreement: rowData.agreement === true ? 'Y' : 'N',
         promissory: rowData.promissory,
-        driverslicense: rowData.driverslicense || 'N',
-        workpermit: rowData.workpermit || 'N',
+        driverslicense: rowData.driverslicense === true ? 'Y' : 'N',
+        workpermit: rowData.workpermit === true ? 'Y' : 'N',
         wpexpirationdate: rowData.wpexpirationdate,
         offerletter: rowData.offerletter,
         secondaryemail: rowData.secondaryemail,
