@@ -12,6 +12,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import AddRowModal from "../../modals/AddRowCandidate";
 import EditRowModal from "../../modals/EditRowCandidate";
 import ViewRowModal from "../../modals/ViewRowCandidate";
+import withAuth from "@/modals/withAuth";
 // 
 import {
   AiOutlineEdit,
@@ -487,4 +488,4 @@ const Candidates = () => {
 
 
 
-export default Candidates;
+export default withAuth(Candidates);
