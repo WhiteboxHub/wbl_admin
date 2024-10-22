@@ -7,9 +7,10 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import EditRowModal from "../../modals/EditRowUser";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
-
 import ViewRowModal from "../../modals/ViewRowUser";
 import { debounce } from "lodash";
+import withAuth from "@/modals/withAuth";
+// import withAuth from "@/components/withAuth";
 
 import {
   AiOutlineEdit,
@@ -269,4 +270,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default withAuth(Users);

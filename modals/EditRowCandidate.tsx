@@ -1,4 +1,3 @@
- 
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -24,11 +23,10 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
     education: rowData?.education,
     workexperience: rowData?.workexperience,
     ssn: rowData?.ssn,
-    agreement: rowData?.agreement as boolean | "N" | undefined || 'N',
-
+    agreement: rowData?.agreement === true ? 'Y' : 'N', // Default to N
     promissory: rowData?.promissory,
-    driverslicense: rowData?.driverslicense  as boolean | "N" | undefined || 'N',
-    workpermit: rowData?.workpermit  as boolean | "N" | undefined || 'N',
+    driverslicense: rowData?.driverslicense === true ? 'Y' : 'N', // Default to N
+    workpermit: rowData?.workpermit === true ? 'Y' : 'N', // Default to N
     wpexpirationdate: rowData?.wpexpirationdate,
     offerletter: rowData?.offerletter,
     secondaryemail: rowData?.secondaryemail,
@@ -60,7 +58,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
     portalid: rowData?.portalid,
     avatarid: rowData?.avatarid,
     notes: rowData?.notes,
-    batchname: rowData?.batchname || '', // Add default value if batchname is undefined
+    batchname: rowData?.batchname, // Add default value if batchname is undefined
   });
 
   const [batchNames, setBatchNames] = useState<string[]>([]);
@@ -79,10 +77,10 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
         education: rowData.education,
         workexperience: rowData.workexperience,
         ssn: rowData.ssn,
-        agreement: rowData.agreement || 'N',
+        agreement: rowData.agreement === true ? 'Y' : 'N',
         promissory: rowData.promissory,
-        driverslicense: rowData.driverslicense || 'N',
-        workpermit: rowData.workpermit || 'N',
+        driverslicense: rowData.driverslicense === true ? 'Y' : 'N',
+        workpermit: rowData.workpermit === true ? 'Y' : 'N',
         wpexpirationdate: rowData.wpexpirationdate,
         offerletter: rowData.offerletter,
         secondaryemail: rowData.secondaryemail,
@@ -114,7 +112,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
         portalid: rowData.portalid,
         avatarid: rowData.avatarid,
         notes: rowData.notes,
-        batchname: rowData.batchname || '',
+        batchname: rowData.batchname,
       });
     }
 
@@ -197,19 +195,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
                 <option value="ML">ML</option>
               </select>
             )}
-            {key === 'batchname' && (
-              <select
-                id={key}
-                name={key}
-                value={formData[key as keyof Candidate]}
-                onChange={handleChange}
-                className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-              >
-                {batchNames.map(batch => (
-                  <option key={batch} value={batch}>{batch}</option>
-                ))}
-              </select>
-            )}
+       
             {key === 'status' && (
               <select
                 id={key}
@@ -294,7 +280,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
                 className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               />
             )}
-            {!['course', 'batchname', 'status', 'workstatus', 'agreement', 'driverslicense', 'workpermit', 'wpexpirationdate'].includes(key) && (
+            {!['course',  'status', 'workstatus', 'agreement', 'driverslicense', 'workpermit', 'wpexpirationdate'].includes(key) && (
               <input
                 type="text"
                 id={key}

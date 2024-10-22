@@ -19,6 +19,7 @@ import { debounce } from "lodash";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { faFilePdf, faFileExcel } from "@fortawesome/free-solid-svg-icons";
+import withAuth from "@/modals/withAuth";
 
 import {
   AiOutlineEdit,
@@ -498,4 +499,4 @@ const Leads = () => {
   );
 };
 
-export default Leads;
+export default withAuth(Leads);

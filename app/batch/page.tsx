@@ -17,6 +17,7 @@ import EditRowModal from "../../modals/EditRowBatch";
 import ViewRowModal from "../../modals/ViewRowBatch";
 import { MdDelete } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
+import withAuth from "@/modals/withAuth";
 import {
   AiOutlineEdit,
   AiOutlineEye,
@@ -389,4 +390,4 @@ const handleDownloadPDF = () => {
   );
 };
 
-export default Batches;
+export default withAuth(Batches);
