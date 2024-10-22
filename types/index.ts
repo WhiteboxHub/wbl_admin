@@ -98,3 +98,21 @@ export interface Candidate {
     token_expiry: string;
   };
   
+
+  // types.ts
+  export interface Po {
+    POID: string;
+    PlacementID: string;
+    StartDate: string;
+    EndDate: string;
+    Rate: string;
+    OvertimeRate: string;
+    FreqType: string;
+    InvoiceFrequency: string;
+    InvoiceStartDate: string;
+    InvoiceNet: string;
+    POUrl: string;
+    Notes: string;
+    PlacementDetails: string;
+  }
+  
