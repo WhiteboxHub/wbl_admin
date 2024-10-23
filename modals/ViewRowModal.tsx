@@ -139,7 +139,7 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
     },
   };
 
-  return (
+  
     // <Modal
     //   isOpen={isOpen}
     //   onRequestClose={onRequestClose}
@@ -170,53 +170,62 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onRequestClose, row
     //   </div>
     // </Modal>
 
-
-<Modal
-  isOpen={isOpen}
-  onRequestClose={onRequestClose}
-  style={customStyles}
-  contentLabel="View Row Modal"
->
-  <div className="modal-header flex justify-between items-center mb-6">
-    <h1 className="text-2xl font-bold text-gray-800">Row Details</h1>
-    <button className="text-2xl font-semibold hover:text-red-500 transition" onClick={onRequestClose}>
-      &times;
-    </button>
-    {/* You can add a close button here if necessary */}
-  </div>
-
-  <div className="modal-body">
-    {rowData ? (
-      <div className="grid grid-cols-2 gap-6">
-        {Object.keys(rowData).map((key) => (
-          <div key={key} className="modal-field">
-            <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1">
-              {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
-            </label>
-            <p className="text-gray-700 bg-gray-100 p-2 rounded-md">{rowData[key as keyof Lead] || 'N/A'}</p>
-          </div>
-        ))}
-      </div>
-    ) : (
-      <p className="text-gray-600">No data available</p>
-    )}
-  </div>
-
-  <div className="modal-actions flex justify-end mt-6">
-    <button
-      type="button"
-       className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
-      onClick={onRequestClose}
-    >
-      Close
-    </button>
-  </div>
-</Modal>
-
-
-
-
-  );
+    return (
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={onRequestClose}
+        style={{
+          content: {
+            top: '55%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            maxWidth: '400px',
+            width: '90%',
+            maxHeight: '80vh',
+            padding: '24px',
+            borderRadius: '12px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            overflowY: 'auto',
+            fontFamily: 'Arial, sans-serif',
+          },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          },
+        }}
+        contentLabel="View Row Modal"
+      >
+        <div className="relative">
+          <button
+            onClick={onRequestClose}
+            className="absolute top-0 right-0 text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"
+          >
+            &times;
+          </button>
+        </div>
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 pr-8">Row Details</h2>
+    
+        <div className="modal-body">
+          {rowData ? (
+            <div className="space-y-4">
+              {Object.keys(rowData).map((key) => (
+                <div key={key} className="modal-field">
+                  <label htmlFor={key} className="block text-sm font-semibold text-gray-700 mb-1">
+                    {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+                  </label>
+                  <p className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-gray-50">
+                    {rowData[key as keyof Lead] || 'N/A'}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600">No data available</p>
+          )}
+        </div>
+      </Modal>
+    );
 };
 
 export default ViewRowModal;

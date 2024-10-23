@@ -25,15 +25,15 @@ export interface Candidate {
   phone?: string;
   status?: string; // Allows additional properties that may not be explicitly defined
   // Add any additional properties you need here
-  candidateid?: number; // Optional if it can be undefined
+  candidateid?: string; // Optional if it can be undefined
   workstatus?: string;
   education?: string;
   workexperience?: string;
   ssn?: string;
-  agreement?: boolean;
+  agreement?: string;
   promissory?: boolean;
   driverslicense?: string;
-  workpermit?: boolean;
+  workpermit?: string;
   wpexpirationdate?: string; // Adjust type if necessary
   offerletter?: string;
   secondaryemail?: string;
