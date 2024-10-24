@@ -51,28 +51,28 @@ const ViewRowPo: React.FC<ViewRowModalProps> = ({ isOpen, onClose, rowData }) =>
             <div className="modal-field">
               <label htmlFor="PO ID">PO ID</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["PO ID"]}
+                {rowData["POID"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="Placement ID">Placement ID</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Placement ID"]}
+                {rowData["PlacementID"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="Start Date">Start Date</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Start Date"]}
+                {rowData["StartDate"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="End Date">End Date</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["End Date"]}
+                {rowData["EndDate"]}
               </div>
             </div>
 
@@ -86,42 +86,42 @@ const ViewRowPo: React.FC<ViewRowModalProps> = ({ isOpen, onClose, rowData }) =>
             <div className="modal-field">
               <label htmlFor="Overtime Rate">Overtime Rate</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Overtime Rate"]}
+                {rowData["OvertimeRate"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="Freq. Type">Freq. Type</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Freq. Type"]}
+                {rowData["FreqType"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="Invoice Frequency">Invoice Frequency</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Invoice Frequency"]}
+                {rowData["InvoiceFrequency"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="Invoice Start Date">Invoice Start Date</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Invoice Start Date"]}
+                {rowData["InvoiceStartDate"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="Invoice Net">Invoice Net</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Invoice Net"]}
+                {rowData["InvoiceNet"]}
               </div>
             </div>
 
             <div className="modal-field">
               <label htmlFor="PO Url">PO URL</label>
-              <a href={rowData["PO Url"]} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                {rowData["PO Url"]}
+              <a href={rowData["POUrl"]} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                {rowData["POUrl"]}
               </a>
             </div>
 
@@ -135,7 +135,7 @@ const ViewRowPo: React.FC<ViewRowModalProps> = ({ isOpen, onClose, rowData }) =>
             <div className="modal-field">
               <label htmlFor="Placement Details">Placement Details</label>
               <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                {rowData["Placement Details"]}
+                {rowData["PlacementDetails"]}
               </div>
             </div>
           </div>

@@ -43,7 +43,6 @@ const Overdue = () => {
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -54,12 +53,18 @@ const Overdue = () => {
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-
+  
       const { data, totalRows } = response.data;
-
-      setRowData(data);
+  
+      // Add serial numbers to each row
+      const dataWithSerials = data.map((item: Po) => ({
+        ...item,
+        // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
+      }));
+  
+      setRowData(dataWithSerials);
       setTotalRows(totalRows);
-      setupColumns(data);
+      setupColumns(dataWithSerials);
     } catch (error) {
       console.error("Error loading data:", error);
     } finally {

@@ -2,21 +2,8 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Po } from '../types/index';
 
-interface PO {
-  id?: string;
-  placementid?: string;
-  begindate?: string;
-  enddate?: string;
-  rate?: string;
-  overtimerate?: string;
-  freqtype?: string;
-  frequency?: string;
-  invoicestartdate?: string;
-  invoicenet?: string;
-  polink?: string;
-  notes?: string;
-}
 
 interface AddRowModalProps {
   isOpen: boolean;
@@ -26,19 +13,20 @@ interface AddRowModalProps {
 
 const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) => {
   const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
-  const [formData, setFormData] = useState<PO>({
+  const [formData, setFormData] = useState<Po>({
     id: '',
-    placementid: '',
-    begindate: currentDate, // Set default to current date
-    enddate: '',
-    rate: '',
-    overtimerate: '',
-    freqtype: '',
-    frequency: '',
-    invoicestartdate: '',
-    invoicenet: '',
-    polink: '',
-    notes: '',
+    PlacementID: '',
+    StartDate: currentDate, // Set default to current date
+     EndDate:'',
+    Rate: '',
+    OvertimeRate: '',
+    FreqType: '',
+    InvoiceFrequency: '',
+    InvoiceStartDate: '',
+    InvoiceNet: '',
+    POUrl: '',
+    Notes: '',
+    PlacementDetails: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -115,7 +103,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="placementid"
-              value={formData.placementid}
+              value={formData.PlacementID}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter Placement ID"
@@ -128,7 +116,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="date"
               name="begindate"
-              value={formData.begindate}
+              value={formData.StartDate}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
@@ -140,7 +128,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="date"
               name="enddate"
-              value={formData.enddate}
+              value={formData.EndDate}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
@@ -152,7 +140,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="rate"
-              value={formData.rate}
+              value={formData.Rate}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter rate"
@@ -165,7 +153,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="overtimerate"
-              value={formData.overtimerate}
+              value={formData.OvertimeRate}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter overtime rate"
@@ -178,7 +166,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="freqtype"
-              value={formData.freqtype}
+              value={formData.FreqType}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter frequency type"
@@ -191,7 +179,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="frequency"
-              value={formData.frequency}
+              value={formData.InvoiceFrequency}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter invoice frequency"
@@ -204,7 +192,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="date"
               name="invoicestartdate"
-              value={formData.invoicestartdate}
+              value={formData.InvoiceStartDate}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
@@ -216,7 +204,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="invoicenet"
-              value={formData.invoicenet}
+              value={formData.InvoiceNet}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter invoice net"
@@ -229,7 +217,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="polink"
-              value={formData.polink}
+              value={formData.POUrl}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter PO URL"
@@ -242,12 +230,25 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
             <input
               type="text"
               name="notes"
-              value={formData.notes}
+              value={formData.Notes}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter notes"
             />
           </div>
+      
+         {/* Placement Details */}
+<div>
+<label className="block text-gray-700">Placement Details</label>
+<input
+  type="text"
+  name="placementDetails"
+  value={formData.PlacementDetails}
+  onChange={handleChange}
+  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+  placeholder="Enter placement details"
+/>
+</div>
 
           <button
             type="submit"

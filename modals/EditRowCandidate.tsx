@@ -12,53 +12,53 @@ interface EditRowCandidateProps {
 
 const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
   const [formData, setFormData] = useState<Candidate>({
-    candidateid: rowData?.candidateid,
-    name: rowData?.name,
-    enrolleddate: rowData?.enrolleddate,
-    email: rowData?.email,
+    candidateid: rowData?.candidateid || '',
+    name: rowData?.name || '',
+    enrolleddate: rowData?.enrolleddate || '',
+    email: rowData?.email || '',
     course: rowData?.course || 'ML', // Default to ML
-    phone: rowData?.phone,
+    phone: rowData?.phone || '',
     status: rowData?.status || 'inactive', // Default to inactive
     workstatus: rowData?.workstatus || 'select', // Default to select
-    education: rowData?.education,
-    workexperience: rowData?.workexperience,
-    ssn: rowData?.ssn,
-    agreement: rowData?.agreement === true ? 'Y' : 'N', // Default to N
-    promissory: rowData?.promissory,
-    driverslicense: rowData?.driverslicense === true ? 'Y' : 'N', // Default to N
-    workpermit: rowData?.workpermit === true ? 'Y' : 'N', // Default to N
-    wpexpirationdate: rowData?.wpexpirationdate,
-    offerletter: rowData?.offerletter,
-    secondaryemail: rowData?.secondaryemail,
-    secondaryphone: rowData?.secondaryphone,
-    address: rowData?.address,
-    city: rowData?.city,
-    state: rowData?.state,
-    country: rowData?.country,
-    zip: rowData?.zip,
-    linkedin: rowData?.linkedin,
-    dob: rowData?.dob,
-    emergcontactphone: rowData?.emergcontactphone,
-    ssnvalidated: rowData?.ssnvalidated,
-    bgv: rowData?.bgv,
-    term: rowData?.term,
-    feepaid: rowData?.feepaid,
-    feedue: rowData?.feedue,
-    salary0: rowData?.salary0,
-    salary6: rowData?.salary6,
-    salary12: rowData?.salary12,
-    guarantorname: rowData?.guarantorname,
-    guarantordesignation: rowData?.guarantordesignation,
-    guarantorcompany: rowData?.guarantorcompany,
-    contracturl: rowData?.contracturl,
-    empagreementurl: rowData?.empagreementurl,
-    offerletterurl: rowData?.offerletterurl,
-    workpermiturl: rowData?.workpermiturl,
-    referralid: rowData?.referralid,
-    portalid: rowData?.portalid,
-    avatarid: rowData?.avatarid,
-    notes: rowData?.notes,
-    batchname: rowData?.batchname, // Add default value if batchname is undefined
+    education: rowData?.education || '',
+    workexperience: rowData?.workexperience || '',
+    ssn: rowData?.ssn || '',
+    agreement: rowData?.agreement === true ? 'Y' : 'N',
+    promissory: rowData?.promissory || '',
+    driverslicense: rowData?.driverslicense === true ? 'Y' : 'N',
+    workpermit: rowData?.workpermit === true ? 'Y' : 'N',
+    wpexpirationdate: rowData?.wpexpirationdate || '',
+    offerletter: rowData?.offerletter || '',
+    secondaryemail: rowData?.secondaryemail || '',
+    secondaryphone: rowData?.secondaryphone || '',
+    address: rowData?.address || '',
+    city: rowData?.city || '',
+    state: rowData?.state || '',
+    country: rowData?.country || '',
+    zip: rowData?.zip || '',
+    linkedin: rowData?.linkedin || '',
+    dob: rowData?.dob || '',
+    emergcontactphone: rowData?.emergcontactphone || '',
+    ssnvalidated: rowData?.ssnvalidated || '',
+    bgv: rowData?.bgv || '',
+    term: rowData?.term || '',
+    feepaid: rowData?.feepaid || '',
+    feedue: rowData?.feedue || '',
+    salary0: rowData?.salary0 || '',
+    salary6: rowData?.salary6 || '',
+    salary12: rowData?.salary12 || '',
+    guarantorname: rowData?.guarantorname || '',
+    guarantordesignation: rowData?.guarantordesignation || '',
+    guarantorcompany: rowData?.guarantorcompany || '',
+    contracturl: rowData?.contracturl || '',
+    empagreementurl: rowData?.empagreementurl || '',
+    offerletterurl: rowData?.offerletterurl || '',
+    workpermiturl: rowData?.workpermiturl || '',
+    referralid: rowData?.referralid || '',
+    portalid: rowData?.portalid || '',
+    avatarid: rowData?.avatarid || '',
+    notes: rowData?.notes || '',
+    batchname: rowData?.batchname || '', // Add default value if batchname is undefined
   });
 
   const [batchNames, setBatchNames] = useState<string[]>([]);
@@ -66,53 +66,53 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
   useEffect(() => {
     if (rowData) {
       setFormData({
-        candidateid: rowData.candidateid,
-        name: rowData.name,
-        enrolleddate: rowData.enrolleddate,
-        email: rowData.email,
+        candidateid: rowData.candidateid || '',
+        name: rowData.name || '',
+        enrolleddate: rowData.enrolleddate || '',
+        email: rowData.email || '',
         course: rowData.course || 'ML',
-        phone: rowData.phone,
+        phone: rowData.phone || '',
         status: rowData.status || 'inactive',
         workstatus: rowData.workstatus || 'select',
-        education: rowData.education,
-        workexperience: rowData.workexperience,
-        ssn: rowData.ssn,
+        education: rowData.education || '',
+        workexperience: rowData.workexperience || '',
+        ssn: rowData.ssn || '',
         agreement: rowData.agreement === true ? 'Y' : 'N',
-        promissory: rowData.promissory,
+        promissory: rowData.promissory || '',
         driverslicense: rowData.driverslicense === true ? 'Y' : 'N',
         workpermit: rowData.workpermit === true ? 'Y' : 'N',
-        wpexpirationdate: rowData.wpexpirationdate,
-        offerletter: rowData.offerletter,
-        secondaryemail: rowData.secondaryemail,
-        secondaryphone: rowData.secondaryphone,
-        address: rowData.address,
-        city: rowData.city,
-        state: rowData.state,
-        country: rowData.country,
-        zip: rowData.zip,
-        linkedin: rowData.linkedin,
-        dob: rowData.dob,
-        emergcontactphone: rowData.emergcontactphone,
-        ssnvalidated: rowData.ssnvalidated,
-        bgv: rowData.bgv,
-        term: rowData.term,
-        feepaid: rowData.feepaid,
-        feedue: rowData.feedue,
-        salary0: rowData.salary0,
-        salary6: rowData.salary6,
-        salary12: rowData.salary12,
-        guarantorname: rowData.guarantorname,
-        guarantordesignation: rowData.guarantordesignation,
-        guarantorcompany: rowData.guarantorcompany,
-        contracturl: rowData.contracturl,
-        empagreementurl: rowData.empagreementurl,
-        offerletterurl: rowData.offerletterurl,
-        workpermiturl: rowData.workpermiturl,
-        referralid: rowData.referralid,
-        portalid: rowData.portalid,
-        avatarid: rowData.avatarid,
-        notes: rowData.notes,
-        batchname: rowData.batchname,
+        wpexpirationdate: rowData.wpexpirationdate || '',
+        offerletter: rowData.offerletter || '',
+        secondaryemail: rowData.secondaryemail || '',
+        secondaryphone: rowData.secondaryphone || '',
+        address: rowData.address || '',
+        city: rowData.city || '',
+        state: rowData.state || '',
+        country: rowData.country || '',
+        zip: rowData.zip || '',
+        linkedin: rowData.linkedin || '',
+        dob: rowData.dob || '',
+        emergcontactphone: rowData.emergcontactphone || '',
+        ssnvalidated: rowData.ssnvalidated || '',
+        bgv: rowData.bgv || '',
+        term: rowData.term || '',
+        feepaid: rowData.feepaid || '',
+        feedue: rowData.feedue || '',
+        salary0: rowData.salary0 || '',
+        salary6: rowData.salary6 || '',
+        salary12: rowData.salary12 || '',
+        guarantorname: rowData.guarantorname || '',
+        guarantordesignation: rowData.guarantordesignation || '',
+        guarantorcompany: rowData.guarantorcompany || '',
+        contracturl: rowData.contracturl || '',
+        empagreementurl: rowData.empagreementurl || '',
+        offerletterurl: rowData.offerletterurl || '',
+        workpermiturl: rowData.workpermiturl || '',
+        referralid: rowData.referralid || '',
+        portalid: rowData.portalid || '',
+        avatarid: rowData.avatarid || '',
+        notes: rowData.notes || '',
+        batchname: rowData.batchname || '',
       });
     }
 
@@ -133,6 +133,10 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formData.batchname) {
+      alert('CurrentBatch name is required');
+      return;
+    }
     try {
       await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/candidates/update/${formData.candidateid}`, formData, {
         headers: { AuthToken: localStorage.getItem('token') },
@@ -195,7 +199,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
                 <option value="ML">ML</option>
               </select>
             )}
-       
+
             {key === 'status' && (
               <select
                 id={key}
@@ -280,7 +284,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({ isOpen, onRequestCl
                 className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               />
             )}
-            {!['course',  'status', 'workstatus', 'agreement', 'driverslicense', 'workpermit', 'wpexpirationdate'].includes(key) && (
+            {!['course', 'status', 'workstatus', 'agreement', 'driverslicense', 'workpermit', 'wpexpirationdate'].includes(key) && (
               <input
                 type="text"
                 id={key}

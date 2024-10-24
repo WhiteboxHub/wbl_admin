@@ -128,9 +128,6 @@ const PO = () => {
 
   const handleAddRow = () =>
     setModalState((prevState) => ({ ...prevState, add: true }));
-
-
-  
   const handleEditRow = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();

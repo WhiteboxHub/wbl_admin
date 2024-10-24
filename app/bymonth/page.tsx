@@ -47,7 +47,7 @@ const ByMonth = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/by-month`, {
+      const response = await axios.get(`${API_URL}/bymonth`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
@@ -69,7 +69,7 @@ const ByMonth = () => {
 
   const fetchByMonths = async (searchQuery = "") => {
     try {
-      const response = await axios.get(`${API_URL}/by-month/search`, {
+      const response = await axios.get(`${API_URL}/bymonth/search`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
@@ -140,7 +140,7 @@ const ByMonth = () => {
           if (!confirmation) return;
 
           try {
-            await axios.delete(`${API_URL}/by-month/delete/${byMonthId}`, {
+            await axios.delete(`${API_URL}/bymonth/delete/${byMonthId}`, {
               headers: { AuthToken: localStorage.getItem("token") },
             });
             alert("By Month deleted successfully.");

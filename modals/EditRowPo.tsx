@@ -13,21 +13,19 @@ interface EditRowModalProps {
 
 const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
   const [formData, setFormData] = useState<Po>({
-
-        POID: '',
-        PlacementID: '',
-        StartDate: '',
-        EndDate: '',
-        Rate: '',
-        OvertimeRate: '',
-        FreqType: '',
-        InvoiceFrequency: '',
-        InvoiceStartDate: '',
-        InvoiceNet: '',
-        POUrl: '',
-        Notes: '',
-        PlacementDetails: '',
-      
+    id: '',
+    PlacementID: '',
+    StartDate: '',
+    EndDate: '',
+    Rate: '',
+    OvertimeRate: '',
+    FreqType: '',
+    InvoiceFrequency: '',
+    InvoiceStartDate: '',
+    InvoiceNet: '',
+    POUrl: '',
+    Notes: '',
+    PlacementDetails: '',
   });
 
   useEffect(() => {
@@ -37,7 +35,10 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
   }, [rowData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name !== 'POID' && name !== 'PlacementID') {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,7 +46,11 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
     if (formData) {
       try {
         const API_URL = process.env.NEXT_PUBLIC_API_URL; // Ensure the API URL is set correctly
-        await axios.put(`${API_URL}/po/update/${formData.POID}`, formData, {
+        const updatedData = { ...formData };
+        delete updatedData.id;
+        delete updatedData.PlacementID;
+
+        await axios.put(`${API_URL}/po/update/${formData.id}`, updatedData, {
           headers: { AuthToken: localStorage.getItem('token') },
         });
         onSave(); // Call the onSave callback to refresh data or handle post-update actions
@@ -97,9 +102,9 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">PO ID</label>
             <input
               type="text"
-              name="id"
-              value={formData.POID}
-              onChange={handleChange}
+              name="POID"
+              value={formData.id}
+              readOnly
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter PO ID"
             />
@@ -110,9 +115,9 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">Placement ID</label>
             <input
               type="text"
-              name="Placement ID"
+              name="PlacementID"
               value={formData.PlacementID}
-              onChange={handleChange}
+              readOnly
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter Placement ID"
             />
@@ -123,8 +128,8 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">Start Date</label>
             <input
               type="date"
-              name="Start Date"
-              value={formData.StartDate}
+              name="StartDate"
+              value={formData.StartDate ? new Date(formData.StartDate).toISOString().split('T')[0] : ''}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
@@ -135,8 +140,20 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">End Date</label>
             <input
               type="date"
-              name="End Date"
-              value={formData.EndDate}
+              name="EndDate"
+              value={formData.EndDate ? new Date(formData.EndDate).toISOString().split('T')[0] : ''}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          {/* Invoice Start Date */}
+          <div>
+            <label className="block text-gray-700">Invoice Start Date</label>
+            <input
+              type="date"
+              name="InvoiceStartDate"
+              value={formData.InvoiceStartDate ? new Date(formData.InvoiceStartDate).toISOString().split('T')[0] : ''}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
@@ -160,7 +177,7 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">Overtime Rate</label>
             <input
               type="text"
-              name="Overtime Rate"
+              name="OvertimeRate"
               value={formData.OvertimeRate}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -173,7 +190,7 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">Freq. Type</label>
             <input
               type="text"
-              name="Freq. Type"
+              name="FreqType"
               value={formData.FreqType}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -186,23 +203,11 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">Invoice Frequency</label>
             <input
               type="text"
-              name="Invoice Frequency"
+              name="InvoiceFrequency"
               value={formData.InvoiceFrequency}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter invoice frequency"
-            />
-          </div>
-
-          {/* Invoice Start Date */}
-          <div>
-            <label className="block text-gray-700">Invoice Start Date</label>
-            <input
-              type="date"
-              name="Invoice Start Date"
-              value={formData.InvoiceStartDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
 
@@ -211,7 +216,7 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">Invoice Net</label>
             <input
               type="text"
-              name="Invoice Net"
+              name="InvoiceNet"
               value={formData.InvoiceNet}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -224,7 +229,7 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">PO URL</label>
             <input
               type="text"
-              name="PO Url"
+              name="POUrl"
               value={formData.POUrl}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -250,7 +255,7 @@ const EditRowPo: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowDat
             <label className="block text-gray-700">Placement Details</label>
             <input
               type="text"
-              name="Placement Details"
+              name="PlacementDetails"
               value={formData.PlacementDetails}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"

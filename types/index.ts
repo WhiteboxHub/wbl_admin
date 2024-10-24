@@ -101,7 +101,7 @@ export interface Candidate {
 
   // types.ts
   export interface Po {
-    POID: string;
+    id: string;
     PlacementID: string;
     StartDate: string;
     EndDate: string;
@@ -114,5 +114,122 @@ export interface Candidate {
     POUrl: string;
     Notes: string;
     PlacementDetails: string;
+  }
+
+
+  
+  
+  export interface Placement {
+    id?: string;
+    candidateid?: string;
+    mmid?: string;
+    recruiterid?: string;
+    vendorid?: string;
+    masteragreementid?: string;
+    otheragreementsids?: string;
+    vendor2id?: string;
+    vendor3id?: string;
+    clientid?: string;
+    startdate?: string;
+    enddate?: string;
+    status?: string;
+    paperwork?: string;
+    insurance?: string;
+    wrklocation?: string;
+    wrkdesignation?: string;
+    wrkemail?: string;
+    wrkphone?: string;
+    mgrname?: string;
+    mgremail?: string;
+    mgrphone?: string;
+    hiringmgrname?: string;
+    hiringmgremail?: string;
+    hiringmgrphone?: string;
+    reference?: string;
+    ipemailclear?: string;
+    feedbackid?: string;
+    projectdocs?: string;
+    notes?: string;
+  }
+
+  
+  interface Vendor {
+    id: string;
+    companyName: string;
+    status: string;
+    accountNumber: string;
+    tier: string;
+    email: string;
+    phone: string;
+    fax?: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zip: string;
+    url: string;
+    solicited: boolean;
+    hireBeforeTerm: boolean;
+    hireAfterTerm: boolean;
+    minRate: number;
+    latePayments: number;
+    totalNetTerm: number;
+    defaultedPayment: boolean;
+    culture: string;
+    hrName: string;
+    hrEmail: string;
+    hrPhone: string;
+    managerName: string;
+    twitter?: string;
+    facebook?: string;
+    linkedIn?: string;
+    managerEmail: string;
+    managerPhone: string;
+    secondaryName?: string;
+    secondaryEmail?: string;
+    secondaryPhone?: string;
+    timeSheetEmail: string;
+    agreementStatus: string;
+    agreementName: string;
+    agreementLink: string;
+    subcontractorLink?: string;
+    nonSolicitationLink?: string;
+    nonHireLink?: string;
+    clients: string[];
+    notes?: string;
+    crawlDate: string;
+    lastModDateTime: string;
+  }
+  
+
+  interface Client {
+    id: string;
+    companyName: string;
+    tier: string;
+    status: string;
+    email: string;
+    phone: string;
+    fax?: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zip: string;
+    url: string;
+    manager1Name: string;
+    twitter?: string;
+    facebook?: string;
+    linkedIn?: string;
+    manager1Email: string;
+    manager1Phone: string;
+    hmName: string; // Hiring manager name
+    hmEmail: string;
+    hmPhone: string;
+    hrName: string;
+    hrEmail: string;
+    hrPhone: string;
+    notes?: string;
+    lastModDateTime: string;
+    client?: string; // Assuming 'clicent' is a typo for 'client'
   }
   
