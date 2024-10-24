@@ -14,64 +14,56 @@ const ViewRowCandidate: React.FC<ViewRowCandidateProps> = ({ isOpen, onClose, ro
   return (
     <Modal
       isOpen={isOpen}
+      onRequestClose={onClose}
       style={{
         content: {
-          top: '15%',
+          top: '55%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
-          transform: 'translate(-50%, 0)',
-          overflowY: 'auto',
+          transform: 'translate(-50%, -50%)',
+          maxWidth: '400px',
+          width: '90%',
           maxHeight: '80vh',
-          width: '40%',
-          padding: '20px',
-          borderRadius: '10px',
-          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+          padding: '24px',
+          borderRadius: '12px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+          overflowY: 'auto',
+          fontFamily: 'Arial, sans-serif',
         },
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
       }}
       contentLabel="View Row Modal"
-      ariaHideApp={false} // Disable aria app for accessibility if needed
+      ariaHideApp={false}
     >
-      <div className="">
-        <div className="relative">
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-0 text-gray-500 hover:text-gray-800 transition duration-200"
-          >
-            <AiOutlineClose size={24} />
-          </button>
-        </div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Candidate Details</h2>
+      <div className="relative">
+        <button
+          onClick={onClose}
+          className="absolute top-0 right-0 text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"
+        >
+          &times;
+        </button>
       </div>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 pr-8">Candidate Details</h2>
       <div className="modal-body">
         {rowData ? (
-          <div>
+          <div className="space-y-4">
             {Object.keys(rowData).map(key => (
               <div key={key} className="modal-field">
-                <label htmlFor={key}>
+                <label htmlFor={key} className="block text-sm font-semibold text-gray-700 mb-1">
                   {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
                 </label>
-                <div className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
-                  {rowData[key as keyof Candidate]} {/* Correct type access */}
+                <div className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                  {rowData[key as keyof Candidate]}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p>No data available</p>
+          <p className="text-gray-600">No data available</p>
         )}
-      </div>
-      <div className="modal-actions">
-        <button
-          type="button"
-          onClick={onClose}
-          className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
-        >
-          Cancel
-        </button>
       </div>
     </Modal>
   );

@@ -25,15 +25,15 @@ export interface Candidate {
   phone?: string;
   status?: string; // Allows additional properties that may not be explicitly defined
   // Add any additional properties you need here
-  candidateid?: number; // Optional if it can be undefined
+  candidateid?: string; // Optional if it can be undefined
   workstatus?: string;
   education?: string;
   workexperience?: string;
   ssn?: string;
-  agreement?: boolean;
+  agreement?: string;
   promissory?: boolean;
   driverslicense?: string;
-  workpermit?: boolean;
+  workpermit?: string;
   wpexpirationdate?: string; // Adjust type if necessary
   offerletter?: string;
   secondaryemail?: string;
@@ -233,3 +233,36 @@ export interface Candidate {
     client?: string; // Assuming 'clicent' is a typo for 'client'
   }
   
+  export type Employee ={
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    status: string;
+    startdate: string;
+    mgrid: string;
+    designationid: string;
+    personalemail: string;
+    personalphone: string;
+    dob: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zip: string;
+    skypeid: string;
+    salary: string;
+    commission: string;
+    commissionrate: string;
+    type: string;
+    empagreementurl: string;
+    offerletterurl: string;
+    dlurl: string;
+    workpermiturl: string;
+    contracturl: string;
+    enddate: string;
+    loginid: string;
+    responsibilities: string;
+    notes: string;
+  
+  };
