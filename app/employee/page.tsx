@@ -234,7 +234,7 @@ const Employees = () => {
             },
             margin: { top: 15, left: 15, right: 15 },
             pageBreak: "auto",
-            didDrawPage: function (data: jsPDFPageData) {
+            didDrawPage: function (data: { settings: { margin: { left: number; right: number; top: number; bottom: number; } } }) {
               doc.setFontSize(10);
               doc.text(
                 "Page " + doc.internal.pages.length,
