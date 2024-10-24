@@ -21,8 +21,15 @@ import "react-dropdown/style.css";
 import AddRowModal from "../../modals/AddRowModal";
 import EditRowModal from "../../modals/EditRowModal";
 import ViewRowModal from "../../modals/ViewRowModal";
+import jsPDFPageData  from "jspdf";
+// import  OptionType  from "react-dropdown";
 
+// import Dropdown, { Option } from "react-dropdown"; // Import Dropdown and Option
 
+interface OptionType {
+  value: string;
+  label: JSX.Element | string;
+}
 const Employees = () => {
   const [rowData, setRowData] = useState<Employee[]>([]);
   const [columnDefs, setColumnDefs] = useState<
