@@ -517,7 +517,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({
       }}
     >
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Edit Candidate</h2>
+      <h2 className="text-2xl font-bold text-gray-800">Edit Candidate</h2>
         <button
           onClick={onRequestClose}
           className="text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"

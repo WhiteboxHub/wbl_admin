@@ -18,9 +18,9 @@ import { Employee } from "../../types/index"; // Adjust the import path accordin
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dropdown, { Option } from "react-dropdown";
 import "react-dropdown/style.css";
-import AddRowModal from "../../modals/AddRowModal";
-import EditRowModal from "../../modals/EditRowModal";
-import ViewRowModal from "../../modals/ViewRowModal";
+import AddRowModal from "../../modals/AddEmployee";
+import EditRowModal from "../../modals/EditEmployee";
+import ViewRowModal from "../../modals/ViewEmployee";
 
 const Employees = () => {
   const [rowData, setRowData] = useState<Employee[]>([]);
@@ -38,6 +38,7 @@ const Employees = () => {
   const [selectedRow, setSelectedRow] = useState<Employee | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const gridRef = useRef<AgGridReact>(null);
+
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -369,9 +370,10 @@ const Employees = () => {
             defaultColDef={{
               sortable: true,
               filter: true,
+              resizable: true, // Enable column resizing
               cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-              minWidth: 60,
-              maxWidth: 100,
+              minWidth: 80,
+              maxWidth: 150,
             }}
             rowHeight={30}
             headerHeight={35}

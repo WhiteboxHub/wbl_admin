@@ -92,8 +92,6 @@ const AddRowModal: React.FC<AddRowModalProps> = ({ isOpen, onRequestClose, onSav
       console.error('Error adding row:', error);
     }
   };
-
- 
 //     <Modal
 //       isOpen={isOpen}
 //       onRequestClose={onRequestClose}
