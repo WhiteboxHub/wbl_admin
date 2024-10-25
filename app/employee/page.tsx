@@ -14,7 +14,7 @@ import { faFilePdf, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import withAuth from "@/modals/withAuth";
 import { AiOutlineEdit, AiOutlineSearch, AiOutlineReload, AiOutlineEye } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Employee } from "../../types/index"; // Adjust the import path accordingly
+import  {Employee}  from "@/types/index"; // Adjust the import path accordingly
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dropdown, { Option } from "react-dropdown";
 import "react-dropdown/style.css";
@@ -22,6 +22,10 @@ import AddRowModal from "../../modals/AddEmployee";
 import EditRowModal from "../../modals/EditEmployee";
 import ViewRowModal from "../../modals/ViewEmployee";
 
+interface OptionType {
+  value: string;
+  label: JSX.Element | string;
+}
 const Employees = () => {
   const [rowData, setRowData] = useState<Employee[]>([]);
   const [columnDefs, setColumnDefs] = useState<
@@ -227,7 +231,7 @@ const Employees = () => {
             },
             margin: { top: 15, left: 15, right: 15 },
             pageBreak: "auto",
-            didDrawPage: function (data: jsPDFPageData) {
+            didDrawPage: function (data: { settings: { margin: { left: number; right: number; top: number; bottom: number; } } }) {
               doc.setFontSize(10);
               doc.text(
                 "Page " + doc.internal.pages.length,

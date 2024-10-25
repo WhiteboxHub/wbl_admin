@@ -98,6 +98,7 @@ export interface Candidate {
     token_expiry: string;
   };
   
+<<<<<<< HEAD
 
   export type Employee ={
       id: string;
@@ -132,3 +133,38 @@ export interface Candidate {
       notes: string;
     
     };
+=======
+  export type Employee ={
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    status: string;
+    startdate: string;
+    mgrid: string;
+    designationid: string;
+    personalemail: string;
+    personalphone: string;
+    dob: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zip: string;
+    skypeid: string;
+    salary: string;
+    commission: string;
+    commissionrate: string;
+    type: string;
+    empagreementurl: string;
+    offerletterurl: string;
+    dlurl: string;
+    workpermiturl: string;
+    contracturl: string;
+    enddate: string;
+    loginid: string;
+    responsibilities: string;
+    notes: string;
+  
+  };
+>>>>>>> caab415fddbc1783fee75318a02f810caff2087f
