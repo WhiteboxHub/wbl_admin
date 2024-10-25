@@ -19,12 +19,22 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onRequest
     }
   }, [rowData]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (formData) {
+  //     setFormData({ ...formData, [e.target.name]: e.target.value });
+  //   }
+  // };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     if (formData) {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value as string
+      });
     }
   };
-
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData) {
