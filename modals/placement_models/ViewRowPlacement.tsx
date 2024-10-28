@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { Placement } from '../types/index'; // Adjust the import path accordingly
+import { Placement } from '../../types/index'; // Adjust the import path accordingly
 import { AiOutlineClose } from 'react-icons/ai'; // Adjust the import path accordingly
 
 interface ViewRowModalProps {

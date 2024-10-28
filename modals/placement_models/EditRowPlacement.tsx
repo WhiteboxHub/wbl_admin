@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Placement } from '../types/index';
+import { Placement } from '../../types/index';
 
 
 interface EditRowModalProps {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
-import { Po } from '../types/index';
+import { Po } from '../../types/index';
 
 
 interface AddRowPOProps {

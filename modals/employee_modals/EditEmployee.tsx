@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { Employee } from '../types/index'; // Adjust the import path accordingly
+import { Employee } from '../../types/index'; // Adjust the import path accordingly
 
 interface EditEmployeeModalProps {
   isOpen: boolean;

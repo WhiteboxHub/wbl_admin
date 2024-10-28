@@ -9,9 +9,9 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { FaDownload } from "react-icons/fa";
-import AddRowModal from "../../modals/AddRowPo";
-import EditRowModal from "../../modals/EditRowPo";
-import ViewRowModal from "../../modals/ViewRowPo";
+import AddRowModal from "../../modals/po_modals/AddRowPo";
+import EditRowModal from "../../modals/po_modals/EditRowPo";
+import ViewRowModal from "../../modals/po_modals/ViewRowPo";
 import { MdDelete } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import {
@@ -21,7 +21,7 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Po } from "../../types/index";
+import { Po } from "../../../types/index";
 
 jsPDF.prototype.autoTable = autoTable;
 const PO = () => {

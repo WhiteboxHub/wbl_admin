@@ -9,9 +9,9 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { FaDownload } from "react-icons/fa";
-import AddRowModal from "../../modals/AddRowByMonth";
-import EditRowModal from "../../modals/EditRowByMonth";
-import ViewRowModal from "../../modals/ViewRowByMonth";
+import AddRowModal from "../../modals/bymonth_modals/AddRowByMonth";
+import EditRowModal from "../../modals/bymonth_modals/EditRowByMonth";
+import ViewRowModal from "../../modals/bymonth_modals/ViewRowByMonth";
 import { MdDelete } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import {
