@@ -339,165 +339,322 @@ const Leads = () => {
   const totalPages = Math.ceil(totalRows / paginationPageSize);
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-  return (
-    <div className="relative">
-      <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold text-gray-800">Leads Management</h1>
+//   return (
+//     <div className="relative">
+//       <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+//         <div className="flex justify-between items-center mb-4">
+//           <h1 className="text-3xl font-bold text-gray-800">Leads Management</h1>
 
-          <div className="flex space-x-2">
-            <button
-              onClick={handleAddRow}
-              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
-            >
-              <MdAdd className="mr-2" /> Add Lead
-            </button>
-            <button
-              onClick={handleEditRow}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-            >
-              <AiOutlineEdit className="mr-2" /> Edit
-            </button>
-            <button
-              onClick={handleDeleteRow}
-              className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
-            >
-              <MdDelete className="mr-2" /> Delete
-            </button>
-            <button
-              onClick={handleViewRow}
-              className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
-            >
-              <AiOutlineEye className="mr-2" /> View
-            </button>
-            <button
-              onClick={handleRefresh}
-              className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
-            >
-              <AiOutlineReload className="mr-2" /> Refresh
-            </button>
-            <Dropdown
-              options={options as Option[]} // Cast options as Option[] since label is JSX now
-              value={defaultOption} // Set default option
-              onChange={(selectedOption) => {
-                if (selectedOption.value === "Export to PDF") {
-                  handleDownloadPDF();
-                } else if (selectedOption.value === "Export to Excel") {
-                  handleExportToExcel();
-                }
-              }}
-              placeholder="Select an option"
-              className="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700"
-              controlClassName="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 border-none px-4 py-2"
-              menuClassName="bg-purple-600 text-black rounded-lg transition duration-300"
-              arrowClassName="text-black" 
-              placeholderClassName="text-black"
-            />
-          </div>
-        </div>
-        <div className="flex mb-4">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchValue}
-         onChange={(e) => setSearchValue(e.target.value)}
-          className="border border-gray-300 rounded-md p-2 w-64"
-        />
-        <button
-          onClick={handleSearch}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-        >
-          <AiOutlineSearch className="mr-2" /> Search
-        </button>
+//           <div className="flex space-x-2">
+//             <button
+//               onClick={handleAddRow}
+//               className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
+//             >
+//               <MdAdd className="mr-2" /> Add Lead
+//             </button>
+//             <button
+//               onClick={handleEditRow}
+//               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+//             >
+//               <AiOutlineEdit className="mr-2" /> Edit
+//             </button>
+//             <button
+//               onClick={handleDeleteRow}
+//               className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
+//             >
+//               <MdDelete className="mr-2" /> Delete
+//             </button>
+//             <button
+//               onClick={handleViewRow}
+//               className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
+//             >
+//               <AiOutlineEye className="mr-2" /> View
+//             </button>
+//             <button
+//               onClick={handleRefresh}
+//               className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
+//             >
+//               <AiOutlineReload className="mr-2" /> Refresh
+//             </button>
+//             <Dropdown
+//               options={options as Option[]} // Cast options as Option[] since label is JSX now
+//               value={defaultOption} // Set default option
+//               onChange={(selectedOption) => {
+//                 if (selectedOption.value === "Export to PDF") {
+//                   handleDownloadPDF();
+//                 } else if (selectedOption.value === "Export to Excel") {
+//                   handleExportToExcel();
+//                 }
+//               }}
+//               placeholder="Select an option"
+//               className="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700"
+//               controlClassName="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 border-none px-4 py-2"
+//               menuClassName="bg-purple-600 text-black rounded-lg transition duration-300"
+//               arrowClassName="text-black" 
+//               placeholderClassName="text-black"
+//             />
+//           </div>
+//         </div>
+//         <div className="flex mb-4">
+//         <input
+//           type="text"
+//           placeholder="Search..."
+//           value={searchValue}
+//          onChange={(e) => setSearchValue(e.target.value)}
+//           className="border border-gray-300 rounded-md p-2 w-64"
+//         />
+//         <button
+//           onClick={handleSearch}
+//           className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+//         >
+//           <AiOutlineSearch className="mr-2" /> Search
+//         </button>
+//       </div>
+//         <div
+//           className="ag-theme-alpine"
+//           style={{ height: "400px", width: "100%", overflowY: "auto" }}
+//         >
+//           <AgGridReact
+//             ref={gridRef}
+//             rowData={rowData}
+//             columnDefs={columnDefs}
+//             pagination={false}
+//             domLayout="normal"
+//             rowSelection="multiple"
+//             defaultColDef={{
+//               sortable: true,
+//               filter: true,
+//               resizable: true,
+//               cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+//               minWidth: 80,
+//               maxWidth: 150,
+//             }}
+//             rowHeight={30}
+//             headerHeight={35}
+//           />
+//         </div>
+//         <div className="flex justify-between mt-4">
+//         <div className="flex items-center">
+//           {/* Double Left Icon */}
+//           <button 
+//             onClick={() => handlePageChange(1)} 
+//             disabled={currentPage === 1}
+//             className="p-2 disabled:opacity-50"
+//           >
+//             <FaAngleDoubleLeft />
+//           </button>
+//           {/* Left Icon */}
+//           <button 
+//             onClick={() => handlePageChange(currentPage - 1)} 
+//             disabled={currentPage === 1}
+//             className="p-2 disabled:opacity-50"
+//           >
+//             <FaChevronLeft />
+//           </button>
+//           {/* Page Numbers */}
+//           {pageOptions.map((page) => (
+//             <button
+//               key={page}
+//               onClick={() => handlePageChange(page)}
+//               className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+//             >
+//               {page}
+//             </button>
+//           ))}
+//           {/* Right Icon */}
+//           <button 
+//             onClick={() => handlePageChange(currentPage + 1)} 
+//             disabled={currentPage === totalPages}
+//             className="p-2 disabled:opacity-50"
+//           >
+//             <FaChevronRight />
+//           </button>
+//           {/* Double Right Icon */}
+//           <button 
+//             onClick={() => handlePageChange(totalPages)} 
+//             disabled={currentPage === totalPages}
+//             className="p-2 disabled:opacity-50"
+//           >
+//             <FaAngleDoubleRight />
+//           </button>
+//         </div>
+//       </div>
+//         <AddRowModal
+//           isOpen={modalState.add}
+//           onRequestClose={() => setModalState({ ...modalState, add: false })}
+//           onSave={fetchData}
+//         />
+//         <EditRowModal
+//           isOpen={modalState.edit}
+//           onRequestClose={() => setModalState({ ...modalState, edit: false })}
+//           rowData={selectedRow}
+//           onSave={fetchData}
+//         />
+//         <ViewRowModal
+//           isOpen={modalState.view}
+//           onRequestClose={() => setModalState({ ...modalState, view: false })}
+//           rowData={selectedRow}
+//         />
+//       </div>
+//     </div>
+//   );
+// };
+return (
+  <div className="relative">
+    <div className="p-4 mt-20 mb-10 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+        <h1 className="text-3xl font-bold text-gray-800">Leads Management</h1>
       </div>
-        <div
-          className="ag-theme-alpine"
-          style={{ height: "400px", width: "100%", overflowY: "auto" }}
-        >
-          <AgGridReact
-            ref={gridRef}
-            rowData={rowData}
-            columnDefs={columnDefs}
-            pagination={false}
-            domLayout="normal"
-            rowSelection="multiple"
-            defaultColDef={{
-              sortable: true,
-              filter: true,
-              resizable: true,
-              cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-              minWidth: 80,
-              maxWidth: 150,
+      <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
+        <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
+          <button
+            onClick={handleAddRow}
+            className="flex items-center px-3 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700 text-sm md:text-base"
+          >
+            <MdAdd className="mr-1" /> Add Lead
+          </button>
+          <button
+            onClick={handleEditRow}
+            className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-sm md:text-base"
+          >
+            <AiOutlineEdit className="mr-1" /> Edit
+          </button>
+          <button
+            onClick={handleDeleteRow}
+            className="flex items-center px-3 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700 text-sm md:text-base"
+          >
+            <MdDelete className="mr-1" /> Delete
+          </button>
+        </div>
+        <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
+          <button
+            onClick={handleRefresh}
+            className="flex items-center px-3 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900 text-sm md:text-base"
+          >
+            <AiOutlineReload className="mr-1" /> Refresh
+          </button>
+          <Dropdown
+            options={options}
+            value={defaultOption}
+            onChange={(selectedOption) => {
+              if (selectedOption.value === "Export to PDF") {
+                handleDownloadPDF();
+              } else if (selectedOption.value === "Export to Excel") {
+                handleExportToExcel();
+              }
             }}
-            rowHeight={30}
-            headerHeight={35}
+            placeholder="Select an option"
+            className="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 text-sm md:text-base"
+            controlClassName="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 border-none px-3 py-2"
+            menuClassName="bg-purple-600 text-black rounded-lg transition duration-300"
+            arrowClassName="text-black"
+            placeholderClassName="text-black"
           />
         </div>
-        <div className="flex justify-between mt-4">
-        <div className="flex items-center">
-          {/* Double Left Icon */}
-          <button 
-            onClick={() => handlePageChange(1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
+      </div>
+      <div className="flex flex-col md:flex-row mb-4 items-center">
+        <div className="flex w-full md:w-auto mb-2 md:mb-0">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="border border-gray-300 rounded-md p-2 w-full md:w-64"
+          />
+          <button
+            onClick={handleSearch}
+            className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-sm md:text-base"
           >
-            <FaAngleDoubleLeft />
-          </button>
-          {/* Left Icon */}
-          <button 
-            onClick={() => handlePageChange(currentPage - 1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronLeft />
-          </button>
-          {/* Page Numbers */}
-          {pageOptions.map((page) => (
-            <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
-            >
-              {page}
-            </button>
-          ))}
-          {/* Right Icon */}
-          <button 
-            onClick={() => handlePageChange(currentPage + 1)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronRight />
-          </button>
-          {/* Double Right Icon */}
-          <button 
-            onClick={() => handlePageChange(totalPages)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaAngleDoubleRight />
+            <AiOutlineSearch className="mr-1" /> Search
           </button>
         </div>
       </div>
-        <AddRowModal
-          isOpen={modalState.add}
-          onRequestClose={() => setModalState({ ...modalState, add: false })}
-          onSave={fetchData}
-        />
-        <EditRowModal
-          isOpen={modalState.edit}
-          onRequestClose={() => setModalState({ ...modalState, edit: false })}
-          rowData={selectedRow}
-          onSave={fetchData}
-        />
-        <ViewRowModal
-          isOpen={modalState.view}
-          onRequestClose={() => setModalState({ ...modalState, view: false })}
-          rowData={selectedRow}
+      <div
+        className="ag-theme-alpine"
+        style={{ height: "400px", width: "100%", overflowY: "auto" }}
+      >
+        <AgGridReact
+          ref={gridRef}
+          rowData={rowData}
+          columnDefs={columnDefs}
+          pagination={false}
+          domLayout="normal"
+          rowSelection="multiple"
+          defaultColDef={{
+            sortable: true,
+            filter: true,
+            resizable: true,
+            cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+            minWidth: 80,
+            maxWidth: 150,
+          }}
+          rowHeight={30}
+          headerHeight={35}
         />
       </div>
+      <div className="flex flex-col md:flex-row justify-between items-center mt-4">
+        <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
+          {/* Pagination Buttons */}
+          <div className="flex space-x-1 overflow-x-auto">
+            <button 
+              onClick={() => handlePageChange(1)} 
+              disabled={currentPage === 1}
+              className="p-2 disabled:opacity-50"
+            >
+              <FaAngleDoubleLeft />
+            </button>
+            <button 
+              onClick={() => handlePageChange(currentPage - 1)} 
+              disabled={currentPage === 1}
+              className="p-2 disabled:opacity-50"
+            >
+              <FaChevronLeft />
+            </button>
+            {pageOptions.map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+              >
+                {page}
+              </button>
+            ))}
+            <button 
+              onClick={() => handlePageChange(currentPage + 1)} 
+              disabled={currentPage === totalPages}
+              className="p-2 disabled:opacity-50"
+            >
+              <FaChevronRight />
+            </button>
+            <button 
+              onClick={() => handlePageChange(totalPages)} 
+              disabled={currentPage === totalPages}
+              className="p-2 disabled:opacity-50"
+            >
+              <FaAngleDoubleRight />
+            </button>
+          </div>
+        </div>
+      </div>
+      <AddRowModal
+        isOpen={modalState.add}
+        onRequestClose={() => setModalState({ ...modalState, add: false })}
+        onSave={fetchData}
+      />
+      <EditRowModal
+        isOpen={modalState.edit}
+        onRequestClose={() => setModalState({ ...modalState, edit: false })}
+        rowData={selectedRow}
+        onSave={fetchData}
+      />
+      <ViewRowModal
+        isOpen={modalState.view}
+        onRequestClose={() => setModalState({ ...modalState, view: false })}
+        rowData={selectedRow}
+      />
     </div>
-  );
-};
+  </div>
+);
+}
 
 export default withAuth(Leads);
