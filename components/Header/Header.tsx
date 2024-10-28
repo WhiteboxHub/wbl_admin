@@ -266,25 +266,47 @@ const menuItems: MenuItem[] = [
       href: '',
       subMenu: [
         {
-          name: 'Time',
-          href: '/hr/time',
-          subMenu: [
-            { name: 'PO', href: '/hr/time/po' },
-            { name: 'MM PO', href: '/hr/time/mm-po' }
-          ]
+           name: 'PO', href: '/po' 
         },
         {
           name: 'Invoice',
-          href: '/hr/invoice',
+          href: '',
           subMenu: [
-            { name: 'Overdue', href: '/hr/invoice/overdue' },
-            { name: 'By PO', href: '/hr/invoice/by-po' },
-            { name: 'By Month', href: '/hr/invoice/by-month' }
+            { name: 'Overdue', href: '/overdue' },
+            { name: 'By PO', href: '/by-po' },
+            { name: 'By Month', href: '/by-month' }
           ]
         },
-        { name: 'Client', href: '/hr/client' },
-        { name: 'Vendor', href: '/hr/vendor' },
-        { name: 'Placement', href: '/hr/placement' }
+        { name: 'Client', href: '/client' ,
+          subMenu: [
+            { name: 'List', href: '/list' },
+            { name: 'Search', href: '/search' },
+            { name: 'Recruiters', href: '',
+              subMenu: [
+                { name: 'By Client', href: '/byclient' },
+                { name: 'By palcement', href: '/byplacement' },
+                { name: 'All list', href: '/alllist' },
+                { name: 'Detailed', href: '/detailed' }
+              ]
+             }
+          ]
+        },
+        { name: 'Vendor', href: '',
+          subMenu: [
+            { name: 'List', href: '/vendor' },
+            { name: 'Search', href: '/searchv' },
+            { name: 'URLs', href: '/urls' },
+            { name: 'Recruiters', href: '',
+              subMenu: [
+                { name: 'By Vendor', href: '/byvendor' },
+                { name: 'By palcement', href: '/byplacementv' },
+                { name: 'All list', href: '/alllistv' },
+                { name: 'Detailed', href: '/detailedv' }
+              ]
+             }
+          ]
+         },
+        { name: 'Placement', href: '/placement' }
       ]
     },
   ];

@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { Employee } from '../types/index'; // Adjust the import path accordingly
+import { Employee } from '../../types/index'; // Adjust the import path accordingly
 import { AiOutlineClose } from 'react-icons/ai'; // Import any icons if needed
 
 interface ViewEmployeeProps {

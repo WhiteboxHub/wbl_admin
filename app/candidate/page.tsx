@@ -9,9 +9,9 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import AddRowModal from "../../modals/AddRowCandidate";
-import EditRowModal from "../../modals/EditRowCandidate";
-import ViewRowModal from "../../modals/ViewRowCandidate";
+import AddRowModal from "../../modals/candidate_modals/AddRowCandidate";
+import EditRowModal from "../../modals/candidate_modals/EditRowCandidate";
+import ViewRowModal from "../../modals/candidate_modals/ViewRowCandidate";
 import withAuth from "@/modals/withAuth";
 // 
 import {

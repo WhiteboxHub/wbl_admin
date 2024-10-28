@@ -53,18 +53,8 @@ const EditRowBatch: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, row
     }
   }, [rowData]);
 
-  // const customStyles = {
-  //   content: {
-  //     top: '15%',
-  //     left: '50%',
-  //     right: 'auto',
-  //     bottom: 'auto',
-  //     transform: 'translate(-50%, 0)',
-  //     overflowY: 'auto',
-  //     maxHeight: '80vh',
-  //     width: '40%',  // Set a max height for the modal
-  //   },
-  // };
+  
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
