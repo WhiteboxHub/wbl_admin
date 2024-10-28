@@ -307,9 +307,10 @@ const handleDownloadPDF = () => {
         defaultColDef={{
           sortable: true,
           filter: true,
+          resizable: true,
           cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-          minWidth: 60,
-          maxWidth: 100,
+          minWidth: 80,
+          maxWidth: 150,
         }}
         rowHeight={30}
         headerHeight={35}

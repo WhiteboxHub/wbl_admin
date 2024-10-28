@@ -390,7 +390,7 @@ const Leads = () => {
               className="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700"
               controlClassName="bg-purple-600 text-black rounded-lg transition duration-300 hover:bg-purple-700 border-none px-4 py-2"
               menuClassName="bg-purple-600 text-black rounded-lg transition duration-300"
-              arrowClassName="text-black"
+              arrowClassName="text-black" 
               placeholderClassName="text-black"
             />
           </div>
@@ -424,9 +424,10 @@ const Leads = () => {
             defaultColDef={{
               sortable: true,
               filter: true,
+              resizable: true,
               cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-              minWidth: 60,
-              maxWidth: 100,
+              minWidth: 80,
+              maxWidth: 150,
             }}
             rowHeight={30}
             headerHeight={35}

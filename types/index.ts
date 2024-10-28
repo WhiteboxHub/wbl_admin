@@ -231,39 +231,40 @@ export interface Candidate {
     client?: string; // Assuming 'clicent' is a typo for 'client'
   }
   
+
   export type Employee ={
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    status: string;
-    startdate: string;
-    mgrid: string;
-    designationid: string;
-    personalemail: string;
-    personalphone: string;
-    dob: string;
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    zip: string;
-    skypeid: string;
-    salary: string;
-    commission: string;
-    commissionrate: string;
-    type: string;
-    empagreementurl: string;
-    offerletterurl: string;
-    dlurl: string;
-    workpermiturl: string;
-    contracturl: string;
-    enddate: string;
-    loginid: string;
-    responsibilities: string;
-    notes: string;
-  
-  };
+      id: string;
+      name: string;
+      email: string;
+      phone: string;
+      status: string;
+      startdate: string;
+      mgrid: string;
+      designationid: string;
+      personalemail: string;
+      personalphone: string;
+      dob: string;
+      address: string;
+      city: string;
+      state: string;
+      country: string;
+      zip: string;
+      skypeid: string;
+      salary: string;
+      commission: string;
+      commissionrate: string;
+      type: string;
+      empagreementurl: string;
+      offerletterurl: string;
+      dlurl: string;
+      workpermiturl: string;
+      contracturl: string;
+      enddate: string;
+      loginid: string;
+      responsibilities: string;
+      notes: string;
+    
+    };
 
 
   export type Overdue {
