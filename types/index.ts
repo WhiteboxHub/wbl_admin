@@ -101,55 +101,53 @@ export interface Candidate {
 
   // types.ts
   export interface Po {
-    id: string;
-    PlacementID: string;
-    StartDate: string;
-    EndDate: string;
-    Rate: string;
-    OvertimeRate: string;
-    FreqType: string;
-    InvoiceFrequency: string;
-    InvoiceStartDate: string;
-    InvoiceNet: string;
-    POUrl: string;
-    Notes: string;
-    PlacementDetails: string;
+    POID?: string;
+    PlacementDetails?: string;
+    StartDate?: string;
+    EndDate?: string;
+    Rate?: string;
+    OvertimeRate?: string;
+    FreqType?: string;
+    InvoiceFrequency?: string;
+    InvoiceStartDate?: string;
+    InvoiceNet?: string;
+    POUrl?: string;
+    Notes?: string;
   }
 
 
   
-  
   export interface Placement {
     id?: string;
-    candidateid?: string;
-    mmid?: string;
-    recruiterid?: string;
-    vendorid?: string;
-    masteragreementid?: string;
-    otheragreementsids?: string;
-    vendor2id?: string;
-    vendor3id?: string;
-    clientid?: string;
-    startdate?: string;
-    enddate?: string;
-    status?: string;
-    paperwork?: string;
-    insurance?: string;
-    wrklocation?: string;
-    wrkdesignation?: string;
-    wrkemail?: string;
-    wrkphone?: string;
-    mgrname?: string;
-    mgremail?: string;
-    mgrphone?: string;
-    hiringmgrname?: string;
-    hiringmgremail?: string;
-    hiringmgrphone?: string;
-    reference?: string;
-    ipemailclear?: string;
-    feedbackid?: string;
-    projectdocs?: string;
-    notes?: string;
+    Candidate_Name?: string;
+    Manager?: string;
+    Recruiter?: string;
+    Vendor1?: string;
+    MSA_ID?: string;
+    Other_AgrID?: string;
+    Vendor2?: string;
+    Vendor3?: string;
+    Client?: string;
+    Start_Date?: string;
+    End_Date?: string;
+    Status?: string;
+    Paperwork?: string;
+    Insurance?: string;
+    Wrk_Location?: string;
+    Wrk_Designation?: string;
+    Wrk_Email?: string;
+    Wrk_Phone?: string;
+    Mgr_Name?: string;
+    Mgr_Email?: string;
+    Mgr_Phone?: string;
+    Hiring_Mgr_Name?: string;
+    Hiring_Mgr_Email?: string;
+    Hiring_Mgr_Phone?: string;
+    Reference?: string;
+    IPEmail_Clear?: string;
+    Feedback_ID?: string;
+    Project_Docs?: string;
+    Notes?: string;
   }
 
   
@@ -266,3 +264,48 @@ export interface Candidate {
     notes: string;
   
   };
+
+
+  export type Overdue {
+    id?: string;
+    poid?: string;
+    invoicenumber?: string;
+    invoicedate?: string;
+    quantity?: string;
+    rate?: string;
+    expecteddate?: string;
+    amountexpected?: string;
+    startdate?: string;
+    enddate?: string;
+    status?: string;
+    remindertype?: string;
+    amountreceived?: string;
+    receiveddate?: string;
+    releaseddate?: string;
+    checknumber?: string;
+    invoiceurl?: string;
+    checkurl?: string;
+    companyname?: string;
+    vendorfax?: string;
+    vendorphone?: string;
+    vendoremail?: string;
+    timsheetemail?: string;
+    hrname?: string;
+    hremail?: string;
+    hrphone?: string;
+    managername?: string;
+    manageremail?: string;
+    managerphone?: string;
+    secondaryname?: string;
+    secondaryemail?: string;
+    secondaryphone?: string;
+    candidatename?: string;
+    candidatephone?: string;
+    candidateemail?: string;
+    wrkemail?: string;
+    wrkphone?: string;
+    recruitername?: string;
+    recruiterphone?: string;
+    recruiteremail?: string;
+    notes?: string;
+  }

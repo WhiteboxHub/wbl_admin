@@ -4,48 +4,44 @@ import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Placement } from '../types/index';
 
-interface AddRowModalProps {
+
+interface AddRowPlacementProps {
   isOpen: boolean;
   onClose: () => void;
   refreshData: () => void;
 }
 
-const AddRowPlacement: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) => {
+const AddRowPlacement: React.FC<AddRowPlacementProps> = ({ isOpen, onClose, refreshData }) => {
   const [formData, setFormData] = useState<Placement>({
-    id: '',
-    startDate: '',
-    endDate: '',
-    status: '',
-    masterAgreementId: '',
-    otherAgreementsIds: [],
-    paperwork: '',
-    insurance: '',
-    workLocation: '',
-    workDesignation: '',
-    workEmail: '',
-    workPhone: '',
-    mgrName: '',
-    mgrEmail: '',
-    mgrPhone: '',
-    hiringMgrName: '',
-    hiringMgrEmail: '',
-    hiringMgrPhone: '',
-    reference: '',
-    ipEmailClear: false,
-    projectDocs: [],
-    feedbackId: '',
-    lock: false,
-    notes: '',
-    projectName: '',
-    projectDesc: '',
-    candidateId: '',
-    mmId: '',
-    recruiterId: '',
-    vendorId: '',
-    vendor2Id: '',
-    vendor3Id: '',
-    clientId: '',
-    lastModDateTime: '',
+    Candidate_Name: '',
+    Manager: '',
+    Recruiter: '',
+    Vendor1: '',
+    MSA_ID: '',
+    Other_AgrID: '',
+    Vendor2: '',
+    Vendor3: '',
+    Client: '',
+    Start_Date: '',
+    End_Date: '',
+    Status: '',
+    Paperwork: '',
+    Insurance: '',
+    Wrk_Location: '',
+    Wrk_Designation: '',
+    Wrk_Email: '',
+    Wrk_Phone: '',
+    Mgr_Name: '',
+    Mgr_Email: '',
+    Mgr_Phone: '',
+    Hiring_Mgr_Name: '',
+    Hiring_Mgr_Email: '',
+    Hiring_Mgr_Phone: '',
+    Reference: '',
+    IPEmail_Clear: '',
+    Feedback_ID: '',
+    Project_Docs: '',
+    Notes: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -55,9 +51,10 @@ const AddRowPlacement: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshD
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/placement/insert`, formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/placements/insert`, formData, {
         headers: { AuthToken: localStorage.getItem('token') },
       });
+
       refreshData();
       onClose();
     } catch (error) {
@@ -71,488 +68,418 @@ const AddRowPlacement: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshD
       onRequestClose={onClose}
       style={{
         content: {
-          top: '15%',
+          top: '55%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
-          transform: 'translate(-50%, 0)',
-          overflowY: 'auto',
+          transform: 'translate(-50%, -50%)',
+          maxWidth: '400px',
+          width: '90%',
           maxHeight: '80vh',
-          width: '40%',
-          padding: '20px',
-          borderRadius: '10px',
-          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+          padding: '24px',
+          borderRadius: '12px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+          overflowY: 'auto',
+          fontFamily: 'Arial, sans-serif',
         },
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
       }}
     >
-      <div className="">
-        <div className="relative">
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-0 text-gray-500 hover:text-gray-800 transition duration-200"
-          >
-            <AiOutlineClose size={24} />
-          </button>
-        </div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Add New Placement</h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Placement ID */}
-          <div>
-            <label className="block text-gray-700">Placement ID</label>
-            <input
-              type="text"
-              name="id"
-              value={formData.id}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Placement ID"
-            />
-          </div>
-
-          {/* Start Date */}
-          <div>
-            <label className="block text-gray-700">Start Date</label>
-            <input
-              type="date"
-              name="startDate"
-              value={formData.startDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* End Date */}
-          <div>
-            <label className="block text-gray-700">End Date</label>
-            <input
-              type="date"
-              name="endDate"
-              value={formData.endDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Status */}
-          <div>
-            <label className="block text-gray-700">Status</label>
-            <input
-              type="text"
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Status"
-            />
-          </div>
-
-          {/* Master Agreement ID */}
-          <div>
-            <label className="block text-gray-700">Master Agreement ID</label>
-            <input
-              type="text"
-              name="masterAgreementId"
-              value={formData.masterAgreementId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Master Agreement ID"
-            />
-          </div>
-
-          {/* Other Agreements IDs */}
-          <div>
-            <label className="block text-gray-700">Other Agreements IDs</label>
-            <input
-              type="text"
-              name="otherAgreementsIds"
-              value={formData.otherAgreementsIds.join(',')}
-              onChange={(e) => setFormData({ ...formData, otherAgreementsIds: e.target.value.split(',') })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Other Agreements IDs (comma-separated)"
-            />
-          </div>
-
-          {/* Paperwork */}
-          <div>
-            <label className="block text-gray-700">Paperwork</label>
-            <input
-              type="text"
-              name="paperwork"
-              value={formData.paperwork}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Paperwork"
-            />
-          </div>
-
-          {/* Insurance */}
-          <div>
-            <label className="block text-gray-700">Insurance</label>
-            <input
-              type="text"
-              name="insurance"
-              value={formData.insurance}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Insurance"
-            />
-          </div>
-
-          {/* Work Location */}
-          <div>
-            <label className="block text-gray-700">Work Location</label>
-            <input
-              type="text"
-              name="workLocation"
-              value={formData.workLocation}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Work Location"
-            />
-          </div>
-
-          {/* Work Designation */}
-          <div>
-            <label className="block text-gray-700">Work Designation</label>
-            <input
-              type="text"
-              name="workDesignation"
-              value={formData.workDesignation}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Work Designation"
-            />
-          </div>
-
-          {/* Work Email */}
-          <div>
-            <label className="block text-gray-700">Work Email</label>
-            <input
-              type="email"
-              name="workEmail"
-              value={formData.workEmail}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Work Email"
-            />
-          </div>
-
-          {/* Work Phone */}
-          <div>
-            <label className="block text-gray-700">Work Phone</label>
-            <input
-              type="text"
-              name="workPhone"
-              value={formData.workPhone}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Work Phone"
-            />
-          </div>
-
-          {/* Manager Name */}
-          <div>
-            <label className="block text-gray-700">Manager Name</label>
-            <input
-              type="text"
-              name="mgrName"
-              value={formData.mgrName}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Manager Name"
-            />
-          </div>
-
-          {/* Manager Email */}
-          <div>
-            <label className="block text-gray-700">Manager Email</label>
-            <input
-              type="email"
-              name="mgrEmail"
-              value={formData.mgrEmail}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Manager Email"
-            />
-          </div>
-
-          {/* Manager Phone */}
-          <div>
-            <label className="block text-gray-700">Manager Phone</label>
-            <input
-              type="text"
-              name="mgrPhone"
-              value={formData.mgrPhone}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Manager Phone"
-            />
-          </div>
-
-          {/* Hiring Manager Name */}
-          <div>
-            <label className="block text-gray-700">Hiring Manager Name</label>
-            <input
-              type="text"
-              name="hiringMgrName"
-              value={formData.hiringMgrName}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Hiring Manager Name"
-            />
-          </div>
-
-          {/* Hiring Manager Email */}
-          <div>
-            <label className="block text-gray-700">Hiring Manager Email</label>
-            <input
-              type="email"
-              name="hiringMgrEmail"
-              value={formData.hiringMgrEmail}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Hiring Manager Email"
-            />
-          </div>
-
-          {/* Hiring Manager Phone */}
-          <div>
-            <label className="block text-gray-700">Hiring Manager Phone</label>
-            <input
-              type="text"
-              name="hiringMgrPhone"
-              value={formData.hiringMgrPhone}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Hiring Manager Phone"
-            />
-          </div>
-
-          {/* Reference */}
-          <div>
-            <label className="block text-gray-700">Reference</label>
-            <input
-              type="text"
-              name="reference"
-              value={formData.reference}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Reference"
-            />
-          </div>
-
-          {/* IP Email Clear */}
-          <div>
-            <label className="block text-gray-700">IP Email Clear</label>
-            <input
-              type="checkbox"
-              name="ipEmailClear"
-              checked={formData.ipEmailClear}
-              onChange={(e) => setFormData({ ...formData, ipEmailClear: e.target.checked })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Project Docs */}
-          <div>
-            <label className="block text-gray-700">Project Docs</label>
-            <input
-              type="text"
-              name="projectDocs"
-              value={formData.projectDocs.join(',')}
-              onChange={(e) => setFormData({ ...formData, projectDocs: e.target.value.split(',') })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Project Docs (comma-separated)"
-            />
-          </div>
-
-          {/* Feedback ID */}
-          <div>
-            <label className="block text-gray-700">Feedback ID</label>
-            <input
-              type="text"
-              name="feedbackId"
-              value={formData.feedbackId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Feedback ID"
-            />
-          </div>
-
-          {/* Lock */}
-          <div>
-            <label className="block text-gray-700">Lock</label>
-            <input
-              type="checkbox"
-              name="lock"
-              checked={formData.lock}
-              onChange={(e) => setFormData({ ...formData, lock: e.target.checked })}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label className="block text-gray-700">Notes</label>
-            <input
-              type="text"
-              name="notes"
-              value={formData.notes}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Notes"
-            />
-          </div>
-
-          {/* Project Name */}
-          <div>
-            <label className="block text-gray-700">Project Name</label>
-            <input
-              type="text"
-              name="projectName"
-              value={formData.projectName}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Project Name"
-            />
-          </div>
-
-          {/* Project Description */}
-          <div>
-            <label className="block text-gray-700">Project Description</label>
-            <input
-              type="text"
-              name="projectDesc"
-              value={formData.projectDesc}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Project Description"
-            />
-          </div>
-
-          {/* Candidate ID */}
-          <div>
-            <label className="block text-gray-700">Candidate ID</label>
-            <input
-              type="text"
-              name="candidateId"
-              value={formData.candidateId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Candidate ID"
-            />
-          </div>
-
-          {/* MM ID */}
-          <div>
-            <label className="block text-gray-700">MM ID</label>
-            <input
-              type="text"
-              name="mmId"
-              value={formData.mmId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter MM ID"
-            />
-          </div>
-
-          {/* Recruiter ID */}
-          <div>
-            <label className="block text-gray-700">Recruiter ID</label>
-            <input
-              type="text"
-              name="recruiterId"
-              value={formData.recruiterId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Recruiter ID"
-            />
-          </div>
-
-          {/* Vendor ID */}
-          <div>
-            <label className="block text-gray-700">Vendor ID</label>
-            <input
-              type="text"
-              name="vendorId"
-              value={formData.vendorId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Vendor ID"
-            />
-          </div>
-
-          {/* Vendor 2 ID */}
-          <div>
-            <label className="block text-gray-700">Vendor 2 ID</label>
-            <input
-              type="text"
-              name="vendor2Id"
-              value={formData.vendor2Id || ''}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Vendor 2 ID"
-            />
-          </div>
-
-          {/* Vendor 3 ID */}
-          <div>
-            <label className="block text-gray-700">Vendor 3 ID</label>
-            <input
-              type="text"
-              name="vendor3Id"
-              value={formData.vendor3Id || ''}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Vendor 3 ID"
-            />
-          </div>
-
-          {/* Client ID */}
-          <div>
-            <label className="block text-gray-700">Client ID</label>
-            <input
-              type="text"
-              name="clientId"
-              value={formData.clientId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Client ID"
-            />
-          </div>
-
-          {/* Last Modified DateTime */}
-          <div>
-            <label className="block text-gray-700">Last Modified DateTime</label>
-            <input
-              type="datetime-local"
-              name="lastModDateTime"
-              value={formData.lastModDateTime}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-          >
-            Save Placement
-          </button>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
-          >
-            Cancel
-          </button>
-        </form>
+      <div className="relative">
+        <button
+          onClick={onClose}
+          className="absolute top-0 right-0 text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"
+        >
+          &times;
+        </button>
       </div>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 pr-8">Add New Placement</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Candidate Name */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Candidate Name</label>
+          <input
+            type="text"
+            name="Candidate_Name"
+            value={formData.Candidate_Name}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter candidate name"
+          />
+        </div>
+
+        {/* Manager */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Manager</label>
+          <input
+            type="text"
+            name="Manager"
+            value={formData.Manager}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter manager name"
+          />
+        </div>
+
+        {/* Recruiter */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Recruiter</label>
+          <input
+            type="text"
+            name="Recruiter"
+            value={formData.Recruiter}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter recruiter name"
+          />
+        </div>
+
+        {/* Vendor1 */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Vendor 1</label>
+          <input
+            type="text"
+            name="Vendor1"
+            value={formData.Vendor1}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter vendor 1 name"
+          />
+        </div>
+
+        {/* MSA_ID */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">MSA ID</label>
+          <input
+            type="text"
+            name="MSA_ID"
+            value={formData.MSA_ID}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter MSA ID"
+          />
+        </div>
+
+        {/* Other_AgrID */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Other Agreement ID</label>
+          <input
+            type="text"
+            name="Other_AgrID"
+            value={formData.Other_AgrID}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter other agreement ID"
+          />
+        </div>
+
+        {/* Vendor2 */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Vendor 2</label>
+          <input
+            type="text"
+            name="Vendor2"
+            value={formData.Vendor2}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter vendor 2 name"
+          />
+        </div>
+
+        {/* Vendor3 */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Vendor 3</label>
+          <input
+            type="text"
+            name="Vendor3"
+            value={formData.Vendor3}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter vendor 3 name"
+          />
+        </div>
+
+        {/* Client */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Client</label>
+          <input
+            type="text"
+            name="Client"
+            value={formData.Client}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter client name"
+          />
+        </div>
+
+        {/* Start Date */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Start Date</label>
+          <input
+            type="date"
+            name="Start_Date"
+            value={formData.Start_Date}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+          />
+        </div>
+
+        {/* End Date */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">End Date</label>
+          <input
+            type="date"
+            name="End_Date"
+            value={formData.End_Date}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+          />
+        </div>
+
+        {/* Status */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Status</label>
+          <input
+            type="text"
+            name="Status"
+            value={formData.Status}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter status"
+          />
+        </div>
+
+        {/* Paperwork */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Paperwork</label>
+          <input
+            type="text"
+            name="Paperwork"
+            value={formData.Paperwork}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter paperwork details"
+          />
+        </div>
+
+        {/* Insurance */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Insurance</label>
+          <input
+            type="text"
+            name="Insurance"
+            value={formData.Insurance}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter insurance details"
+          />
+        </div>
+
+        {/* Work Location */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Work Location</label>
+          <input
+            type="text"
+            name="Wrk_Location"
+            value={formData.Wrk_Location}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter work location"
+          />
+        </div>
+
+        {/* Work Designation */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Work Designation</label>
+          <input
+            type="text"
+            name="Wrk_Designation"
+            value={formData.Wrk_Designation}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter work designation"
+          />
+        </div>
+
+        {/* Work Email */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Work Email</label>
+          <input
+            type="email"
+            name="Wrk_Email"
+            value={formData.Wrk_Email}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter work email"
+          />
+        </div>
+
+        {/* Work Phone */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Work Phone</label>
+          <input
+            type="text"
+            name="Wrk_Phone"
+            value={formData.Wrk_Phone}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter work phone"
+          />
+        </div>
+
+        {/* Manager Name */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Manager Name</label>
+          <input
+            type="text"
+            name="Mgr_Name"
+            value={formData.Mgr_Name}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter manager name"
+          />
+        </div>
+
+        {/* Manager Email */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Manager Email</label>
+          <input
+            type="email"
+            name="Mgr_Email"
+            value={formData.Mgr_Email}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter manager email"
+          />
+        </div>
+
+        {/* Manager Phone */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Manager Phone</label>
+          <input
+            type="text"
+            name="Mgr_Phone"
+            value={formData.Mgr_Phone}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter manager phone"
+          />
+        </div>
+
+        {/* Hiring Manager Name */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Hiring Manager Name</label>
+          <input
+            type="text"
+            name="Hiring_Mgr_Name"
+            value={formData.Hiring_Mgr_Name}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter hiring manager name"
+          />
+        </div>
+
+        {/* Hiring Manager Email */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Hiring Manager Email</label>
+          <input
+            type="email"
+            name="Hiring_Mgr_Email"
+            value={formData.Hiring_Mgr_Email}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter hiring manager email"
+          />
+        </div>
+
+        {/* Hiring Manager Phone */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Hiring Manager Phone</label>
+          <input
+            type="text"
+            name="Hiring_Mgr_Phone"
+            value={formData.Hiring_Mgr_Phone}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter hiring manager phone"
+          />
+        </div>
+
+        {/* Reference */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Reference</label>
+          <input
+            type="text"
+            name="Reference"
+            value={formData.Reference}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter reference"
+          />
+        </div>
+
+        {/* IP Email Clear */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">IP Email Clear</label>
+          <input
+            type="text"
+            name="IPEmail_Clear"
+            value={formData.IPEmail_Clear}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter IP email clear"
+          />
+        </div>
+
+        {/* Feedback ID */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Feedback ID</label>
+          <input
+            type="text"
+            name="Feedback_ID"
+            value={formData.Feedback_ID}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter feedback ID"
+          />
+        </div>
+
+        {/* Project Docs */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Project Docs</label>
+          <input
+            type="text"
+            name="Project_Docs"
+            value={formData.Project_Docs}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter project docs"
+          />
+        </div>
+
+        {/* Notes */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Notes</label>
+          <input
+            type="text"
+            name="Notes"
+            value={formData.Notes}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter notes"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold text-sm"
+        >
+          Save Placement
+        </button>
+      </form>
     </Modal>
   );
 };

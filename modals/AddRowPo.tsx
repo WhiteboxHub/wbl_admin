@@ -5,19 +5,17 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { Po } from '../types/index';
 
 
-interface AddRowModalProps {
+interface AddRowPOProps {
   isOpen: boolean;
   onClose: () => void;
   refreshData: () => void;
 }
 
-const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) => {
-  const currentDate = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+const AddRowPO: React.FC<AddRowPOProps> = ({ isOpen, onClose, refreshData }) => {
   const [formData, setFormData] = useState<Po>({
-    id: '',
-    PlacementID: '',
-    StartDate: currentDate, // Set default to current date
-     EndDate:'',
+    PlacementDetails: '',
+    StartDate: '',
+    EndDate: '',
     Rate: '',
     OvertimeRate: '',
     FreqType: '',
@@ -26,7 +24,6 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
     InvoiceNet: '',
     POUrl: '',
     Notes: '',
-    PlacementDetails: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -40,9 +37,7 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
         headers: { AuthToken: localStorage.getItem('token') },
       });
 
-      // Here, use the newly created PO data for the refreshData
-      const newPO = response.data; // assuming the API returns the new PO
-      refreshData(); // Pass the new PO to be added
+      refreshData();
       onClose();
     } catch (error) {
       console.error('Error adding row:', error);
@@ -55,219 +50,185 @@ const AddRowPo: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) 
       onRequestClose={onClose}
       style={{
         content: {
-          top: '15%',
+          top: '55%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
-          transform: 'translate(-50%, 0)',
-          overflowY: 'auto',
+          transform: 'translate(-50%, -50%)',
+          maxWidth: '400px',
+          width: '90%',
           maxHeight: '80vh',
-          width: '40%',
-          padding: '20px',
-          borderRadius: '10px',
-          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+          padding: '24px',
+          borderRadius: '12px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+          overflowY: 'auto',
+          fontFamily: 'Arial, sans-serif',
         },
         overlay: {
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
         },
       }}
     >
-      <div className="">
-        <div className="relative">
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-0 text-gray-500 hover:text-gray-800 transition duration-200"
-          >
-            <AiOutlineClose size={24} />
-          </button>
-        </div>
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Add New PO</h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* PO ID */}
-          <div>
-            <label className="block text-gray-700">PO ID</label>
-            <input
-              type="text"
-              name="id"
-              value={formData.id}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter PO ID"
-            />
-          </div>
-
-          {/* Placement ID */}
-          <div>
-            <label className="block text-gray-700">Placement ID</label>
-            <input
-              type="text"
-              name="placementid"
-              value={formData.PlacementID}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter Placement ID"
-            />
-          </div>
-
-          {/* Start Date */}
-          <div>
-            <label className="block text-gray-700">Start Date</label>
-            <input
-              type="date"
-              name="begindate"
-              value={formData.StartDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* End Date */}
-          <div>
-            <label className="block text-gray-700">End Date</label>
-            <input
-              type="date"
-              name="enddate"
-              value={formData.EndDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Rate */}
-          <div>
-            <label className="block text-gray-700">Rate</label>
-            <input
-              type="text"
-              name="rate"
-              value={formData.Rate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter rate"
-            />
-          </div>
-
-          {/* Overtime Rate */}
-          <div>
-            <label className="block text-gray-700">Overtime Rate</label>
-            <input
-              type="text"
-              name="overtimerate"
-              value={formData.OvertimeRate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter overtime rate"
-            />
-          </div>
-
-          {/* Freq. Type */}
-          <div>
-            <label className="block text-gray-700">Freq. Type</label>
-            <input
-              type="text"
-              name="freqtype"
-              value={formData.FreqType}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter frequency type"
-            />
-          </div>
-
-          {/* Invoice Frequency */}
-          <div>
-            <label className="block text-gray-700">Invoice Frequency</label>
-            <input
-              type="text"
-              name="frequency"
-              value={formData.InvoiceFrequency}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter invoice frequency"
-            />
-          </div>
-
-          {/* Invoice Start Date */}
-          <div>
-            <label className="block text-gray-700">Invoice Start Date</label>
-            <input
-              type="date"
-              name="invoicestartdate"
-              value={formData.InvoiceStartDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Invoice Net */}
-          <div>
-            <label className="block text-gray-700">Invoice Net</label>
-            <input
-              type="text"
-              name="invoicenet"
-              value={formData.InvoiceNet}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter invoice net"
-            />
-          </div>
-
-          {/* PO Url */}
-          <div>
-            <label className="block text-gray-700">PO Url</label>
-            <input
-              type="text"
-              name="polink"
-              value={formData.POUrl}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter PO URL"
-            />
-          </div>
-
-          {/* Notes */}
-          <div>
-            <label className="block text-gray-700">Notes</label>
-            <input
-              type="text"
-              name="notes"
-              value={formData.Notes}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter notes"
-            />
-          </div>
-      
-         {/* Placement Details */}
-<div>
-<label className="block text-gray-700">Placement Details</label>
-<input
-  type="text"
-  name="placementDetails"
-  value={formData.PlacementDetails}
-  onChange={handleChange}
-  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-  placeholder="Enter placement details"
-/>
-</div>
-
-          <button
-            type="submit"
-            className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200"
-          >
-            Save PO
-          </button>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="mt-2 w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition duration-200"
-          >
-            Cancel
-          </button>
-        </form>
+      <div className="relative">
+        <button
+          onClick={onClose}
+          className="absolute top-0 right-0 text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"
+        >
+          &times;
+        </button>
       </div>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 pr-8">Add New PO</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Placement Details */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Placement Details</label>
+          <input
+            type="text"
+            name="PlacementDetails"
+            value={formData.PlacementDetails}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter placement details"
+          />
+        </div>
+
+        {/* Start Date */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Start Date</label>
+          <input
+            type="date"
+            name="StartDate"
+            value={formData.StartDate}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+          />
+        </div>
+
+        {/* End Date */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">End Date</label>
+          <input
+            type="date"
+            name="EndDate"
+            value={formData.EndDate}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+          />
+        </div>
+
+        {/* Rate */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Rate</label>
+          <input
+            type="text"
+            name="Rate"
+            value={formData.Rate}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter rate"
+          />
+        </div>
+
+        {/* Overtime Rate */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Overtime Rate</label>
+          <input
+            type="text"
+            name="OvertimeRate"
+            value={formData.OvertimeRate}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter overtime rate"
+          />
+        </div>
+
+        {/* Frequency Type */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Frequency Type</label>
+          <input
+            type="text"
+            name="FreqType"
+            value={formData.FreqType}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter frequency type"
+          />
+        </div>
+
+        {/* Invoice Frequency */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Invoice Frequency</label>
+          <input
+            type="text"
+            name="InvoiceFrequency"
+            value={formData.InvoiceFrequency}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter invoice frequency"
+          />
+        </div>
+
+        {/* Invoice Start Date */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Invoice Start Date</label>
+          <input
+            type="date"
+            name="InvoiceStartDate"
+            value={formData.InvoiceStartDate}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+          />
+        </div>
+
+        {/* Invoice Net */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Invoice Net</label>
+          <input
+            type="text"
+            name="InvoiceNet"
+            value={formData.InvoiceNet}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter invoice net"
+          />
+        </div>
+
+        {/* PO URL */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">PO URL</label>
+          <input
+            type="text"
+            name="POUrl"
+            value={formData.POUrl}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter PO URL"
+          />
+        </div>
+
+        {/* Notes */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Notes</label>
+          <input
+            type="text"
+            name="Notes"
+            value={formData.Notes}
+            onChange={handleChange}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+            placeholder="Enter notes"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold text-sm"
+        >
+          Save PO
+        </button>
+      </form>
     </Modal>
   );
 };
 
-export default AddRowPo;
+export default AddRowPO;
