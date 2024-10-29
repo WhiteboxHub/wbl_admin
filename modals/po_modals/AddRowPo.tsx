@@ -33,7 +33,7 @@ const AddRowPO: React.FC<AddRowPOProps> = ({ isOpen, onClose, refreshData }) => 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/po/insert`, formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/po/add`, formData, {
         headers: { AuthToken: localStorage.getItem('token') },
       });
 
