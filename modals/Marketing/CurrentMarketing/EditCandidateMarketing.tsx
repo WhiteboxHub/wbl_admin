@@ -1,17 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { Employee } from '../types/index'; // Adjust the import path accordingly
 
-interface EditEmployeeModalProps {
+interface CandidateMarketing {
+  
+  candidateid: number;
+  startdate: string;
+  mmid: number;
+  instructorid: number;
+  status: string;
+  submitterid: number;
+  priority: string;
+  technology: string;
+  minrate: number;
+  currentlocation: string;
+  relocation: string;
+  locationpreference: string;
+  skypeid: string;
+  ipemailid: number;
+  resumeid: number;
+  coverletter: string;
+  intro: string;
+  closedate: string;
+  closedemail: string;
+  notes: string;
+  suspensionreason: string;
+  yearsofexperience: string;
+}
+
+interface EditCandidateMarketingModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  rowData: Employee | null;
+  rowData: CandidateMarketing | null;
   onSave: () => void;
 }
 
-const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
-  const [formData, setFormData] = useState<Employee | null>(null);
+const EditCandidateMarketingModal: React.FC<EditCandidateMarketingModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
+  const [formData, setFormData] = useState<CandidateMarketing | null>(null);
 
   useEffect(() => {
     if (rowData) {
@@ -19,33 +44,26 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onRequest
     }
   }, [rowData]);
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (formData) {
-  //     setFormData({ ...formData, [e.target.name]: e.target.value });
-  //   }
-  // };
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     if (formData) {
       setFormData({
         ...formData,
-        [e.target.name]: e.target.value as string
+        [e.target.name]: e.target.value,
       });
     }
   };
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData) {
       try {
-        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/employees/update/${formData.id}`, formData, {
+        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/candidatemarketing/update/${formData.id}`, formData, {
           headers: { AuthToken: localStorage.getItem('token') },
         });
         onSave();
         onRequestClose();
       } catch (error) {
-        console.error('Error updating employee:', error);
+        console.error('Error updating candidate marketing:', error);
       }
     }
   };
@@ -78,23 +96,20 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onRequest
       }}
     >
       <div className="flex justify-between items-center mb-6">
-       <h2 className="text-2xl font-bold  text-gray-800 pr-8">Edit Employee</h2>
-      <button
+        <h2 className="text-2xl font-bold text-gray-800 pr-8">Edit Candidate Marketing</h2>
+        <button
           onClick={onRequestClose}
           className="text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"
         >
           &times;
         </button>
       </div>
-     <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         {formData && Object.keys(formData).map((key) => (
           <div key={key} className="modal-field">
             <label htmlFor={key} className="block text-sm font-semibold text-gray-700 mb-1">
               {key.charAt(0).toUpperCase() + key.slice(1)}
             </label>
-
-
-            {/* Conditional rendering for the dropdowns */}
             {key === 'status' ? (
               <select
                 id="status"
@@ -105,62 +120,69 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onRequest
               >
                 <option value="">None</option>
                 <option value="Active">Active</option>
-                <option value="Fired">Fired</option>
-                <option value="Discontinued">Discontinued</option>
-                <option value="Break">Break</option>
+                <option value="Inactive">Inactive</option>
+                {/* Add more options as needed */}
               </select>
-            ) : key === 'designationid' ? (
+            ) : key === 'priority' ? (
               <select
-                id="designationid"
-                name="designationid"
-                value={formData.designationid}
+                id="priority"
+                name="priority"
+                value={formData.priority}
                 onChange={handleChange}
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               >
                 <option value="">None</option>
-                <option value="HR Manager">HR Manager</option>
-                <option value="Operation Manager">Operation Manager</option>
-                <option value="Marketing Manager">Marketing Manager</option>
-                <option value="Instructor">Instructor</option>
-                <option value="Training Manager">Training Manager</option>
-                <option value="Marketing Associates">Marketing Associates</option>
-                <option value="Recruting Assistant">Recruting Assistant</option>
-                <option value="Recruting Manager">Recruting Manager</option>
-                <option value="US PayRoll Manager">US PayRoll Manager</option>
-                <option value="HR Associate">HR Associate</option>
-                <option value="CEO">CEO</option>
-                <option value="COO">COO</option>
-                <option value="Director">Director</option>
+                <option value="P1">P1</option>
+                <option value="P2">P2</option>
+                <option value="P3">P3</option>
+                <option value="P4">P4</option>
+                <option value="P5">P5</option>
+                {/* Add more options as needed */}
               </select>
-            ) : key === 'commission' ? (
+            ) : key === 'technology' ? (
               <select
-                id="commission"
-                name="commission"
-                value={formData.commission}
-                onChange={handleChange}
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-              >
-                <option value="">N</option>
-                <option value="Y">Y</option>
-              </select>
-            ) : key === 'type' ? (
-              <select
-                id="type"
-                name="type"
-                value={formData.type}
+                id="technology"
+                name="technology"
+                value={formData.technology}
                 onChange={handleChange}
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               >
                 <option value="">None</option>
-                <option value="Full Time">Full Time</option>
-                <option value="Part Time">Part Time</option>
+                <option value="QA">QA</option>
+                <option value="UI">UI</option>
+                <option value="ML">ML</option>
+                {/* Add more options as needed */}
               </select>
+            ) : key === 'suspensionreason' ? (
+              <select
+                id="suspensionreason"
+                name="suspensionreason"
+                value={formData.suspensionreason}
+                onChange={handleChange}
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+              >
+                <option value="">None</option>
+                <option value="A">A - Active</option>
+                <option value="B">B - Break</option>
+                <option value="D">D - Discontinued</option>
+                <option value="X">X - Defaulted</option>
+                {/* Add more options as needed */}
+              </select>
+            ) : key === 'coverletter' || key === 'intro' || key === 'notes' ? (
+              <textarea
+                id={key}
+                name={key}
+                value={formData[key as keyof CandidateMarketing]}
+                onChange={handleChange}
+                placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+              />
             ) : (
-                <input
+              <input
                 type="text"
                 id={key}
                 name={key}
-                value={formData[key as keyof Employee]}
+                value={formData[key as keyof CandidateMarketing]}
                 onChange={handleChange}
                 placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                 className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
@@ -168,16 +190,15 @@ const EditEmployeeModal: React.FC<EditEmployeeModalProps> = ({ isOpen, onRequest
             )}
           </div>
         ))}
-  
         <button
           type="submit"
           className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold text-sm"
         >
-          Save Employee
+          Save Candidate
         </button>
       </form>
     </Modal>
   );
 };
 
-export default EditEmployeeModal;
+export default EditCandidateMarketingModal;
