@@ -43,35 +43,65 @@ const Overdue = () => {
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  // *-----------fetching data----------------------
+  // const fetchData = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.get(`${API_URL}/overdue`, {
+  //       params: {
+  //         page: currentPage,
+  //         pageSize: paginationPageSize,
+  //       },
+  //       headers: { AuthToken: localStorage.getItem("token") },
+  //     });
+  
+  //     const { data, totalRows } = response.data;
+  
+  //     // Add serial numbers to each row
+  //     const dataWithSerials = data.map((item: Po) => ({
+  //       ...item,
+  //       // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
+  //     }));
+  
+  //     setRowData(dataWithSerials);
+  //     setTotalRows(totalRows);
+  //     setupColumns(dataWithSerials);
+  //   } catch (error) {
+  //     console.error("Error loading data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/overdue`, {
-        params: {
-          page: currentPage,
-          pageSize: paginationPageSize,
-        },
-        headers: { AuthToken: localStorage.getItem("token") },
-      });
-  
-      const { data, totalRows } = response.data;
-  
-      // Add serial numbers to each row
-      const dataWithSerials = data.map((item: Po) => ({
-        ...item,
-        // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
-      }));
-  
-      setRowData(dataWithSerials);
-      setTotalRows(totalRows);
-      setupColumns(dataWithSerials);
-    } catch (error) {
-      console.error("Error loading data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        const response = await axios.get(`${API_URL}/overdue`, {
+            params: {
+                page: currentPage, // Send current page to the API
+                pageSize: paginationPageSize, // Send page size to the API
+            },
+            headers: { AuthToken: localStorage.getItem("token") },
+        });
 
+        const { data, totalRows } = response.data;
+
+        // Add serial numbers to each row
+        const dataWithSerials = data.map((item: Po, index: number) => ({
+            ...item,
+            serialNo: (currentPage - 1) * paginationPageSize + index + 1, // Add serial number
+        }));
+
+        setRowData(dataWithSerials);
+        setTotalRows(totalRows);
+        setupColumns(dataWithSerials);
+    } catch (error) {
+        console.error("Error loading data:", error);
+    } finally {
+        setLoading(false);
+    }
+};
+// -------------------------*****************------------------
   const fetchOverdues = async (searchQuery = "") => {
     try {
       const response = await axios.get(`${API_URL}/overdue/search`, {
