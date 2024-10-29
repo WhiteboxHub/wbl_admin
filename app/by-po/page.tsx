@@ -10,7 +10,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { FaDownload } from "react-icons/fa";
 import AddRowModal from "../../modals/bypo_modals/AddRowByPO";
-import EditRowModal from "@/modals/bypo_modals/EditRowByPO";
+import EditRowModal from "../../modals//bypo_modals/EditRowByPO";
 import ViewRowModal from "../../modals/bypo_modals/ViewRowByPO";
 import { MdDelete } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
@@ -196,7 +196,7 @@ const ByPO = () => {
   return (
     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">By PO Management</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Invoice Management</h1>
         <div className="flex space-x-2">
           <button
             onClick={handleAddRow}

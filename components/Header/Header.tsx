@@ -277,10 +277,10 @@ const menuItems: MenuItem[] = [
             { name: 'By Month', href: '/by-month' }
           ]
         },
-        { name: 'Client', href: '/client' ,
+        { name: 'Client', href: '' ,
           subMenu: [
-            { name: 'List', href: '/list' },
-            { name: 'Search', href: '/search' },
+            { name: 'List', href: '/client' },
+            { name: 'Search', href: '/client_search' },
             { name: 'Recruiters', href: '',
               subMenu: [
                 { name: 'By Client', href: '/byclient' },
@@ -294,7 +294,7 @@ const menuItems: MenuItem[] = [
         { name: 'Vendor', href: '',
           subMenu: [
             { name: 'List', href: '/vendor' },
-            { name: 'Search', href: '/searchv' },
+            { name: 'Search', href: '/vendor_search' },
             { name: 'URLs', href: '/urls' },
             { name: 'Recruiters', href: '',
               subMenu: [
