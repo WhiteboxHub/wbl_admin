@@ -681,9 +681,11 @@ const Leads = () => {
     window.location.reload();
   };
 
-  // const handlePageChange = (newPage: number) => {
-  //   setCurrentPage(newPage);
-  // };
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  
 // ... existing code ...
 // ... existing code ...
 const handleDownloadPDF = () => {
