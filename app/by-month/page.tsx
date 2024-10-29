@@ -196,7 +196,7 @@ const ByMonth = () => {
   return (
     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">By Month Management</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Invoice Management</h1>
         <div className="flex space-x-2">
           <button
             onClick={handleAddRow}

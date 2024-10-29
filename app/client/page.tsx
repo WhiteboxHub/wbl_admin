@@ -46,7 +46,7 @@ const Clients = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/clients`, {
+      const response = await axios.get(`${API_URL}/client`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
@@ -72,7 +72,7 @@ const Clients = () => {
 
   const fetchClients = async (searchQuery = "") => {
     try {
-      const response = await axios.get(`${API_URL}/clients/search`, {
+      const response = await axios.get(`${API_URL}/client/search`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
@@ -143,7 +143,7 @@ const Clients = () => {
           if (!confirmation) return;
 
           try {
-            await axios.delete(`${API_URL}/clients/delete/${clientId}`, {
+            await axios.delete(`${API_URL}/client/delete/${clientId}`, {
               headers: { AuthToken: localStorage.getItem("token") },
             });
             alert("Client deleted successfully.");
