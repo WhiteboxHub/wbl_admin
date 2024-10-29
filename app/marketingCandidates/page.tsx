@@ -16,7 +16,6 @@ import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } 
 import { MdDelete } from "react-icons/md";
 import { debounce } from "lodash";
 import jsPDF from "jspdf";
-import { faFilePdf, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import withAuth from "@/modals/withAuth";
 
 import {
@@ -25,41 +24,84 @@ import {
   AiOutlineReload,
   AiOutlineEye,
 } from "react-icons/ai";
-import { MdAdd } from "react-icons/md";
+
+interface RowData {
+  id: number;
+  candidateid: string;
+  startdate: string;
+  mmid: string;
+  instructorid: string;
+  status: string;
+  submitterid: string;
+  priority: string;
+  technology: string;
+  minrate: number;
+  currentlocation: string;
+  relocation: string;
+  locationpreference: string;
+  skypeid: string;
+  ipemailid: string;
+  resumeid: string;
+  coverletter: string;
+  intro: string;
+  closedate: string;
+  closedemail: string;
+  notes: string;
+  suspensionreason?: string;
+  yearsofexperience?: number;
+}
+
+interface AutoTableDoc extends jsPDF {
+  autoTable: (options: {
+    head: string[][];
+    body: (string | number)[][];
+    styles: {
+      fontSize: number;
+      cellPadding: number;
+    };
+    margin: {
+      top: number;
+      left: number;
+      right: number;
+    };
+  }) => void;
+}
 
 const MarketingCandidates = () => {
-  const [rowData, setRowData] = useState<any[]>([]);
+  const [rowData, setRowData] = useState<RowData[]>([]);
   const [columnDefs, setColumnDefs] = useState<{ headerName: string; field: string }[]>([]);
   const [paginationPageSize] = useState<number>(200);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
   const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
-  const [selectedRow, setSelectedRow] = useState<any | null>(null);
+  const [selectedRow, setSelectedRow] = useState<RowData | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [error, setError] = useState<any | null>(null);
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const fetchData = useCallback(async (searchQuery = "", page = 1) => {
-    try {
-      const response = await axios.get(`${API_URL}/marketingcandidates/search`, {
-        params: {
-          page: page,
-          pageSize: paginationPageSize,
-          search: searchQuery,
-        },
-        headers: { AuthToken: localStorage.getItem("token") },
-      });
+  const fetchData = useCallback((searchQuery = "", page = 1) => {
+    const fetchDataAsync = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/marketingcandidates/search`, {
+          params: {
+            page: page,
+            pageSize: paginationPageSize,
+            search: searchQuery,
+          },
+          headers: { AuthToken: localStorage.getItem("token") },
+        });
 
-      const { data, totalRows } = response.data;
-      setRowData(data);
-      setTotalRows(totalRows);
-      setupColumns(data);
-    } catch (error) {
-      console.error("Error loading data:", error);
-    }
-  }, [paginationPageSize, API_URL]);
+        const { data, totalRows } = response.data;
+        setRowData(data);
+        setTotalRows(totalRows);
+        setupColumns(data);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
+    fetchDataAsync();
+  }, [API_URL, paginationPageSize]);
 
   const debouncedFetchData = useCallback(
     debounce((query: string) => {
@@ -83,7 +125,7 @@ const MarketingCandidates = () => {
     }
   }, [currentPage, fetchData, searchValue]);
 
-  const setupColumns = (data: any[]) => {
+  const setupColumns = (data: RowData[]) => {
     if (data.length > 0) {
       const keys = Object.keys(data[0]);
       const columns = keys.map((key) => ({
@@ -93,8 +135,6 @@ const MarketingCandidates = () => {
       setColumnDefs(columns);
     }
   };
-
-  const handleAddRow = () => setModalState((prevState) => ({ ...prevState, add: true }));
 
   const handleEditRow = () => {
     if (gridRef.current) {
@@ -135,7 +175,6 @@ const MarketingCandidates = () => {
           alert("Entry deleted successfully.");
           fetchData(searchValue);
         } catch (error) {
-          setError(error);
           console.error("Error deleting entry:", error);
           alert(`Failed to delete entry: ${error || "Unknown error occurred"}`);
         }
@@ -163,10 +202,10 @@ const MarketingCandidates = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        const doc = new jsPDF({ orientation: "landscape" });
+        const doc = new jsPDF({ orientation: "landscape" }) as AutoTableDoc;
         doc.text("Selected Candidate Marketing Data", 15, 10);
         
-        const pdfData = selectedRows.map((row) => [
+        const pdfData = selectedRows.map((row: RowData) => [
           row.candidateid,
           row.startdate,
           row.mmid,
@@ -191,13 +230,13 @@ const MarketingCandidates = () => {
           row.yearsofexperience,
         ]);
 
-        (doc as any).autoTable({
+        doc.autoTable({
           head: [
             [
               "Candidate ID",
               "Start Date",
               "MMID",
-              "Instructor ID",
+              "Instructor ID", 
               "Status",
               "Submitter ID",
               "Priority",
@@ -253,7 +292,7 @@ const MarketingCandidates = () => {
       label: "Export to PDF",
     },
     {
-      value: "Export to Excel",
+      value: "Export to Excel", 
       label: "Export to Excel",
     },
   ];
@@ -296,8 +335,8 @@ const MarketingCandidates = () => {
               <AiOutlineReload className="mr-2" /> Refresh
             </button>
             <Dropdown
-              options={options as Option[]} // Cast options as Option[] since label is JSX now
-              value={defaultOption} // Set default option
+              options={options as Option[]}
+              value={defaultOption}
               onChange={(selectedOption) => {
                 if (selectedOption.value === "Export to PDF") {
                   handleDownloadPDF();
@@ -343,7 +382,7 @@ const MarketingCandidates = () => {
             defaultColDef={{
               sortable: true,
               filter: true,
-              resizable: true, // Enable column resizing
+              resizable: true,
               cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
               minWidth: 80,
               maxWidth: 150,
@@ -354,7 +393,6 @@ const MarketingCandidates = () => {
         </div>
         <div className="flex justify-between mt-4">
         <div className="flex items-center">
-          {/* Double Left Icon */}
           <button 
             onClick={() => handlePageChange(1)} 
             disabled={currentPage === 1}
@@ -362,7 +400,6 @@ const MarketingCandidates = () => {
           >
             <FaAngleDoubleLeft />
           </button>
-          {/* Left Icon */}
           <button 
             onClick={() => handlePageChange(currentPage - 1)} 
             disabled={currentPage === 1}
@@ -370,7 +407,6 @@ const MarketingCandidates = () => {
           >
             <FaChevronLeft />
           </button>
-          {/* Page Numbers */}
           {pageOptions.map((page) => (
             <button
               key={page}
@@ -380,7 +416,6 @@ const MarketingCandidates = () => {
               {page}
             </button>
           ))}
-          {/* Right Icon */}
           <button 
             onClick={() => handlePageChange(currentPage + 1)} 
             disabled={currentPage === totalPages}
@@ -388,7 +423,6 @@ const MarketingCandidates = () => {
           >
             <FaChevronRight />
           </button>
-          {/* Double Right Icon */}
           <button 
             onClick={() => handlePageChange(totalPages)} 
             disabled={currentPage === totalPages}
@@ -415,4 +449,3 @@ const MarketingCandidates = () => {
 };
 
 export default withAuth(MarketingCandidates);
-
