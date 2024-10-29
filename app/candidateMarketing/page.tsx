@@ -28,15 +28,15 @@ import {
 
 
 const CandidateMarketing = () => {
-  const [rowData, setRowData] = useState<any[]>([]);
+  const [rowData, setRowData] = useState<[]>([]);
   const [columnDefs, setColumnDefs] = useState<{ headerName: string; field: string }[]>([]);
   const [paginationPageSize] = useState<number>(200);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
   const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
-  const [selectedRow, setSelectedRow] = useState<any | null>(null);
+  const [selectedRow, setSelectedRow] = useState<null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [error,setError] = useState<any | null>(null);
+  // const [error,setError] = useState<any | null>(null);
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;

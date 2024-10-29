@@ -43,45 +43,81 @@ const Placements = () => {
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  // const fetchData = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.get(`${API_URL}/placement`, {
+  //       params: {
+  //         page: currentPage,
+  //         pageSize: paginationPageSize, // Make sure this is 100
+  //       },
+  //       headers: { AuthToken: localStorage.getItem("token") },
+  //     });
+  
+  //     console.log("Full API Response:", response); // Log the entire response object
+  //     console.log("API Response Data:", response.data); // Log the data
+  
+  //     // Assuming response.data is the array of placements
+  //     const data = response.data; // Directly use response.data if it's the array
+  //     const totalRows = response.headers['total-rows'] || data.length; // Adjust based on actual API response
+  
+  //     // Check if 'data' is valid
+  //     if (!Array.isArray(data)) {
+  //       throw new Error("Data is not an array or is undefined");
+  //     }
+  
+  //     // Add serial numbers to each row
+  //     const dataWithSerials = data.map((item: Placement, ) => ({
+  //       ...item,
+  //       // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
+  //     }));
+  
+  //     setRowData(dataWithSerials);
+  //     setTotalRows(totalRows);
+  //     setupColumns(dataWithSerials);
+  //   } catch (error) {
+  //     console.error("Error loading data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/placement`, {
-        params: {
-          page: currentPage,
-          pageSize: paginationPageSize, // Make sure this is 100
-        },
-        headers: { AuthToken: localStorage.getItem("token") },
-      });
-  
-      console.log("Full API Response:", response); // Log the entire response object
-      console.log("API Response Data:", response.data); // Log the data
-  
-      // Assuming response.data is the array of placements
-      const data = response.data; // Directly use response.data if it's the array
-      const totalRows = response.headers['total-rows'] || data.length; // Adjust based on actual API response
-  
-      // Check if 'data' is valid
-      if (!Array.isArray(data)) {
-        throw new Error("Data is not an array or is undefined");
-      }
-  
-      // Add serial numbers to each row
-      const dataWithSerials = data.map((item: Placement, ) => ({
-        ...item,
-        // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
-      }));
-  
-      setRowData(dataWithSerials);
-      setTotalRows(totalRows);
-      setupColumns(dataWithSerials);
+        const response = await axios.get(`${API_URL}/placement`, {
+            params: {
+                page: currentPage, // Current page number
+                pageSize: paginationPageSize, // Page size (e.g., 100)
+            },
+            headers: { AuthToken: localStorage.getItem("token") },
+        });
+
+        console.log("Full API Response:", response); // Log the entire response object
+        console.log("API Response Data:", response.data); // Log the data
+
+        const data = response.data; // Directly use response.data if it's the array
+        const totalRows = response.headers['total-rows'] || data.length; // Adjust based on actual API response
+
+        // Check if 'data' is valid
+        if (!Array.isArray(data)) {
+            throw new Error("Data is not an array or is undefined");
+        }
+
+        // Add serial numbers to each row
+        const dataWithSerials = data.map((item: Placement, index: number) => ({
+            ...item,
+            serialNo: (currentPage - 1) * paginationPageSize + index + 1, // Add serial number
+        }));
+
+        setRowData(dataWithSerials);
+        setTotalRows(totalRows);
+        setupColumns(dataWithSerials);
     } catch (error) {
-      console.error("Error loading data:", error);
+        console.error("Error loading data:", error);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
-  
+};
   
   const fetchPlacements = async (searchQuery = "") => {
     try {
