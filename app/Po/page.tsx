@@ -21,7 +21,7 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Po } from "../../../types/index";
+import { Po } from "@/types/index";
 
 jsPDF.prototype.autoTable = autoTable;
 const PO = () => {

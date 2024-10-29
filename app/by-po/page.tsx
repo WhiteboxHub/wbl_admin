@@ -10,7 +10,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { FaDownload } from "react-icons/fa";
 import AddRowModal from "../../modals/bypo_modals/AddRowByPO";
-import EditRowModal from "../../modals/EditRowByPO";
+import EditRowModal from "@/modals/bypo_modals/EditRowByPO";
 import ViewRowModal from "../../modals/bypo_modals/ViewRowByPO";
 import { MdDelete } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
