@@ -254,11 +254,16 @@ const menuItems: MenuItem[] = [
         { name: 'Employees', href: '/employee' },
         { name: 'Candidates Status', href: '/candidateStatus' ,
           subMenu:[
+<<<<<<< HEAD
             { name: 'Current Marketing', href: '/candidateMarketing'},
             { name: 'All ', href: '/marketingCandidates'},
+=======
+            { name: 'Current Marketing', href: '/CurrentMarketing'},
+            { name: 'All ', href: '/all'},
+>>>>>>> dcca15dedc29843369ffb8a8cabd834d09d0a328
           ]
         },
-        { name: 'Candidate Search', href: '/candidateSearch' },
+        { name: 'Search', href: '/search' },
       ]
     },
     {
@@ -266,7 +271,7 @@ const menuItems: MenuItem[] = [
       href: '',
       subMenu: [
         {
-           name: 'PO', href: '/Po' 
+           name: 'Po', href: '/po' 
         },
         {
           name: 'Invoice',
