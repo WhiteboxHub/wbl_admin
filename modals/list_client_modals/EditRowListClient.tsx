@@ -22,15 +22,14 @@ interface Recruiter {
   notes?: string;
 }
 
-interface EditRowModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onRequestClose: () => void;
-  onSave: () => void;
-  initialData: Recruiter;
-}
-
-const EditRowModal: React.FC<EditRowModalProps> = ({  isOpen, onRequestClose, rowData, onSave }) => {
+export interface EditRowModalProps {
+    isOpen: boolean;
+    onRequestClose: () => void;
+    rowData: Client; // Ensure rowData is defined here
+    onSave: () => Promise<void>;
+  }
+  
+  const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose, rowData, onSave }) => {
   const [formData, setFormData] = useState<Recruiter>(initialData);
 
   useEffect(() => {

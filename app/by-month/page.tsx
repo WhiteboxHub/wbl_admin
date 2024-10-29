@@ -21,7 +21,7 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { ByMonth } from "../../types/index";
+import type { ByMonth } from "../../types/index"; // Use type-only import
 
 jsPDF.prototype.autoTable = autoTable;
 const ByMonth = () => {
@@ -128,6 +128,10 @@ const ByMonth = () => {
     }
   };
 
+  interface ErrorResponse {
+    message: string;
+    // Add other properties if needed
+}
   const handleDeleteRow = async () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();

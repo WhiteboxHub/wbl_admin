@@ -21,13 +21,19 @@ interface Recruiter {
   notes?: string;
 }
 
-interface ViewRowModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  data: Recruiter;
-}
 
-const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onClose, data }) => {
+export interface ViewRowModalProps {
+    isOpen: boolean;
+    onClose: () => void;          // Ensure this prop is defined
+    onRequestClose?: () => void;  // Make this prop optional
+    rowData: Client;              // Ensure rowData is defined
+  }
+  
+  const ViewRowModal: React.FC<ViewRowModalProps> = ({
+    isOpen,
+    onClose,
+    onRequestClose,
+    rowData,}) => {
   return (
     <Modal
       isOpen={isOpen}

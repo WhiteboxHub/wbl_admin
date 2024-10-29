@@ -21,13 +21,18 @@ interface Vendor {
   notes?: string;
 }
 
-interface ViewRowModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  data: Vendor;
-}
-
-const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onClose, data }) => {
+export interface ViewRowModalProps {
+    isOpen: boolean;
+    onClose: () => void;           // Ensure this prop is defined
+    onRequestClose: () => void;    // Add onRequestClose here
+    rowData: Vendor;               // Ensure rowData is defined and matches the expected type
+  }
+  
+  const ViewRowModal: React.FC<ViewRowModalProps> = ({
+    isOpen,
+    onClose,
+    onRequestClose,
+    rowData,}) => {
   return (
     <Modal
       isOpen={isOpen}
