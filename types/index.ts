@@ -99,6 +99,136 @@ export interface Candidate {
   };
   
 
+  // types.ts
+  export interface Po {
+    POID?: string;
+    PlacementDetails?: string;
+    StartDate?: string;
+    EndDate?: string;
+    Rate?: string;
+    OvertimeRate?: string;
+    FreqType?: string;
+    InvoiceFrequency?: string;
+    InvoiceStartDate?: string;
+    InvoiceNet?: string;
+    POUrl?: string;
+    Notes?: string;
+  }
+
+
+  
+  export interface Placement {
+    id?: string;
+    Candidate_Name?: string;
+    Manager?: string;
+    Recruiter?: string;
+    Vendor1?: string;
+    MSA_ID?: string;
+    Other_AgrID?: string;
+    Vendor2?: string;
+    Vendor3?: string;
+    Client?: string;
+    Start_Date?: string;
+    End_Date?: string;
+    Status?: string;
+    Paperwork?: string;
+    Insurance?: string;
+    Wrk_Location?: string;
+    Wrk_Designation?: string;
+    Wrk_Email?: string;
+    Wrk_Phone?: string;
+    Mgr_Name?: string;
+    Mgr_Email?: string;
+    Mgr_Phone?: string;
+    Hiring_Mgr_Name?: string;
+    Hiring_Mgr_Email?: string;
+    Hiring_Mgr_Phone?: string;
+    Reference?: string;
+    IPEmail_Clear?: string;
+    Feedback_ID?: string;
+    Project_Docs?: string;
+    Notes?: string;
+  }
+
+  interface Vendor {
+    id?: string;
+    companyname?: string;
+    status?: string;
+    tier?: string;
+    culture?: string;
+    solicited?: string;
+    minrate?: number;
+    hirebeforeterm?: string;
+    hireafterterm?: string;
+    latepayments?: string;
+    totalnetterm?: number;
+    defaultedpayment?: string;
+    agreementstatus?: string;
+    url?: string;
+    email?: string;
+    phone?: string;
+    fax?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    zip?: string;
+    hrname?: string;
+    hremail?: string;
+    hrphone?: string;
+    twitter?: string;
+    facebook?: string;
+    linkedin?: string;
+    accountnumber?: string;
+    managername?: string;
+    manageremail?: string;
+    managerphone?: string;
+    secondaryname?: string;
+    secondaryemail?: string;
+    secondaryphone?: string;
+    timsheetemail?: string;
+    agreementname?: string;
+    agreementlink?: string;
+    subcontractorlink?: string;
+    nonsolicitationlink?: string;
+    nonhirelink?: string;
+    clients?: string;
+    notes?: string;
+  }
+  
+
+  interface Client {
+    id: string;
+    companyName: string;
+    tier: string;
+    status: string;
+    email: string;
+    phone: string;
+    fax?: string;
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    zip: string;
+    url: string;
+    manager1Name: string;
+    twitter?: string;
+    facebook?: string;
+    linkedIn?: string;
+    manager1Email: string;
+    manager1Phone: string;
+    hmName: string; // Hiring manager name
+    hmEmail: string;
+    hmPhone: string;
+    hrName: string;
+    hrEmail: string;
+    hrPhone: string;
+    notes?: string;
+    lastModDateTime: string;
+    client?: string; // Assuming 'clicent' is a typo for 'client'
+  }
+  
+
   export type Employee ={
       id: string;
       name: string;
@@ -132,3 +262,48 @@ export interface Candidate {
       notes: string;
     
     };
+
+
+  export type Overdue {
+    id?: string;
+    poid?: string;
+    invoicenumber?: string;
+    invoicedate?: string;
+    quantity?: string;
+    rate?: string;
+    expecteddate?: string;
+    amountexpected?: string;
+    startdate?: string;
+    enddate?: string;
+    status?: string;
+    remindertype?: string;
+    amountreceived?: string;
+    receiveddate?: string;
+    releaseddate?: string;
+    checknumber?: string;
+    invoiceurl?: string;
+    checkurl?: string;
+    companyname?: string;
+    vendorfax?: string;
+    vendorphone?: string;
+    vendoremail?: string;
+    timsheetemail?: string;
+    hrname?: string;
+    hremail?: string;
+    hrphone?: string;
+    managername?: string;
+    manageremail?: string;
+    managerphone?: string;
+    secondaryname?: string;
+    secondaryemail?: string;
+    secondaryphone?: string;
+    candidatename?: string;
+    candidatephone?: string;
+    candidateemail?: string;
+    wrkemail?: string;
+    wrkphone?: string;
+    recruitername?: string;
+    recruiterphone?: string;
+    recruiteremail?: string;
+    notes?: string;
+  }

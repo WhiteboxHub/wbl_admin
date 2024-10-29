@@ -36,6 +36,7 @@ const CandidateMarketing = () => {
   const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
   const [selectedRow, setSelectedRow] = useState<any | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [error,setError] = useState<any | null>(null);
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -134,8 +135,9 @@ const CandidateMarketing = () => {
           alert("Entry deleted successfully.");
           fetchData(searchValue);
         } catch (error) {
+          setError(error)
           console.error("Error deleting entry:", error);
-          alert(`Failed to delete entry: ${error.message || "Unknown error occurred"}`);
+          alert(`Failed to delete entry: ${error || "Unknown error occurred"}`);
         }
       } else {
         alert("Please select a row to delete.");

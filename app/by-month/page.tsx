@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -12,12 +9,11 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { FaDownload } from "react-icons/fa";
-import AddRowModal from "../../modals/batch_modals/AddRowBatch";
-import EditRowModal from "../../modals/batch_modals/EditRowBatch";
-import ViewRowModal from "../../modals/batch_modals/ViewRowBatch";
+import AddRowModal from "../../modals/bymonth_modals/AddRowByMonth";
+import EditRowModal from "../../modals/bymonth_modals/EditRowByMonth";
+import ViewRowModal from "../../modals/bymonth_modals/ViewRowByMonth";
 import { MdDelete } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
-import withAuth from "@/modals/withAuth";
 import {
   AiOutlineEdit,
   AiOutlineEye,
@@ -25,11 +21,11 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Batch } from "../../types/index";
+import { ByMonth } from "../../types/index";
 
 jsPDF.prototype.autoTable = autoTable;
-const Batches = () => {
-  const [rowData, setRowData] = useState<Batch[]>([]);
+const ByMonth = () => {
+  const [rowData, setRowData] = useState<ByMonth[]>([]);
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);
@@ -42,7 +38,7 @@ const Batches = () => {
     edit: boolean;
     view: boolean;
   }>({ add: false, edit: false, view: false });
-  const [selectedRow, setSelectedRow] = useState<Batch | null>(null);
+  const [selectedRow, setSelectedRow] = useState<ByMonth | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const gridRef = useRef<AgGridReact>(null);
 
@@ -51,70 +47,53 @@ const Batches = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/batches`, {
+      const response = await axios.get(`${API_URL}/bymonth`, {
         params: {
           page: currentPage,
           pageSize: paginationPageSize,
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-  
+
       const { data, totalRows } = response.data;
-  
-      // Add serial numbers to each row
-      const dataWithSerials = data.map((item: Batch) => ({
-        ...item,
-       // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
-      }));
-  
-      setRowData(dataWithSerials);
+
+      setRowData(data);
       setTotalRows(totalRows);
-      setupColumns(dataWithSerials);
+      setupColumns(data);
     } catch (error) {
       console.error("Error loading data:", error);
     } finally {
       setLoading(false);
     }
   };
-  
-  interface ErrorResponse {
-    message: string;
-    // Add other properties if needed
-}
 
-  const fetchBatches = async (searchQuery = "") => {
+  const fetchByMonths = async (searchQuery = "") => {
     try {
-      const response = await axios.get(`${API_URL}/batches/search`, {
+      const response = await axios.get(`${API_URL}/bymonth/search`, {
         params: {
-          page: currentPage, // Pass current page for pagination
-          pageSize: paginationPageSize, // Pass pageSize for pagination
-          search: searchQuery, // Pass the search query to the backend
+          page: currentPage,
+          pageSize: paginationPageSize,
+          search: searchQuery,
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-  
+
       const { data, totalRows } = response.data;
-      setRowData(data); // Set the table data
-      setTotalRows(totalRows); // Set the total rows for pagination
-      setupColumns(data); // Optional: If needed for dynamic columns
+      setRowData(data);
+      setTotalRows(totalRows);
+      setupColumns(data);
     } catch (error) {
       console.error("Error loading data:", error);
     }
   };
-  
-  // useEffect(() => {
-  //   fetchBatches(searchValue);
-  // }, [currentPage, searchValue]);
-    
-  const handleSearch = () => {
-    fetchBatches(searchValue); // Fetch data using the search term
-  };
-  
 
-  const setupColumns = (data: Batch[]) => {
+  const handleSearch = () => {
+    fetchByMonths(searchValue);
+  };
+
+  const setupColumns = (data: ByMonth[]) => {
     if (data.length > 0) {
       const columns = [
-       // { headerName: "Serial No", field: "serialNo", width: 100 }, // Add this line for serial numbers
         ...Object.keys(data[0]).map((key) => ({
           headerName: key.charAt(0).toUpperCase() + key.slice(1),
           field: key,
@@ -123,22 +102,20 @@ const Batches = () => {
       setColumnDefs(columns);
     }
   };
-  
 
-  
   useEffect(() => {
     fetchData();
   }, [currentPage]);
+
   const handleRefresh = () => {
-    setSearchValue(""); // Clear search value before refreshing
-    fetchData(); // Re-fetch data
-    window.location.reload(); // Trigger page reload
+    setSearchValue("");
+    fetchData();
+    window.location.reload();
   };
+
   const handleAddRow = () =>
     setModalState((prevState) => ({ ...prevState, add: true }));
 
-
-  
   const handleEditRow = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
@@ -150,35 +127,34 @@ const Batches = () => {
       }
     }
   };
- 
+
   const handleDeleteRow = async () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        const batchId = selectedRows[0].batchid || selectedRows[0].id;
-        if (batchId) {
+        const byMonthId = selectedRows[0].byMonthid || selectedRows[0].id;
+        if (byMonthId) {
           const confirmation = window.confirm(
-            `Are you sure you want to delete batch ID ${batchId}?`
+            `Are you sure you want to delete By Month ID ${byMonthId}?`
           );
           if (!confirmation) return;
 
           try {
-            await axios.delete(`${API_URL}/batches/delete/${batchId}`, {
+            await axios.delete(`${API_URL}/bymonth/delete/${byMonthId}`, {
               headers: { AuthToken: localStorage.getItem("token") },
             });
-            alert("Batch deleted successfully.");
-            fetchData(); // Refresh data after delete
+            alert("By Month deleted successfully.");
+            fetchData();
           } catch (error) {
             const axiosError = error as AxiosError;
-        
             alert(
-                `Failed to delete batch: ${
+                `Failed to delete By Month: ${
                     (axiosError.response?.data as ErrorResponse)?.message || axiosError.message
                 }`
             );
           }
         } else {
-          alert("No valid batch ID found for the selected row.");
+          alert("No valid By Month ID found for the selected row.");
         }
       } else {
         alert("Please select a row to delete.");
@@ -192,52 +168,41 @@ const Batches = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        setSelectedRow(selectedRows[0]); // Set the selected row data
-        setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
+        setSelectedRow(selectedRows[0]);
+        setModalState((prevState) => ({ ...prevState, view: true }));
       } else {
         alert("Please select a row to view.");
       }
     }
   };
 
-const handleDownloadPDF = () => {
-  // Create a new instance of jsPDF
-  const doc = new jsPDF();
-
-  // Add title text
-  doc.text("Batch Data", 20, 10);
-
-  // Prepare data for PDF
-  const pdfData = rowData.map((row) => Object.values(row));
-  const headers = columnDefs.map((col) => col.headerName);
-
-  // Create the autoTable
-  autoTable(doc, {
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.text("By Month Data", 20, 10);
+    const pdfData = rowData.map((row) => Object.values(row));
+    const headers = columnDefs.map((col) => col.headerName);
+    autoTable(doc, {
       head: [headers],
       body: pdfData,
-      theme: 'grid', // Optional: set the theme for the table
-      styles: { fontSize: 5 }, // Optional: adjust font size
-  });
+      theme: 'grid',
+      styles: { fontSize: 5 },
+    });
+    doc.save("by_month_data.pdf");
+  };
 
-  // Save the PDF
-  doc.save("batch_data.pdf");
-};
-
-
-  
   const totalPages = Math.ceil(totalRows / paginationPageSize);
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">Batch Management</h1>
+        <h1 className="text-3xl font-bold text-gray-800">By Month Management</h1>
         <div className="flex space-x-2">
           <button
             onClick={handleAddRow}
             className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
           >
-            <MdAdd className="mr-2" /> Add Batch
+            <MdAdd className="mr-2" /> Add By Month
           </button>
           <button
             onClick={handleEditRow}
@@ -271,22 +236,22 @@ const handleDownloadPDF = () => {
           </button>
         </div>
       </div>
-          {/* Search Functionality */}
-          <div className="flex mb-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-           onChange={(e) => setSearchValue(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-64"
-          />
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-          >
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-        </div>
+
+      <div className="flex mb-4">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="border border-gray-300 rounded-md p-2 w-64"
+        />
+        <button
+          onClick={handleSearch}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+        >
+          <AiOutlineSearch className="mr-2" /> Search
+        </button>
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-48">
@@ -294,76 +259,70 @@ const handleDownloadPDF = () => {
         </div>
       ) : (
         <div
-        className="ag-theme-alpine"
-        style={{ height: "400px", width: "100%", overflowY: "auto" }}
-      >
-        <AgGridReact
-        ref={gridRef}
-        rowData={rowData}
-        columnDefs={columnDefs}
-        pagination={false}
-        domLayout="normal"
-        rowSelection="multiple"
-        defaultColDef={{
-          sortable: true,
-          filter: true,
-          resizable: true,
-          cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-          minWidth: 80,
-          maxWidth: 150,
-        }}
-        rowHeight={30}
-        headerHeight={35}
-      />
-      </div>  
+          className="ag-theme-alpine"
+          style={{ height: "400px", width: "100%", overflowY: "auto" }}
+        >
+          <AgGridReact
+            ref={gridRef}
+            rowData={rowData}
+            columnDefs={columnDefs}
+            pagination={false}
+            domLayout="normal"
+            rowSelection="multiple"
+            defaultColDef={{
+              sortable: true,
+              filter: true,
+              cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+              minWidth: 60,
+              maxWidth: 100,
+            }}
+            rowHeight={30}
+            headerHeight={35}
+          />
+        </div>
       )}
 
       <div className="flex justify-between mt-4">
-      <div className="flex items-center">
-        {/* Double Left Icon */}
-        <button 
-          onClick={() => handlePageChange(1)} 
-          disabled={currentPage === 1}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaAngleDoubleLeft />
-        </button>
-        {/* Left Icon */}
-        <button 
-          onClick={() => handlePageChange(currentPage - 1)} 
-          disabled={currentPage === 1}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaChevronLeft />
-        </button>
-        {/* Page Numbers */}
-        {pageOptions.map((page) => (
+        <div className="flex items-center">
           <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+            onClick={() => handlePageChange(1)}
+            disabled={currentPage === 1}
+            className="p-2 disabled:opacity-50"
           >
-            {page}
+            <FaAngleDoubleLeft />
           </button>
-        ))}
-        {/* Right Icon */}
-        <button 
-          onClick={() => handlePageChange(currentPage + 1)} 
-          disabled={currentPage === totalPages}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaChevronRight />
-        </button>
-        {/* Double Right Icon */}
-        <button 
-          onClick={() => handlePageChange(totalPages)} 
-          disabled={currentPage === totalPages}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaAngleDoubleRight />
-        </button>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaChevronLeft />
+          </button>
+          {pageOptions.map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaChevronRight />
+          </button>
+          <button
+            onClick={() => handlePageChange(totalPages)}
+            disabled={currentPage === totalPages}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaAngleDoubleRight />
+          </button>
+        </div>
       </div>
-    </div>
 
       {modalState.add && (
         <AddRowModal
@@ -391,4 +350,4 @@ const handleDownloadPDF = () => {
   );
 };
 
-export default withAuth(Batches);
+export default ByMonth;
