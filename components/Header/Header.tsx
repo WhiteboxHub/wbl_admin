@@ -300,7 +300,7 @@ const menuItems: MenuItem[] = [
               subMenu: [
                 { name: 'By Vendor', href: '/byvendor' },
                 { name: 'By palcement', href: '/byplacementv' },
-                { name: 'All list', href: '/alllistv' },
+                { name: 'All list', href: '/all_list_vendor' },
                 { name: 'Detailed', href: '/detailedv' }
               ]
              }
