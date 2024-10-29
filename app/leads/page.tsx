@@ -695,18 +695,6 @@ const Leads = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-<<<<<<< HEAD
-=======
-
-  
-// ... existing code ...
-// ... existing code ...
-const handleDownloadPDF = () => {
-  if (gridRef.current) {
-    const selectedRows = gridRef.current.api.getSelectedRows();
-    if (selectedRows.length === 1) { // Ensure only one row is selected
-      const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
->>>>>>> cd8ee2f3b32a19288325817c7bea9ab9724ea9d3
 
   const handleDownloadPDF = () => {
     if (gridRef.current) {

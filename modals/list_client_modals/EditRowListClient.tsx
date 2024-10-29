@@ -30,7 +30,7 @@ interface EditRowModalProps {
   initialData: Recruiter;
 }
 
-const EditRowModal: React.FC<EditRowModalProps> = ({  isOpen, onRequestClose, rowData, onSave }) => {
+const EditRowModal: React.FC<EditRowModalProps> = ({  isOpen, onRequestClose, initialData, onSave }) => {
   const [formData, setFormData] = useState<Recruiter>(initialData);
 
   useEffect(() => {
