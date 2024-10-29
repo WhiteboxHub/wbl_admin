@@ -229,7 +229,7 @@ export interface Candidate {
   }
   
 
-  export interface Employee ={
+  export type Employee ={
       id: string;
       name: string;
       email: string;

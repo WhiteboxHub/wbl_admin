@@ -6,7 +6,7 @@
 
 import React from 'react';
 import Modal from 'react-modal';
-import { Lead } from '../types/index'; // Adjust the import path accordingly
+import { Lead } from '@/types/index'; // Adjust the import path accordingly
 
 interface ViewRowModalProps {
   isOpen: boolean;
