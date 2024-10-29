@@ -453,7 +453,7 @@ const Vendors = () => {
     fetchVendors(searchValue);
   };
 
-  const setupColumns = (data: Vendor[]) => {
+  const setupColumns = () => {
     const columns = [
       { headerName: "ID", field: "id", width: 40, editable: false, fixed: true },
       { headerName: "Company Name", field: "companyname", width: 250, editable: true, frozen: true, editoptions: { size: 75, maxlength: 250, style: "text-transform: uppercase" }, fixed: true },
@@ -471,7 +471,7 @@ const Vendors = () => {
         formatoptions: { decimalPlaces: 2, thousandsSeparator: ",", prefix: "\$" },
         sorttype: "currency",
         fixed: true,
-        valueFormatter: (params: { value: any; }) => `$${params.value}` // Add this line to format the value with a dollar sign
+        valueFormatter: (params: { value: string; }) => `$${params.value}` // Add this line to format the value with a dollar sign
       },
       { headerName: "HBT", field: "hirebeforeterm", width: 50, editable: true, fixed: true, edittype: "select", editoptions: { value: "Y:Yes;N:No" } },
       { headerName: "HAT", field: "hireafterterm", width: 50, editable: true, fixed: true, edittype: "select", editoptions: { value: "Y:Yes;N:No" } },

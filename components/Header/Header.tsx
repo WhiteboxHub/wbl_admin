@@ -266,7 +266,7 @@ const menuItems: MenuItem[] = [
       href: '',
       subMenu: [
         {
-           name: 'PO', href: '/Po' 
+           name: 'PO', href: '/po' 
         },
         {
           name: 'Invoice',
@@ -285,7 +285,7 @@ const menuItems: MenuItem[] = [
               subMenu: [
                 { name: 'By Client', href: '/byclient' },
                 { name: 'By palcement', href: '/byplacement' },
-                { name: 'All list', href: '/alllist' },
+                { name: 'All list', href: '/all_list_client' },
                 { name: 'Detailed', href: '/detailed' }
               ]
              }
