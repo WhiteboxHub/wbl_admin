@@ -18,9 +18,9 @@ import  {Employee}  from "@/types/index"; // Adjust the import path accordingly
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Dropdown, { Option } from "react-dropdown";
 import "react-dropdown/style.css";
-import AddRowModal from "../../modals/AddEmployee";
-import EditRowModal from "../../modals/EditEmployee";
-import ViewRowModal from "../../modals/ViewEmployee";
+import AddRowModal from "../../modals/Employee/AddEmployee";
+import EditRowModal from "../../modals/Employee/EditEmployee";
+import ViewRowModal from "../../modals/Employee/ViewEmployee";
 
 interface OptionType {
   value: string;
