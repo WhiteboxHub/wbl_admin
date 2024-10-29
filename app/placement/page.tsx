@@ -67,7 +67,7 @@ const Placements = () => {
       }
   
       // Add serial numbers to each row
-      const dataWithSerials = data.map((item: Placement, index: number) => ({
+      const dataWithSerials = data.map((item: Placement, ) => ({
         ...item,
         // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
       }));

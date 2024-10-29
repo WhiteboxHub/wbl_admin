@@ -16,7 +16,7 @@ import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } 
 import { MdDelete } from "react-icons/md";
 import { debounce } from "lodash";
 import jsPDF from "jspdf";
-import { faFilePdf, faFileExcel } from "@fortawesome/free-solid-svg-icons";
+
 import withAuth from "@/modals/withAuth";
 
 import {
@@ -25,7 +25,7 @@ import {
   AiOutlineReload,
   AiOutlineEye,
 } from "react-icons/ai";
-import { MdAdd } from "react-icons/md";
+
 
 const CandidateMarketing = () => {
   const [rowData, setRowData] = useState<any[]>([]);
