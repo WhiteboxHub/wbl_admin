@@ -9,9 +9,9 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import AddRowModal from "../../modals/vendor_modals/AddRowVendor";
-import EditRowModal from "../../modals/vendor_modals/EditRowVendor";
-import ViewRowModal from "../../modals/vendor_modals/ViewRowVendor";
+import AddRowModal from "../../modals/list_vendor_modals/AddRowListVendor";
+import EditRowModal from "../../modals/list_vendor_modals/EditRowListVendor";
+import ViewRowModal from "../../modals/list_vendor_modals/ViewRowListVendor";
 import withAuth from "@/modals/withAuth";
 
 import {
@@ -24,13 +24,10 @@ import { MdDelete } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import { Po, Vendor } from "../../types/index"; // Adjust the import path accordingly
 
-interface GroupedData {
-  [batch: string]: Vendor[];
-}
 
 const AllListVendor = () => {
   const [rowData, setRowData] = useState<Vendor[]>([]);
-  const [, setGroupedData] = useState<GroupedData>({});
+
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);

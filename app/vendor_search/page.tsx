@@ -19,7 +19,7 @@ export default function ClientSearch() {
       const response = await axios.post('/api/getClient', { query: searchInput });
       setClients(response.data.clients);
     } catch (err) {
-      setError('Error fetching Vendor data');
+      setError(`Error fetching vendor data${err}`);
     } finally {
       setIsLoading(false);
     }
@@ -30,7 +30,7 @@ export default function ClientSearch() {
       await axios.post('/api/updateVendor', { email: client.email, clients: newClients });
       alert('Vendor updated successfully');
     } catch (err) {
-      setError('Error updating vendor');
+      setError(`Error updateing vendor data${err}`);
     }
   };
 
