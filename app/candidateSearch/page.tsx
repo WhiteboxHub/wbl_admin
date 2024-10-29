@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import withAuth from "@/modals/withAuth";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -37,7 +37,7 @@ const CandidateSearch = () => {
         fetchCandidates(query);
       }
     }, 300),
-    []
+    [fetchCandidates]
   );
 
   const handleSubmit = async (e) => {

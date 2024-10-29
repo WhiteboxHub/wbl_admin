@@ -25,11 +25,12 @@ interface Recruiter {
 interface EditRowModalProps {
   isOpen: boolean;
   onClose: () => void;
-  refreshData: () => void;
+  onRequestClose: () => void;
+  onSave: () => void;
   initialData: Recruiter;
 }
 
-const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshData, initialData }) => {
+const EditRowModal: React.FC<EditRowModalProps> = ({  isOpen, onRequestClose, rowData, onSave }) => {
   const [formData, setFormData] = useState<Recruiter>(initialData);
 
   useEffect(() => {

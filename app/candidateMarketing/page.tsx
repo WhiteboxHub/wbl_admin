@@ -26,17 +26,41 @@ import {
   AiOutlineEye,
 } from "react-icons/ai";
 
+interface RowData {
+  id: number;
+  candidateid: string;
+  startdate: string;
+  mmid: string;
+  instructorid: string;
+  status: string;
+  submitterid: string;
+  priority: string;
+  technology: string;
+  minrate: number;
+  currentlocation: string;
+  relocation: string;
+  locationpreference: string;
+  skypeid: string;
+  ipemailid: string;
+  resumeid: string;
+  coverletter: string;
+  intro: string;
+  closedate: string;
+  closedemail: string;
+  notes: string;
+  suspensionreason: string;
+  yearsofexperience: number;
+}
 
 const CandidateMarketing = () => {
-  const [rowData, setRowData] = useState<[]>([]);
+  const [rowData, setRowData] = useState<RowData[]>([]);
   const [columnDefs, setColumnDefs] = useState<{ headerName: string; field: string }[]>([]);
   const [paginationPageSize] = useState<number>(200);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
   const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
-  const [selectedRow, setSelectedRow] = useState<null>(null);
+  const [selectedRow, setSelectedRow] = useState<RowData | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
-  // const [error,setError] = useState<any | null>(null);
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -56,25 +80,24 @@ const CandidateMarketing = () => {
       setRowData(data);
       setTotalRows(totalRows);
       setupColumns(data);
-    } catch (error) {
-      console.error("Error loading data:", error);
+    } catch (err) {
+      console.error("Error loading data:", err);
+      alert("Error loading data. Please try again.");
     }
   }, [paginationPageSize, API_URL]);
 
-  const debouncedFetchData = useCallback(
-    debounce((query: string) => {
-      fetchData(query, currentPage);
-    }, 300),
-    [fetchData, currentPage]
-  );
+  const debouncedFetchData = useCallback((query: string) => {
+    fetchData(query, currentPage);
+  }, [fetchData, currentPage]);
 
   useEffect(() => {
     if (searchValue) {
-      debouncedFetchData(searchValue);
+      const debounced = debounce(debouncedFetchData, 300);
+      debounced(searchValue);
+      return () => {
+        debounced.cancel();
+      };
     }
-    return () => {
-      debouncedFetchData.cancel();
-    };
   }, [searchValue, debouncedFetchData]);
 
   useEffect(() => {
@@ -83,7 +106,7 @@ const CandidateMarketing = () => {
     }
   }, [currentPage, fetchData, searchValue]);
 
-  const setupColumns = (data: any[]) => {
+  const setupColumns = (data: RowData[]) => {
     if (data.length > 0) {
       const keys = Object.keys(data[0]);
       const columns = keys.map((key) => ({
@@ -93,8 +116,6 @@ const CandidateMarketing = () => {
       setColumnDefs(columns);
     }
   };
-
-  const handleAddRow = () => setModalState((prevState) => ({ ...prevState, add: true }));
 
   const handleEditRow = () => {
     if (gridRef.current) {
@@ -124,7 +145,7 @@ const CandidateMarketing = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        const id = selectedRows[0].id; // Assuming 'id' is the primary key in your table
+        const id = selectedRows[0].id;
         const confirmation = window.confirm(`Are you sure you want to delete entry ID ${id}?`);
         if (!confirmation) return;
 
@@ -134,10 +155,9 @@ const CandidateMarketing = () => {
           });
           alert("Entry deleted successfully.");
           fetchData(searchValue);
-        } catch (error) {
-          setError(error)
-          console.error("Error deleting entry:", error);
-          alert(`Failed to delete entry: ${error || "Unknown error occurred"}`);
+        } catch (err) {
+          console.error("Error deleting entry:", err);
+          alert(`Failed to delete entry: ${err instanceof Error ? err.message : "Unknown error occurred"}`);
         }
       } else {
         alert("Please select a row to delete.");
@@ -161,7 +181,7 @@ const CandidateMarketing = () => {
 
   const handleDownloadPDF = () => {
     if (gridRef.current) {
-      const selectedRows = gridRef.current.api.getSelectedRows();
+      const selectedRows = gridRef.current.api.getSelectedRows() as RowData[];
       if (selectedRows.length > 0) {
         const doc = new jsPDF({ orientation: "landscape" });
         doc.text("Selected Candidate Marketing Data", 15, 10);
@@ -191,7 +211,21 @@ const CandidateMarketing = () => {
           row.yearsofexperience,
         ]);
 
-        (doc as any).autoTable({
+        interface AutoTableOptions {
+          head: string[][];
+          body: (string | number)[][];
+          styles: {
+            fontSize: number;
+            cellPadding: number;
+          };
+          margin: {
+            top: number;
+            left: number;
+            right: number;
+          };
+        }
+
+        const autoTableOptions: AutoTableOptions = {
           head: [
             [
               "Candidate ID",
@@ -224,7 +258,9 @@ const CandidateMarketing = () => {
             cellPadding: 4,
           },
           margin: { top: 15, left: 15, right: 15 },
-        });
+        };
+
+        (doc as unknown as { autoTable: (options: AutoTableOptions) => void }).autoTable(autoTableOptions);
 
         doc.save("Selected_Candidate_Marketing_Data.pdf");
       } else {
@@ -295,8 +331,8 @@ const CandidateMarketing = () => {
               <AiOutlineReload className="mr-2" /> Refresh
             </button>
             <Dropdown
-              options={options as Option[]} // Cast options as Option[] since label is JSX now
-              value={defaultOption} // Set default option
+              options={options as Option[]}
+              value={defaultOption}
               onChange={(selectedOption) => {
                 if (selectedOption.value === "Export to PDF") {
                   handleDownloadPDF();
@@ -342,7 +378,7 @@ const CandidateMarketing = () => {
             defaultColDef={{
               sortable: true,
               filter: true,
-              resizable: true, // Enable column resizing
+              resizable: true,
               cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
               minWidth: 80,
               maxWidth: 150,
@@ -353,7 +389,6 @@ const CandidateMarketing = () => {
         </div>
         <div className="flex justify-between mt-4">
         <div className="flex items-center">
-          {/* Double Left Icon */}
           <button 
             onClick={() => handlePageChange(1)} 
             disabled={currentPage === 1}
@@ -361,7 +396,6 @@ const CandidateMarketing = () => {
           >
             <FaAngleDoubleLeft />
           </button>
-          {/* Left Icon */}
           <button 
             onClick={() => handlePageChange(currentPage - 1)} 
             disabled={currentPage === 1}
@@ -369,7 +403,6 @@ const CandidateMarketing = () => {
           >
             <FaChevronLeft />
           </button>
-          {/* Page Numbers */}
           {pageOptions.map((page) => (
             <button
               key={page}
@@ -379,7 +412,6 @@ const CandidateMarketing = () => {
               {page}
             </button>
           ))}
-          {/* Right Icon */}
           <button 
             onClick={() => handlePageChange(currentPage + 1)} 
             disabled={currentPage === totalPages}
@@ -387,7 +419,6 @@ const CandidateMarketing = () => {
           >
             <FaChevronRight />
           </button>
-          {/* Double Right Icon */}
           <button 
             onClick={() => handlePageChange(totalPages)} 
             disabled={currentPage === totalPages}
@@ -414,4 +445,3 @@ const CandidateMarketing = () => {
 };
 
 export default withAuth(CandidateMarketing);
-
