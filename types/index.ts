@@ -229,7 +229,7 @@ export interface Candidate {
   }
   
 
-  export interface Employee ={
+  export type Employee ={
       id: string;
       name: string;
       email: string;
@@ -262,6 +262,38 @@ export interface Candidate {
       notes: string;
     
     };
+
+    interface CandidateMarketing {
+      id: number;
+      candidateid: number;
+      startdate: string;
+      mmid: number;
+      instructorid: number;
+      status: string;
+      submitterid: number;
+      priority: string;
+      technology: string;
+      minrate: number;
+      currentlocation: string;
+      relocation: string;
+      locationpreference: string;
+      skypeid: string;
+      ipemailid: number;
+      resumeid: number;
+      coverletter: string;
+      intro: string;
+      closedate: string;
+      closedemail: string;
+      notes: string;
+      suspensionreason: string;
+      yearsofexperience: string;
+    }
+
+
+
+
+
+    //+++++++++++++++++++++++++++++++
 
 
   export interface Overdue {
