@@ -150,7 +150,7 @@ export interface Candidate {
     Notes?: string;
   }
 
-  interface Vendor {
+  export interface Vendor {
     id?: string;
     companyname?: string;
     status?: string;
@@ -197,7 +197,7 @@ export interface Candidate {
   }
   
 
-  interface Client {
+  export  interface Client {
     id: string;
     companyName: string;
     tier: string;
@@ -229,7 +229,7 @@ export interface Candidate {
   }
   
 
-  export type Employee ={
+  export interface Employee ={
       id: string;
       name: string;
       email: string;
@@ -264,7 +264,7 @@ export interface Candidate {
     };
 
 
-  export type Overdue {
+  export interface Overdue {
     id?: string;
     poid?: string;
     invoicenumber?: string;
