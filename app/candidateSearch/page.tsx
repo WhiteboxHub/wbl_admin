@@ -5,25 +5,31 @@ import withAuth from "@/modals/withAuth";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaSpinner } from "react-icons/fa";
 import { debounce } from "lodash";
+import { Candidate } from "../../types/index"; // Adjust the import based on your project structure
 
 const CandidateSearch = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [candidates, setCandidates] = useState([]);
+  const [candidates, setCandidates] = useState<Candidate[]>([]); // Define the type of candidates
   const [loading, setLoading] = useState(false);
-  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(
+    null
+  ); // Type as Candidate or null
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const handleSearchInput = (e) => {
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
     debouncedSearch(e.target.value);
   };
 
-  const fetchCandidates = async (query) => {
+  const fetchCandidates = async (query: string) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_URL}/ajax-content/get-candidate`, { parent_id: query });
-      setCandidates(response.data);
+      const response = await axios.post(
+        `${API_URL}/ajax-content/get-candidate`,
+        { parent_id: query }
+      );
+      setCandidates(response.data); // Ensure response.data matches the Candidate interface
     } catch (error) {
       console.error("Error fetching candidates:", error);
     } finally {
@@ -37,19 +43,19 @@ const CandidateSearch = () => {
         fetchCandidates(query);
       }
     }, 300),
-    [fetchCandidates]
+    []
   );
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetchCandidates(searchInput);
   };
 
   return (
-    <div className="candidate-search-container p-6 bg-gray-100 mt-8 rounded-lg shadow-lg ">
+    <div className="candidate-search-container p-6 bg-gray-100 mt-8 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
 
-      <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8 ">
+      <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8">
         <input
           type="text"
           placeholder="Search Candidates..."
@@ -58,16 +64,18 @@ const CandidateSearch = () => {
           className="p-2 w-64 border border-gray-300 rounded-md mr-2"
         />
         <button
-          ty    pe="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700">
-             <AiOutlineSearch className="mr-2" /> Search
+          type="submit"
+          className="px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+        >
+          <AiOutlineSearch className="mr-2" /> Search
         </button>
       </form>
 
       <div className="candidate-results">
         {loading ? (
           <div className="flex items-center space-x-2">
-            <FaSpinner className="animate-spin text-blue-600" /> <span>Loading...</span>
+            <FaSpinner className="animate-spin text-blue-600" />{" "}
+            <span>Loading...</span>
           </div>
         ) : (
           <div>
@@ -95,10 +103,18 @@ const CandidateSearch = () => {
         {selectedCandidate && (
           <div className="selected-candidate mt-4 bg-gray-50 p-4 rounded-lg shadow">
             <h3 className="text-xl font-bold">Selected Candidate:</h3>
-            <p><strong>ID:</strong> {selectedCandidate.id}</p>
-            <p><strong>Name:</strong> {selectedCandidate.name}</p>
-            <p><strong>Email:</strong> {selectedCandidate.email}</p>
-            <p><strong>Assessment:</strong> {selectedCandidate.assessment}</p>
+            <p>
+              <strong>ID:</strong> {selectedCandidate.id}
+            </p>
+            <p>
+              <strong>Name:</strong> {selectedCandidate.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {selectedCandidate.email}
+            </p>
+            <p>
+              <strong>Assessment:</strong> {selectedCandidate.assessment}
+            </p>
           </div>
         )}
       </div>
@@ -107,10 +123,6 @@ const CandidateSearch = () => {
 };
 
 export default withAuth(CandidateSearch);
-
-
-
-
 
 // "use client";
 // import React, { useState, useEffect, useCallback } from "react";
