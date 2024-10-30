@@ -1,6 +1,8 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Client } from '@/types';
+// import { data } from 'autoprefixer';
 
 interface Recruiter {
   id?: string;

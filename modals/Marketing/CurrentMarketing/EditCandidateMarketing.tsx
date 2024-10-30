@@ -57,7 +57,7 @@ const EditCandidateMarketingModal: React.FC<EditCandidateMarketingModalProps> = 
     e.preventDefault();
     if (formData) {
       try {
-        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/candidatemarketing/update/${formData.id}`, formData, {
+        await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/candidatemarketing/update/${formData.candidateid}`, formData, {
           headers: { AuthToken: localStorage.getItem('token') },
         });
         onSave();

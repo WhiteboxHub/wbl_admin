@@ -1,4 +1,5 @@
 // EditRowModal.tsx
+import { ByMonth } from '@/types';
 import React from 'react';
 
 interface EditRowModalProps {

@@ -1,16 +1,21 @@
-// pages/client-search.js
 "use client";
-// pages/clientsearch.js
 import { useState } from 'react';
 import axios from 'axios';
 
-export default function ClientSearch() {
-  const [searchInput, setSearchInput] = useState('');
-  const [clients, setClients] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+interface Client {
+  id: number;
+  name: string;
+  email: string;
+  clients: string; // Assuming 'clients' is a string, adjust if necessary
+}
 
-  const handleSearch = async (e) => {
+export default function ClientSearch() {
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [clients, setClients] = useState<Client[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
@@ -19,18 +24,18 @@ export default function ClientSearch() {
       const response = await axios.post('/api/getClient', { query: searchInput });
       setClients(response.data.clients);
     } catch (err) {
-      setError(`Error fetching client data${err}`);
+      setError(`Error fetching client data: ${err}`);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleUpdate = async (client, newClients) => {
+  const handleUpdate = async (client: Client, newClients: string) => {
     try {
       await axios.post('/api/updateVendor', { email: client.email, clients: newClients });
       alert('Vendor updated successfully');
     } catch (err) {
-      setError(`Error fetching client data${err}`);
+      setError(`Error updating vendor: ${err}`);
     }
   };
 

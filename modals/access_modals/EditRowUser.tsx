@@ -116,7 +116,8 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { User } from '../types/index'; // Adjust the import path accordingly
+import { User } from '@/types';
+// import  User  from '../types/index'; // Adjust the import path accordingly
 
 interface EditRowModalProps {
   isOpen: boolean;

@@ -104,7 +104,7 @@ const CandidateSearch = () => {
           <div className="selected-candidate mt-4 bg-gray-50 p-4 rounded-lg shadow">
             <h3 className="text-xl font-bold">Selected Candidate:</h3>
             <p>
-              <strong>ID:</strong> {selectedCandidate.id}
+              <strong>ID:</strong> {selectedCandidate.candidateid}
             </p>
             <p>
               <strong>Name:</strong> {selectedCandidate.name}

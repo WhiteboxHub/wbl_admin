@@ -27,12 +27,12 @@ import {
 
 interface RowData {
   id: number;
-  candidateid: string;
+  candidateid: number; // Changed from string to number
   startdate: string;
-  mmid: string;
-  instructorid: string;
+  mmid: number; // Changed from string to number
+  instructorid: number;
   status: string;
-  submitterid: string;
+  submitterid: number;
   priority: string;
   technology: string;
   minrate: number;
@@ -40,15 +40,15 @@ interface RowData {
   relocation: string;
   locationpreference: string;
   skypeid: string;
-  ipemailid: string;
-  resumeid: string;
+  ipemailid: number;
+  resumeid: number;
   coverletter: string;
   intro: string;
   closedate: string;
   closedemail: string;
   notes: string;
-  suspensionreason?: string;
-  yearsofexperience?: number;
+  suspensionreason: string; // Changed from optional to required
+  yearsofexperience: string; // Changed from number to string to match CandidateMarketing
 }
 
 interface AutoTableDoc extends jsPDF {
@@ -226,10 +226,9 @@ const MarketingCandidates = () => {
           row.closedate,
           row.closedemail,
           row.notes,
-          row.suspensionreason,
-          row.yearsofexperience,
-        ]);
-
+          row.suspensionreason ?? "", // Ensure no undefined values
+          row.yearsofexperience ?? 0, // Ensure no undefined values
+        ]).map(row => row.filter(value => value !== undefined)); // Filter out undefined values
         doc.autoTable({
           head: [
             [
@@ -435,7 +434,7 @@ const MarketingCandidates = () => {
         <EditRowModal
           isOpen={modalState.edit}
           onRequestClose={() => setModalState({ ...modalState, edit: false })}
-          rowData={selectedRow}
+          rowData={selectedRow as RowData} // Ensure type compatibility
           onSave={fetchData}
         />
         <ViewRowModal

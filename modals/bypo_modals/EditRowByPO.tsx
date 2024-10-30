@@ -1,6 +1,6 @@
 // EditRowModal.tsx
 import React from 'react';
-
+import { ByMonth } from '@/types';
 interface EditRowModalProps {
   isOpen: boolean;
   onRequestClose: () => void;

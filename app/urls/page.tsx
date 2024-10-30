@@ -22,7 +22,11 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Url } from "../../types/index";
+
+interface Url {
+  id?: string;
+  url?: string;
+}
 
 jsPDF.prototype.autoTable = autoTable;
 const Urls = () => {
@@ -58,15 +62,9 @@ const Urls = () => {
 
       const { data, totalRows } = response.data;
 
-      // Add serial numbers to each row
-      const dataWithSerials = data.map((item: Url) => ({
-        ...item,
-       // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
-      }));
-
-      setRowData(dataWithSerials);
+      setRowData(data);
       setTotalRows(totalRows);
-      setupColumns(dataWithSerials);
+      setupColumns(data);
     } catch (error) {
       console.error("Error loading data:", error);
     } finally {
@@ -76,41 +74,35 @@ const Urls = () => {
 
   interface ErrorResponse {
     message: string;
-    // Add other properties if needed
-}
+  }
 
   const fetchUrls = async (searchQuery = "") => {
     try {
       const response = await axios.get(`${API_URL}/urls/search`, {
         params: {
-          page: currentPage, // Pass current page for pagination
-          pageSize: paginationPageSize, // Pass pageSize for pagination
-          search: searchQuery, // Pass the search query to the backend
+          page: currentPage,
+          pageSize: paginationPageSize,
+          search: searchQuery,
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
 
       const { data, totalRows } = response.data;
-      setRowData(data); // Set the table data
-      setTotalRows(totalRows); // Set the total rows for pagination
-      setupColumns(data); // Optional: If needed for dynamic columns
+      setRowData(data);
+      setTotalRows(totalRows);
+      setupColumns(data);
     } catch (error) {
       console.error("Error loading data:", error);
     }
   };
 
-  // useEffect(() => {
-  //   fetchUrls(searchValue);
-  // }, [currentPage, searchValue]);
-
   const handleSearch = () => {
-    fetchUrls(searchValue); // Fetch data using the search term
+    fetchUrls(searchValue);
   };
 
   const setupColumns = (data: Url[]) => {
     if (data.length > 0) {
       const columns = [
-       // { headerName: "Serial No", field: "serialNo", width: 100 }, // Add this line for serial numbers
         ...Object.keys(data[0]).map((key) => ({
           headerName: key.charAt(0).toUpperCase() + key.slice(1),
           field: key,
@@ -125,9 +117,8 @@ const Urls = () => {
   }, [currentPage]);
 
   const handleRefresh = () => {
-    setSearchValue(""); // Clear search value before refreshing
-    fetchData(); // Re-fetch data
-    window.location.reload(); // Trigger page reload
+    setSearchValue("");
+    fetchData();
   };
 
   const handleAddRow = () =>
@@ -161,14 +152,14 @@ const Urls = () => {
               headers: { AuthToken: localStorage.getItem("token") },
             });
             alert("URL deleted successfully.");
-            fetchData(); // Refresh data after delete
+            fetchData();
           } catch (error) {
             const axiosError = error as AxiosError;
 
             alert(
-                `Failed to delete URL: ${
-                    (axiosError.response?.data as ErrorResponse)?.message || axiosError.message
-                }`
+              `Failed to delete URL: ${
+                (axiosError.response?.data as ErrorResponse)?.message || axiosError.message
+              }`
             );
           }
         } else {
@@ -186,8 +177,8 @@ const Urls = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        setSelectedRow(selectedRows[0]); // Set the selected row data
-        setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
+        setSelectedRow(selectedRows[0]);
+        setModalState((prevState) => ({ ...prevState, view: true }));
       } else {
         alert("Please select a row to view.");
       }
@@ -195,25 +186,16 @@ const Urls = () => {
   };
 
   const handleDownloadPDF = () => {
-    // Create a new instance of jsPDF
     const doc = new jsPDF();
-
-    // Add title text
     doc.text("URL Data", 20, 10);
-
-    // Prepare data for PDF
     const pdfData = rowData.map((row) => Object.values(row));
     const headers = columnDefs.map((col) => col.headerName);
-
-    // Create the autoTable
     autoTable(doc, {
-        head: [headers],
-        body: pdfData,
-        theme: 'grid', // Optional: set the theme for the table
-        styles: { fontSize: 5 }, // Optional: adjust font size
+      head: [headers],
+      body: pdfData,
+      theme: 'grid',
+      styles: { fontSize: 5 },
     });
-
-    // Save the PDF
     doc.save("url_data.pdf");
   };
 
@@ -263,22 +245,21 @@ const Urls = () => {
           </button>
         </div>
       </div>
-          {/* Search Functionality */}
-          <div className="flex mb-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-           onChange={(e) => setSearchValue(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-64"
-          />
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-          >
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-        </div>
+      <div className="flex mb-4">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="border border-gray-300 rounded-md p-2 w-64"
+        />
+        <button
+          onClick={handleSearch}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+        >
+          <AiOutlineSearch className="mr-2" /> Search
+        </button>
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-48">
@@ -286,76 +267,71 @@ const Urls = () => {
         </div>
       ) : (
         <div
-        className="ag-theme-alpine"
-        style={{ height: "400px", width: "100%", overflowY: "auto" }}
-      >
-        <AgGridReact
-        ref={gridRef}
-        rowData={rowData}
-        columnDefs={columnDefs}
-        pagination={false}
-        domLayout="normal"
-        rowSelection="multiple"
-        defaultColDef={{
-          sortable: true,
-          filter: true,
-          resizable: true,
-          cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-          minWidth: 80,
-          maxWidth: 150,
-        }}
-        rowHeight={30}
-        headerHeight={35}
-      />
-      </div>
+          className="ag-theme-alpine"
+          style={{ height: "400px", width: "100%", overflowY: "auto" }}
+        >
+          <AgGridReact
+            ref={gridRef}
+            rowData={rowData}
+            columnDefs={columnDefs}
+            pagination={false}
+            domLayout="normal"
+            rowSelection="multiple"
+            defaultColDef={{
+              sortable: true,
+              filter: true,
+              resizable: true,
+              cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+              minWidth: 80,
+              maxWidth: 150,
+            }}
+            rowHeight={30}
+            headerHeight={35}
+          />
+        </div>
       )}
 
       <div className="flex justify-between mt-4">
-      <div className="flex items-center">
-        {/* Double Left Icon */}
-        <button
-          onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaAngleDoubleLeft />
-        </button>
-        {/* Left Icon */}
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaChevronLeft />
-        </button>
-        {/* Page Numbers */}
-        {pageOptions.map((page) => (
+        <div className="flex items-center">
           <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+            onClick={() => handlePageChange(1)}
+            disabled={currentPage === 1}
+            className="p-2 disabled:opacity-50"
           >
-            {page}
+            <FaAngleDoubleLeft />
           </button>
-        ))}
-        {/* Right Icon */}
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaChevronRight />
-        </button>
-        {/* Double Right Icon */}
-        <button
-          onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage === totalPages}
-          className="p-2 disabled:opacity-50"
-        >
-          <FaAngleDoubleRight />
-        </button>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaChevronLeft />
+          </button>
+          {pageOptions.map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaChevronRight />
+          </button>
+          <button
+            onClick={() => handlePageChange(totalPages)}
+            disabled={currentPage === totalPages}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaAngleDoubleRight />
+          </button>
+        </div>
       </div>
-    </div>
 
       {modalState.add && (
         <AddRowModal
@@ -367,9 +343,9 @@ const Urls = () => {
       {modalState.edit && selectedRow && (
         <EditRowModal
           isOpen={modalState.edit}
-          onRequestClose={() => setModalState((prev) => ({ ...prev, edit: false }))}
-          rowData={selectedRow}
+          onClose={() => setModalState((prev) => ({ ...prev, edit: false }))}
           onSave={fetchData}
+          initialData={selectedRow} // Added initialData prop
         />
       )}
       {modalState.view && selectedRow && (

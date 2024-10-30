@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import { Vendor } from '../../types/index';
 
-
 interface AddRowModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -62,7 +61,7 @@ const AddRowVendor: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData
     "Complete": "Complete"
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -140,8 +139,8 @@ const AddRowVendor: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData
             onChange={handleChange}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
           >
-            {Object.keys(statusOptions).map(key => (
-              <option key={key} value={key}>{statusOptions[key]}</option>
+            {Object.entries(statusOptions).map(([key, value]) => (
+              <option key={key} value={key}>{value}</option>
             ))}
           </select>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { User } from '../types/index'; // Adjust the import path accordingly
+import { User } from '@/types'; // Adjust the import path accordingly
 
 interface ViewRowModalProps {
   isOpen: boolean;

@@ -11,15 +11,17 @@ interface Url {
 interface EditRowModalProps {
   isOpen: boolean;
   onClose: () => void;
-  refreshData: () => void;
+  onSave: () => Promise<void>;
   initialData: Url;
 }
 
-const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshData, initialData }) => {
-  const [formData, setFormData] = useState<Url>(initialData);
+const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, onSave, initialData }) => {
+  const [formData, setFormData] = useState<Url>({});
 
   useEffect(() => {
-    setFormData(initialData);
+    if (initialData) {
+      setFormData(initialData);
+    }
   }, [initialData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +34,13 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshDat
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.id) {
+      console.error('ID is required to update the URL');
+      return;
+    }
     try {
       await axios.put(`/api/url/${formData.id}`, formData);
-      refreshData();
+      await onSave();
       onClose();
     } catch (error) {
       console.error('Error updating URL:', error);
@@ -44,7 +50,7 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshDat
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={onClose} // Changed from onClose to onRequestClose
       style={{
         content: {
           top: '55%',
@@ -71,7 +77,7 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshDat
           onClick={onClose}
           className="absolute top-0 right-0 text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"
         >
-          &times;
+          <AiOutlineClose />
         </button>
       </div>
       <h2 className="text-2xl font-bold mb-6 text-gray-800 pr-8">Edit URL</h2>
@@ -83,7 +89,7 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshDat
           <input
             type="text"
             name="id"
-            value={formData.id}
+            value={formData.id || ''}
             onChange={handleChange}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
             placeholder="Enter ID"
@@ -97,7 +103,7 @@ const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshDat
           <input
             type="text"
             name="url"
-            value={formData.url}
+            value={formData.url || ''}
             onChange={handleChange}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
             placeholder="Enter URL"

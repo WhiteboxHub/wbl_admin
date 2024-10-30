@@ -33,64 +33,115 @@ export interface Lead {
     [key: string]: any; // Allows additional properties that may not be explicitly defined
   }
   
-// types/index.ts
-export interface Candidate {
-  id: number; // or number depending on your API
+// // types/index.ts
+// export interface Candidate  {
+//   id: number; // or number depending on your API
+//   name: string;
+//   email: string;
+//   assessment: string; // or whatever type it should be
+//   // batchname?: string;
+//   // name?: string;
+//   batchname:string;
+//   enrolleddate?: string;
+//   // email?: string;
+//   course?: string;
+//   phone?: string;
+//   status?: string; // Allows additional properties that may not be explicitly defined
+//   // Add any additional properties you need here
+//   candidateid?: string; // Optional if it can be undefined
+//   workstatus?: string;
+//   education?: string;
+//   workexperience?: string;
+//   ssn?: string;
+//   agreement?: string;
+//   promissory?: boolean;
+//   driverslicense?: string;
+//   workpermit?: string;
+//   wpexpirationdate?: string; // Adjust type if necessary
+//   offerletter?: string;
+//   secondaryemail?: string;
+//   secondaryphone?: string;
+//   address?: string;
+//   city?: string;
+//   state?: string;
+//   country?: string;
+//   zip?: string;
+//   linkedin?: string;
+//   dob?: string; // Adjust type if necessary
+//   emergcontactphone?: string;
+//   ssnvalidated?: boolean;
+//   bgv?: boolean;
+//   term?: string;
+//   feepaid?: boolean;
+//   feedue?: number;
+//   salary0?: number;
+//   salary6?: number;
+//   salary12?: number;
+//   guarantorname?: string;
+//   guarantordesignation?: string;
+//   guarantorcompany?: string;
+//   contracturl?: string;
+//   empagreementurl?: string;
+//   offerletterurl?: string;
+//   workpermiturl?: string;
+//   referralid?: string;
+//   portalid?: string;
+//   avatarid?: string;
+//   notes?: string;
+// }
+export interface Candidate{
+  id: Key | null | undefined;
+  assessment: ReactNode;
+  candidateid: string; // Ensure candidateid is always a string
   name: string;
+  enrolleddate: string;
   email: string;
-  assessment: string; // or whatever type it should be
-  batchname?: string;
-  name?: string;
-  enrolleddate?: string;
-  email?: string;
-  course?: string;
-  phone?: string;
-  status?: string; // Allows additional properties that may not be explicitly defined
-  // Add any additional properties you need here
-  candidateid?: string; // Optional if it can be undefined
-  workstatus?: string;
-  education?: string;
-  workexperience?: string;
-  ssn?: string;
-  agreement?: string;
-  promissory?: boolean;
-  driverslicense?: string;
-  workpermit?: string;
-  wpexpirationdate?: string; // Adjust type if necessary
-  offerletter?: string;
-  secondaryemail?: string;
-  secondaryphone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  country?: string;
-  zip?: string;
-  linkedin?: string;
-  dob?: string; // Adjust type if necessary
-  emergcontactphone?: string;
-  ssnvalidated?: boolean;
-  bgv?: boolean;
-  term?: string;
-  feepaid?: boolean;
-  feedue?: number;
-  salary0?: number;
-  salary6?: number;
-  salary12?: number;
-  guarantorname?: string;
-  guarantordesignation?: string;
-  guarantorcompany?: string;
-  contracturl?: string;
-  empagreementurl?: string;
-  offerletterurl?: string;
-  workpermiturl?: string;
-  referralid?: string;
-  portalid?: string;
-  avatarid?: string;
-  notes?: string;
+  course: string;
+  phone: string;
+  status: string;
+  workstatus: string;
+  education: string;
+  workexperience: string;
+  ssn: string;
+  agreement: string;
+  promissory: boolean;
+  driverslicense: string;
+  workpermit: string;
+  wpexpirationdate: string;
+  offerletter: string;
+  secondaryemail: string;
+  secondaryphone: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  zip: string;
+  linkedin: string;
+  dob: string;
+  emergcontactphone: string;
+  ssnvalidated: boolean;
+  bgv: boolean;
+  term: string;
+  feepaid: boolean;
+  feedue: number;
+  salary0: number;
+  salary6: number;
+  salary12: number;
+  guarantorname: string;
+  guarantordesignation: string;
+  guarantorcompany: string;
+  contracturl: string;
+  empagreementurl: string;
+  offerletterurl: string;
+  workpermiturl: string;
+  referralid: string;
+  portalid: string;
+  avatarid: string;
+  notes: string;
+  batchname: string;
 }
 
-
-  export type User = {
+  export  interface User  {
     id: number;
     uname: string;
     passwd: string;
@@ -119,7 +170,21 @@ export interface Candidate {
     reset_token: string;
     token_expiry: string;
   };
-  
+  // GroupedData interface to represent the structure of grouped candidates
+export interface GroupedData {
+  [batch: string]: Candidate[]; // Keyed by batch name, value is an array of Candidates
+}
+
+// TransformedCandidate interface to include additional properties
+export interface TransformedCandidate extends Candidate {
+  isBatch: boolean; // Indicates if the row is a batch row
+}
+
+// ErrorResponse interface for handling API error responses
+export interface ErrorResponse {
+  message: string; // Error message from the API
+  // Add other properties if needed
+}
 
   // types.ts
   export interface Po {

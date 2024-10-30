@@ -21,10 +21,10 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Overdue } from "../../types/index";
+import type { ErrorResponse, Overdue, Po } from "../../types/index";
 
 jsPDF.prototype.autoTable = autoTable;
-const Overdue = () => {
+const OverdueComponent = () => {
   const [rowData, setRowData] = useState<Overdue[]>([]);
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
@@ -383,6 +383,5 @@ const Overdue = () => {
       )}
     </div>
   );
-};
-
-export default Overdue;
+}
+export default OverdueComponent;

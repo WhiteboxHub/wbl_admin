@@ -11,7 +11,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { FaDownload } from "react-icons/fa";
 import AddRowModal from "../../modals/client_modals/AddRowClient";
 import EditRowModal from "../../modals/client_modals/EditRowClient";
-import ViewRowModal from "../../modals/client_modals/ViewRowClient";
+// import ViewRowModal from "../../modals/client_modals/ViewRowClient";
 import { MdDelete } from "react-icons/md";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import {
@@ -21,6 +21,8 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
+import { Client, ErrorResponse } from "@/types";
+
 
 jsPDF.prototype.autoTable = autoTable;
 const Clients = () => {
@@ -333,20 +335,13 @@ const Clients = () => {
       {modalState.edit && selectedRow && (
         <EditRowModal
           isOpen={modalState.edit}
-          onRequestClose={() => setModalState((prev) => ({ ...prev, edit: false }))}
-          rowData={selectedRow}
+          onClose={() => setModalState((prev) => ({ ...prev, edit: false }))}
+          clientData={selectedRow} // Changed 'data' back to 'clientData' to match AddRowModalProps
           onSave={fetchData}
         />
       )}
-      {modalState.view && selectedRow && (
-        <ViewRowModal
-          isOpen={modalState.view}
-          onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
-          rowData={selectedRow}
-        />
-      )}
     </div>
-  );
+  )
 };
 
 export default Clients;

@@ -747,7 +747,7 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Po } from "@/types/index";
+import { Po,ErrorResponse } from "@/types/index";
 
 jsPDF.prototype.autoTable = autoTable;
 

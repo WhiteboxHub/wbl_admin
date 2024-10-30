@@ -10,10 +10,10 @@ interface Url {
 interface ViewRowModalProps {
   isOpen: boolean;
   onClose: () => void;
-  data: Url;
+  rowData: Url; // Changed 'data' to 'rowData'
 }
 
-const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onClose, data }) => {
+const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onClose, rowData }) => { // Updated 'data' to 'rowData'
   return (
     <Modal
       isOpen={isOpen}
@@ -53,13 +53,13 @@ const ViewRowModal: React.FC<ViewRowModalProps> = ({ isOpen, onClose, data }) =>
         {/* ID */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">ID</label>
-          <p className="text-sm text-gray-600">{data.id}</p>
+          <p className="text-sm text-gray-600">{rowData.id}</p> {/* Updated 'data' to 'rowData' */}
         </div>
 
         {/* URL */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">URL</label>
-          <p className="text-sm text-gray-600">{data.url}</p>
+          <p className="text-sm text-gray-600">{rowData.url}</p> {/* Updated 'data' to 'rowData' */}
         </div>
       </div>
     </Modal>

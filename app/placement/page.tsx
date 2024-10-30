@@ -21,7 +21,7 @@ import {
   AiOutlineReload,
 } from "react-icons/ai";
 import { MdAdd } from "react-icons/md";
-import { Placement } from "@/types";
+import { ErrorResponse, Placement } from "@/types";
 
 jsPDF.prototype.autoTable = autoTable;
 const Placements = () => {
