@@ -22,14 +22,18 @@ interface Vendor {
   notes?: string;
 }
 
-interface EditRowModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  refreshData: () => void;
-  initialData: Vendor;
-}
-
-const EditRowModal: React.FC<EditRowModalProps> = ({ isOpen, onClose, refreshData, initialData }) => {
+export interface EditRowModalProps {
+    isOpen: boolean;
+    onRequestClose: () => void; // Ensure this prop is defined
+    rowData: Vendor;            // Ensure rowData is defined and matches the expected type
+    onSave: () => Promise<void>; // Ensure onSave is defined
+  }
+  
+  const EditRowModal: React.FC<EditRowModalProps> = ({
+    isOpen,
+    onRequestClose,
+    rowData,
+    onSave, }) => {
   const [formData, setFormData] = useState<Vendor>(initialData);
 
   useEffect(() => {

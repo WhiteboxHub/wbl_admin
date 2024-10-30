@@ -119,7 +119,7 @@ const AllListVendor = () => {
   //     </div>
   //   );
   // };
-  const setupColumns = (data: Overdue[]) => {
+  const setupColumns = (data: Vendor[]) => {
     if (data.length > 0) {
       const columns = [
         ...Object.keys(data[0]).map((key) => ({

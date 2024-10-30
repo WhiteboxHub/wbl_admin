@@ -28,9 +28,9 @@ import {
 
 interface RowData {
   id: number;
-  candidateid: string;
+  candidateid: number;
   startdate: string;
-  mmid: string;
+  mmid:number;
   instructorid: string;
   status: string;
   submitterid: string;
@@ -59,10 +59,11 @@ const CandidateMarketing = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
   const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
+  // const [selectedRow, setSelectedRow] = useState<RowData | null>(null);
   const [selectedRow, setSelectedRow] = useState<RowData | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const gridRef = useRef<AgGridReact>(null);
-
+  // const [selectedRow, setSelectedRow] = useState<RowData | null>(null); 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const fetchData = useCallback(async (searchQuery = "", page = 1) => {

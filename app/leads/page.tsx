@@ -538,16 +538,16 @@ import {
 import { MdAdd } from "react-icons/md";
 import { Lead } from "../../types/index"; // Adjust the import path accordingly
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-interface AutoTableData {
+interface jsPDFPageData {
   settings: {
     margin: {
       left: number;
+      right: number;
       top: number;
-    }
-  }
+      bottom?: number; // Optional bottom margin if needed
+    };
+  };
 }
-
 const Leads = () => {
   const [rowData, setRowData] = useState<Lead[]>([]);
   const [columnDefs, setColumnDefs] = useState<
@@ -591,22 +591,20 @@ const Leads = () => {
   );
 
   const debouncedFetchData = useCallback(
-    (query: string) => {
+    debounce((query: string) => {
       fetchData(query, currentPage);
-    },
+    }, 300),
     [fetchData, currentPage]
   );
 
-  const debouncedSearch = debounce(debouncedFetchData, 300);
-
   useEffect(() => {
     if (searchValue) {
-      debouncedSearch(searchValue);
+      debouncedFetchData(searchValue);
     }
     return () => {
-      debouncedSearch.cancel();
+      debouncedFetchData.cancel();
     };
-  }, [searchValue, debouncedSearch]);
+  }, [searchValue, debouncedFetchData]);
 
   useEffect(() => {
     if (!searchValue) {
@@ -695,107 +693,295 @@ const Leads = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
+// ... existing code ...
+// ... existing code ...
+// const handleDownloadPDF = () => {
+//   if (gridRef.current) {
+//     const selectedRows = gridRef.current.api.getSelectedRows();
+//     if (selectedRows.length === 1) { // Ensure only one row is selected
+//       const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
-  const handleDownloadPDF = () => {
-    if (gridRef.current) {
-      const selectedRows = gridRef.current.api.getSelectedRows();
-      if (selectedRows.length === 1) {
-        const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+//       // Add Title
+//       doc.text("Selected Lead Data", 15, 10);
 
-        doc.text("Selected Lead Data", 15, 10);
+//       // Prepare the data for the table
+//       const row = selectedRows[0]; // Get the single selected row
+//       const pdfData = [
+//         {
+//           Name: row.name,
+//           Email: row.email,
+//           Phone: row.phone,
+//           Address: row.address,
+//           City: row.city,
+//           State: row.state,
+//           Country: row.country,
+//           Zip: row.zip,
+//           Course: row.course,
+//           Status: row.status,
+//           "Spouse Name": row.spousename,
+//           "Spouse Email": row.spouseemail,
+//           "Spouse Phone": row.spousephone,
+//           FAQ: row.faq,
+//           "Calls Made": row.callsmade,
+//           "Close Date": row.closedate,
+//           Notes: row.notes,
+//         },
+//       ];
 
-        const row = selectedRows[0];
-        const pdfData = [
-          {
-            Name: row.name,
-            Email: row.email,
-            Phone: row.phone,
-            Address: row.address,
-            City: row.city,
-            State: row.state,
-            Country: row.country,
-            Zip: row.zip,
-            Course: row.course,
-            Status: row.status,
-            "Spouse Name": row.spousename,
-            "Spouse Email": row.spouseemail,
-            "Spouse Phone": row.spousephone,
-            FAQ: row.faq,
-            "Calls Made": row.callsmade,
-            "Close Date": row.closedate,
-            Notes: row.notes,
-          },
-        ];
+//       // Add autoTable with adjusted styling
+//       (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
+//         head: [
+//           [
+//             "Name",
+//             "Email",
+//             "Phone",
+//             "Address",
+//             "City",
+//             "State",
+//             "Country",
+//             "Zip",
+//             "Course",
+//             "Status",
+//             "Spouse Name",
+//             "Spouse Email",
+//             "Spouse Phone",
+//             "FAQ",
+//             "Calls Made",
+//             "Close Date",
+//             "Notes",
+//           ],
+//         ],
+//         body: pdfData.map((data) => Object.values(data)), // Convert object to array for table body
+//         styles: {
+//           fontSize: 8, // Slightly smaller font
+//           cellPadding: 4, // Add padding for readability
+//           overflow: 'linebreak', // Allow line breaks in cells
+//         },
+//         columnStyles: {
+//           0: { cellWidth: 15 }, // Name
+//           1: { cellWidth: 25 }, // Email
+//           2: { cellWidth: 20 }, // Phone
+//           3: { cellWidth: 30 }, // Address
+//           4: { cellWidth: 20 }, // City
+//           5: { cellWidth: 20 }, // State
+//           6: { cellWidth: 20 }, // Country
+//           7: { cellWidth: 15 }, // Zip
+//           8: { cellWidth: 20 }, // Course
+//           9: { cellWidth: 20 }, // Status
+//           10: { cellWidth: 25 }, // Spouse Name
+//           11: { cellWidth: 25 }, // Spouse Email
+//           12: { cellWidth: 20 }, // Spouse Phone
+//           13: { cellWidth: 20 }, // FAQ
+//           14: { cellWidth: 20 }, // Calls Made
+//           15: { cellWidth: 20 }, // Close Date
+//           16: { cellWidth: 40 }, // Notes (wider to accommodate longer text)
+//         },
+//         margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
+//         pageBreak: "avoid", // Prevent page breaks
+//         didDrawPage: function (data) {
+//           doc.setFontSize(10);
+//           doc.text(
+//             "Page " + doc.internal.pages.length,
+//             data.settings.margin.left,
+//             data.settings.margin.top + 10 // Adjust position for page number
+//           );
+//         },
+//       });
 
-        (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
-          head: [
-            [
-              "Name",
-              "Email", 
-              "Phone",
-              "Address",
-              "City",
-              "State", 
-              "Country",
-              "Zip",
-              "Course",
-              "Status",
-              "Spouse Name",
-              "Spouse Email",
-              "Spouse Phone",
-              "FAQ",
-              "Calls Made",
-              "Close Date",
-              "Notes",
-            ],
+//       // Save the PDF
+//       doc.save("Selected_Lead_data.pdf");
+//     } else {
+//       alert("Please select exactly one row to download.");
+//     }
+//   }
+// };
+// ... existing code ...
+const handleDownloadPDF = () => {
+  if (gridRef.current) {
+    const selectedRows = gridRef.current.api.getSelectedRows();
+    if (selectedRows.length === 1) { // Ensure only one row is selected
+      const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+
+      // Add Title
+      doc.text("Selected Lead Data", 15, 10);
+
+      // Prepare the data for the table
+      const row = selectedRows[0]; // Get the single selected row
+      const pdfData = [
+        {
+          Name: row.name,
+          Email: row.email,
+          Phone: row.phone,
+          Address: row.address,
+          City: row.city,
+          State: row.state,
+          Country: row.country,
+          Zip: row.zip,
+          Course: row.course,
+          Status: row.status,
+          "Spouse Name": row.spousename,
+          "Spouse Email": row.spouseemail,
+          "Spouse Phone": row.spousephone,
+          FAQ: row.faq,
+          "Calls Made": row.callsmade,
+          "Close Date": row.closedate,
+          Notes: row.notes,
+        },
+      ];
+
+      // Add autoTable with adjusted styling
+      (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
+        head: [
+          [
+            "Name",
+            "Email",
+            "Phone",
+            "Address",
+            "City",
+            "State",
+            "Country",
+            "Zip",
+            "Course",
+            "Status",
+            "Spouse Name",
+            "Spouse Email",
+            "Spouse Phone",
+            "FAQ",
+            "Calls Made",
+            "Close Date",
+            "Notes",
           ],
-          body: pdfData.map((data) => Object.values(data)),
-          styles: {
-            fontSize: 8,
-            cellPadding: 4,
-            overflow: 'linebreak',
-          },
-          columnStyles: {
-            0: { cellWidth: 15 },
-            1: { cellWidth: 25 },
-            2: { cellWidth: 20 },
-            3: { cellWidth: 30 },
-            4: { cellWidth: 20 },
-            5: { cellWidth: 20 },
-            6: { cellWidth: 20 },
-            7: { cellWidth: 15 },
-            8: { cellWidth: 20 },
-            9: { cellWidth: 20 },
-            10: { cellWidth: 25 },
-            11: { cellWidth: 25 },
-            12: { cellWidth: 20 },
-            13: { cellWidth: 20 },
-            14: { cellWidth: 20 },
-            15: { cellWidth: 20 },
-            16: { cellWidth: 40 },
-          },
-          margin: { top: 15, left: 15, right: 15 },
-          pageBreak: "avoid",
-          didDrawPage: function (data: AutoTableData) {
-            doc.setFontSize(10);
-            doc.text(
-              "Page " + doc.internal.pages.length,
-              data.settings.margin.left,
-              data.settings.margin.top + 10
-            );
-          },
-        });
+        ],
+        body: pdfData.map((data) => Object.values(data)), // Convert object to array for table body
+        styles: {
+          fontSize: 8, // Slightly smaller font
+          cellPadding: 4, // Add padding for readability
+          overflow: 'linebreak', // Allow line breaks in cells
+        },
+        columnStyles: {
+          0: { cellWidth: 15 }, // Name
+          1: { cellWidth: 25 }, // Email
+          2: { cellWidth: 20 }, // Phone
+          3: { cellWidth: 30 }, // Address
+          4: { cellWidth: 20 }, // City
+          5: { cellWidth: 20 }, // State
+          6: { cellWidth: 20 }, // Country
+          7: { cellWidth: 15 }, // Zip
+          8: { cellWidth: 20 }, // Course
+          9: { cellWidth: 20 }, // Status
+          10: { cellWidth: 25 }, // Spouse Name
+          11: { cellWidth: 25 }, // Spouse Email
+          12: { cellWidth: 20 }, // Spouse Phone
+          13: { cellWidth: 20 }, // FAQ
+          14: { cellWidth: 20 }, // Calls Made
+          15: { cellWidth: 20 }, // Close Date
+          16: { cellWidth: 40 }, // Notes (wider to accommodate longer text)
+        },
+        margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
+        pageBreak: "avoid", // Prevent page breaks
+        didDrawPage: function (data: jsPDFPageData) { // Specify the type for data
+          doc.setFontSize(10);
+          doc.text(
+            "Page " + doc.internal.pages.length,
+            data.settings.margin.left,
+            data.settings.margin.top + 10 // Adjust position for page number
+          );
+        },
+      });
 
-        doc.save("Selected_Lead_data.pdf");
-      } else {
-        alert("Please select exactly one row to download.");
-      }
+      // Save the PDF
+      doc.save("Selected_Lead_data.pdf");
+    } else {
+      alert("Please select exactly one row to download.");
     }
-  };
-
+  }
+};
+// ... existing code ...
+// ... existing code ...
+// ... existing code ...
   const handleSearch = () => {
     fetchData(searchValue);
   };
+
+  // const handleDownloadPDF = () => {
+  //   if (gridRef.current) {
+  //     const selectedRows = gridRef.current.api.getSelectedRows();
+  //     if (selectedRows.length > 0) {
+  //       const doc = new jsPDF({ orientation: "landscape" });
+
+  //       // Add Title
+  //       doc.text("Selected Lead Data", 15, 10);
+
+  //       // Prepare the data for the table
+  //       const pdfData = selectedRows.map((row) => [
+  //         row.name,
+  //         row.email,
+  //         row.phone,
+  //         row.address,
+  //         row.city,
+  //         row.state,
+  //         row.country,
+  //         row.zip,
+  //         row.course,
+  //         row.status,
+  //         row.spousename,
+  //         row.spouseemail,
+  //         row.spousephone,
+  //         row.faq,
+  //         row.callsmade,
+  //         row.closedate,
+  //         row.notes,
+  //       ]);
+
+  //       // Add autoTable with adjusted styling
+  //       (doc as unknown as { autoTable: (options: unknown) => void }).autoTable(
+  //         {
+  //           head: [
+  //             [
+  //               "Name",
+  //               "Email",
+  //               "Phone",
+  //               "Address",
+  //               "City",
+  //               "State",
+  //               "Country",
+  //               "Zip",
+  //               "Course",
+  //               "Status",
+  //               "Spouse Name",
+  //               "Spouse Email",
+  //               "Spouse Phone",
+  //               "FAQ",
+  //               "Calls Made",
+  //               "Close Date",
+  //               "Notes",
+  //             ],
+  //           ],
+  //           body: pdfData,
+  //           styles: {
+  //             fontSize: 8, // Slightly smaller font
+  //             cellPadding: 4, // Add padding for readability
+  //           },
+  //           margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
+  //           pageBreak: "auto", // Automatically break table rows if too long
+  //           didDrawPage: function (data: any) {
+  //             doc.setFontSize(10);
+  //             doc.text(
+  //               "Page " + doc.internal.pages.length,
+  //               data.settings.margin.left,
+  //               doc.internal.pageSize.height - 10
+  //             );
+  //           },
+  //         }
+  //       );
+
+  //       // Save the PDF
+  //       doc.save("Selected_Lead_data.pdf");
+  //     } else {
+  //       alert("Please select a row to download.");
+  //     }
+  //   }
+  // };
 
   const handleExportToExcel = () => {
     if (gridRef.current) {
@@ -912,6 +1098,7 @@ const Leads = () => {
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center mt-4">
           <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
+            {/* Pagination Buttons */}
             <div className="flex space-x-1 overflow-x-auto">
               <button 
                 onClick={() => handlePageChange(1)} 
