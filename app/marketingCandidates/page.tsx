@@ -24,6 +24,7 @@ import {
   AiOutlineReload,
   AiOutlineEye,
 } from "react-icons/ai";
+import { CandidateMarketing } from "@/types";
 
 interface RowData {
   id: number;
@@ -440,7 +441,8 @@ const MarketingCandidates = () => {
         <ViewRowModal
           isOpen={modalState.view}
           onRequestClose={() => setModalState({ ...modalState, view: false })}
-          rowData={selectedRow}
+          rowData={selectedRow ?? {} as CandidateMarketing}
+
         />
       </div>
     </div>

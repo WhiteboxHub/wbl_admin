@@ -2,25 +2,26 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { AiOutlineClose } from 'react-icons/ai';
+import { Vendor } from '@/types';
 
-interface Vendor {
-  id?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-  designation?: string;
-  vendorid?: string;
-  comp?: string;
-  status?: string;
-  dob?: string;
-  personalemail?: string;
-  skypeid?: string;
-  linkedin?: string;
-  twitter?: string;
-  facebook?: string;
-  review?: string;
-  notes?: string;
-}
+const initialData: Vendor = {
+  id: '',
+  name: '',
+  email: '',
+  phone: '',
+  designation: '',
+  vendorid: '',
+  comp: '',
+  status: '',
+  dob: '',
+  personalemail: '',
+  skypeid: '',
+  linkedin: '',
+  twitter: '',
+  facebook: '',
+  review: '',
+  notes: '',
+};
 
 export interface EditRowModalProps {
     isOpen: boolean;
@@ -53,7 +54,7 @@ export interface EditRowModalProps {
     try {
       await axios.put(`/api/vendor/${formData.id}`, formData);
       refreshData();
-      onClose();
+      onRequestClose();
     } catch (error) {
       console.error('Error updating vendor:', error);
     }
@@ -62,7 +63,7 @@ export interface EditRowModalProps {
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onClose}
+      onRequestClose={onRequestClose}
       style={{
         content: {
           top: '55%',
@@ -86,7 +87,7 @@ export interface EditRowModalProps {
     >
       <div className="relative">
         <button
-          onClick={onClose}
+          onClick={onRequestClose}
           className="absolute top-0 right-0 text-2xl font-semibold text-red-500 hover:text-red-700 transition duration-200"
         >
           &times;
@@ -301,3 +302,7 @@ export interface EditRowModalProps {
 };
 
 export default EditRowModal;
+function refreshData() {
+  throw new Error('Function not implemented.');
+}
+

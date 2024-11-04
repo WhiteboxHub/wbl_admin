@@ -952,5 +952,3 @@ export default withAuth(Candidates);
 
 
 
-
-// export default withAuth(Candidates);

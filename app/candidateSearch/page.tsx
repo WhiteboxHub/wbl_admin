@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import withAuth from "@/modals/withAuth";
-import { AiOutlineSearch } from "react-icons/ai";
+// import { AiOutlineSearch } from "react-icons/ai";
 import { FaSpinner } from "react-icons/fa";
 import { debounce } from "lodash";
 import { Candidate } from "../../types/index"; // Adjust the import based on your project structure
@@ -52,7 +52,7 @@ const CandidateSearch = () => {
   };
 
   return (
-    <div className="candidate-search-container p-6 bg-gray-100 mt-8 rounded-lg shadow-lg">
+    <div className="p-8 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
 
       <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8">
@@ -67,7 +67,7 @@ const CandidateSearch = () => {
           type="submit"
           className="px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
         >
-          <AiOutlineSearch className="mr-2" /> Search
+         Search
         </button>
       </form>
 

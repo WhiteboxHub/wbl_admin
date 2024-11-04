@@ -1,12 +1,12 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { Employee } from '../types/index'; // Adjust the import path accordingly
+import { CandidateMarketing, Employee } from '@/types'; // Adjust the import path accordingly
 import { AiOutlineClose } from 'react-icons/ai'; // Import any icons if needed
 
 interface ViewEmployeeProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  rowData: Employee | null;
+  rowData:  CandidateMarketing ;
 }
 
 const ViewEmployee: React.FC<ViewEmployeeProps> = ({ isOpen, onRequestClose, rowData }) => {
@@ -56,7 +56,7 @@ const ViewEmployee: React.FC<ViewEmployeeProps> = ({ isOpen, onRequestClose, row
                   {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
                 </label>
                 <div className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md">
-                  {rowData[key as keyof Employee]}
+                  {rowData[key as keyof CandidateMarketing]}
                 </div>
               </div>
             ))}

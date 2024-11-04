@@ -36,9 +36,9 @@ interface RowData {
   candidateid: number;
   startdate: string;
   mmid:number;
-  instructorid: string;
+  instructorid: number;
   status: string;
-  submitterid: string;
+  submitterid: number;
   priority: string;
   technology: string;
   minrate: number;
@@ -46,15 +46,15 @@ interface RowData {
   relocation: string;
   locationpreference: string;
   skypeid: string;
-  ipemailid: string;
-  resumeid: string;
+  ipemailid: number;
+  resumeid: number;
   coverletter: string;
   intro: string;
   closedate: string;
   closedemail: string;
   notes: string;
   suspensionreason: string;
-  yearsofexperience: number;
+  yearsofexperience: string;
 }
 
 const CandidateMarketing = () => {
@@ -476,7 +476,7 @@ const CandidateMarketing = () => {
         <ViewRowModal
           isOpen={modalState.view}
           onRequestClose={() => setModalState({ ...modalState, view: false })}
-          rowData={selectedRow as CandidateMarketing | null} 
+          rowData={selectedRow as CandidateMarketing } 
         />
       </div>
     </div>

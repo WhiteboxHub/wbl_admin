@@ -52,7 +52,7 @@ const EditRowPlacement: React.FC<EditRowModalProps> = ({ isOpen, onRequestClose,
     }
   }, [rowData]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 

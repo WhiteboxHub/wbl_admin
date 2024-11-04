@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { AiOutlineClose } from 'react-icons/ai';
 import { Vendor } from '../../types/index';
 
-interface AddRowModalProps {
+interface AddRowPOProps {
   isOpen: boolean;
   onClose: () => void;
   refreshData: () => void;
 }
 
-const AddRowVendor: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData }) => {
+const AddRowVendor: React.FC<AddRowPOProps> = ({ isOpen, onClose, refreshData }) => {
   const [formData, setFormData] = useState<Vendor>({
+    id: '', // Optional property
+    name: '', // Required property
+    vendorid: '', // Required property
+    comp: '', // Required property
+    dob: '', // Required property
+    designation: '', // Required property
+    personalemail: '', // Required property
+    skypeid: '', // Required property
+    review: '', // Required property
     companyname: '',
-    status: 'Not Available',
+    status: '',
     tier: '',
     culture: '',
     solicited: '',
@@ -72,7 +82,6 @@ const AddRowVendor: React.FC<AddRowModalProps> = ({ isOpen, onClose, refreshData
         headers: { AuthToken: localStorage.getItem('token') },
       });
 
-      // Here, use the newly created vendor data for the refreshData
       const newVendor = response.data; // assuming the API returns the new vendor
       refreshData(); // Pass the new vendor to be added
       onClose();

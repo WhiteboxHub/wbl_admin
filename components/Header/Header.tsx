@@ -258,7 +258,7 @@ const menuItems: MenuItem[] = [
             { name: 'All ', href: '/marketingCandidates'},
           ]
         },
-        { name: 'Search', href: '/search' },
+        { name: 'Search', href: '/candidateSearch' },
       ]
     },
     {

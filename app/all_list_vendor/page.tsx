@@ -400,11 +400,11 @@ const AllListVendor = () => {
       )}
       {modalState.view && selectedRow && (
         <ViewRowModal
-          isOpen={modalState.view}
-          onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
-          onRequestClose={() => setModalState((prev) => ({ ...prev, view: false }))}  // Pass the missing prop
-          rowData={selectedRow}
-        />
+        isOpen={modalState.view}
+        onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
+  
+        rowData={selectedRow}
+      />
       )}
     </div>
   );

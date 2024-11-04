@@ -39,61 +39,62 @@ export interface Lead {
 //   name: string;
 //   email: string;
 //   assessment: string; // or whatever type it should be
-//   // batchname?: string;
-//   // name?: string;
+//   // batchname: string;
+//   // name: string;
 //   batchname:string;
-//   enrolleddate?: string;
-//   // email?: string;
-//   course?: string;
-//   phone?: string;
-//   status?: string; // Allows additional properties that may not be explicitly defined
+//   enrolleddate: string;
+//   // email: string;
+//   course: string;
+//   phone: string;
+//   status: string; // Allows additional properties that may not be explicitly defined
 //   // Add any additional properties you need here
-//   candidateid?: string; // Optional if it can be undefined
-//   workstatus?: string;
-//   education?: string;
-//   workexperience?: string;
-//   ssn?: string;
-//   agreement?: string;
-//   promissory?: boolean;
-//   driverslicense?: string;
-//   workpermit?: string;
-//   wpexpirationdate?: string; // Adjust type if necessary
-//   offerletter?: string;
-//   secondaryemail?: string;
-//   secondaryphone?: string;
-//   address?: string;
-//   city?: string;
-//   state?: string;
-//   country?: string;
-//   zip?: string;
-//   linkedin?: string;
-//   dob?: string; // Adjust type if necessary
-//   emergcontactphone?: string;
-//   ssnvalidated?: boolean;
-//   bgv?: boolean;
-//   term?: string;
-//   feepaid?: boolean;
-//   feedue?: number;
-//   salary0?: number;
-//   salary6?: number;
-//   salary12?: number;
-//   guarantorname?: string;
-//   guarantordesignation?: string;
-//   guarantorcompany?: string;
-//   contracturl?: string;
-//   empagreementurl?: string;
-//   offerletterurl?: string;
-//   workpermiturl?: string;
-//   referralid?: string;
-//   portalid?: string;
-//   avatarid?: string;
-//   notes?: string;
+//   candidateid: string; // Optional if it can be undefined
+//   workstatus: string;
+//   education: string;
+//   workexperience: string;
+//   ssn: string;
+//   agreement: string;
+//   promissory: boolean;
+//   driverslicense: string;
+//   workpermit: string;
+//   wpexpirationdate: string; // Adjust type if necessary
+//   offerletter: string;
+//   secondaryemail: string;
+//   secondaryphone: string;
+//   address: string;
+//   city: string;
+//   state: string;
+//   country: string;
+//   zip: string;
+//   linkedin: string;
+//   dob: string; // Adjust type if necessary
+//   emergcontactphone: string;
+//   ssnvalidated: boolean;
+//   bgv: boolean;
+//   term: string;
+//   feepaid: boolean;
+//   feedue: number;
+//    salary0: number;
+    //  salary6: number;
+    //  salary12: number;
+//   guarantorname: string;
+//   guarantordesignation: string;
+//   guarantorcompany: string;
+//   contracturl: string;
+//   empagreementurl: string;
+//   offerletterurl: string;
+//   workpermiturl: string;
+//   referralid: string;
+//   portalid: string;
+//   avatarid: string;
+//   notes: string;
 // }
 export interface Candidate{
-  id: Key | null | undefined;
-  assessment: ReactNode;
-  candidateid: string; // Ensure candidateid is always a string
+  id: number;
   name: string;
+  assessment: string;
+  candidateid: string; // Ensure candidateid is always a string
+  // name: string;
   enrolleddate: string;
   email: string;
   course: string;
@@ -188,6 +189,7 @@ export interface ErrorResponse {
 
   // types.ts
   export interface Po {
+    // Existing properties
     POID?: string;
     PlacementDetails?: string;
     StartDate?: string;
@@ -200,11 +202,27 @@ export interface ErrorResponse {
     InvoiceNet?: string;
     POUrl?: string;
     Notes?: string;
-  }
+
+    // Additional properties with alternative names
+    id?: string;
+    PlacementID?: string;
+    placementDetails?: string; // Including both PlacementDetails variants if needed
+    startDate?: string;
+    endDate?: string;
+    rate?: string;
+    overtimeRate?: string;
+    freqType?: string;
+    invoiceFrequency?: string;
+    invoiceStartDate?: string;
+    invoiceNet?: string;
+    poUrl?: string;
+    notes?: string;
+}
 
 
   
   export interface Placement {
+    // Existing properties
     id?: string;
     Candidate_Name?: string;
     Manager?: string;
@@ -235,54 +253,94 @@ export interface ErrorResponse {
     Feedback_ID?: string;
     Project_Docs?: string;
     Notes?: string;
-  }
 
-  export interface Vendor {
-    id?: string;
-    companyname?: string;
+    // Additional properties with alternative names
+    candidateid?: string;
+    mmid?: string;
+    recruiterid?: string;
+    vendorid?: string;
+    masteragreementid?: string;
+    otheragreementsids?: string;
+    vendor2id?: string;
+    vendor3id?: string;
+    clientid?: string;
+    startdate?: string;
+    enddate?: string;
     status?: string;
-    tier?: string;
-    culture?: string;
-    solicited?: string;
-    minrate?: number;
-    hirebeforeterm?: string;
-    hireafterterm?: string;
-    latepayments?: string;
-    totalnetterm?: number;
-    defaultedpayment?: string;
-    agreementstatus?: string;
-    url?: string;
-    email?: string;
-    phone?: string;
-    fax?: string;
-    address?: string;
-    city?: string;
-    state?: string;
-    country?: string;
-    zip?: string;
-    hrname?: string;
-    hremail?: string;
-    hrphone?: string;
-    twitter?: string;
-    facebook?: string;
-    linkedin?: string;
-    accountnumber?: string;
-    managername?: string;
-    manageremail?: string;
-    managerphone?: string;
-    secondaryname?: string;
-    secondaryemail?: string;
-    secondaryphone?: string;
-    timsheetemail?: string;
-    agreementname?: string;
-    agreementlink?: string;
-    subcontractorlink?: string;
-    nonsolicitationlink?: string;
-    nonhirelink?: string;
-    clients?: string;
+    paperwork?: string;
+    insurance?: string;
+    wrklocation?: string;
+    wrkdesignation?: string;
+    wrkemail?: string;
+    wrkphone?: string;
+    mgrname?: string;
+    mgremail?: string;
+    mgrphone?: string;
+    hiringmgrname?: string;
+    hiringmgremail?: string;
+    hiringmgrphone?: string;
+    reference?: string;
+    ipemailclear?: string;
+    feedbackid?: string;
+    projectdocs?: string;
     notes?: string;
-  }
-  
+}
+
+export interface Vendor {
+  id?: string;
+  name: string;
+  vendorid: string; // Required property
+  comp: string; // Required property
+  dob: string; // Required property
+  designation: string; // Required property
+  personalemail: string; // Required property
+  skypeid: string; // Required property
+  review: string; // Required property
+
+  // Fields with specified default values as optional properties
+  companyname?: string;
+  status?: string;
+  tier?: string;
+  culture?: string;
+  solicited?: string;
+  minrate?: number;
+  hirebeforeterm?: string;
+  hireafterterm?: string;
+  latepayments?: string;
+  totalnetterm?: number;
+  defaultedpayment?: string;
+  agreementstatus?: string;
+  url?: string;
+  email?: string;
+  phone?: string;
+  fax?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  zip?: string;
+  hrname?: string;
+  hremail?: string;
+  hrphone?: string;
+  twitter?: string;
+  facebook?: string;
+  linkedin?: string;
+  accountnumber?: string;
+  managername?: string;
+  manageremail?: string;
+  managerphone?: string;
+  secondaryname?: string;
+  secondaryemail?: string;
+  secondaryphone?: string;
+  timsheetemail?: string;
+  agreementname?: string;
+  agreementlink?: string;
+  subcontractorlink?: string;
+  nonsolicitationlink?: string;
+  nonhirelink?: string;
+  clients?: string;
+  notes?: string;
+}
 
   export  type Client= {
     id: string;
