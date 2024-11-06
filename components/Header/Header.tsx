@@ -286,7 +286,7 @@ const menuItems: MenuItem[] = [
                 { name: 'By Client', href: '/byclient' },
                 { name: 'By palcement', href: '/byplacement' },
                 { name: 'All list', href: '/all_list_client' },
-                { name: 'Detailed', href: '/detailed' }
+                { name: 'Detailed', href: '/detailedclient' }
               ]
              }
           ]
@@ -301,7 +301,7 @@ const menuItems: MenuItem[] = [
                 { name: 'By Vendor', href: '/byvendor' },
                 { name: 'By palcement', href: '/byplacementv' },
                 { name: 'All list', href: '/all_list_vendor' },
-                { name: 'Detailed', href: '/detailedv' }
+                { name: 'Detailed', href: '/detailedvendor' }
               ]
              }
           ]
