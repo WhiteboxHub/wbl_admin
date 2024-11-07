@@ -252,6 +252,7 @@ const menuItems: MenuItem[] = [
       href: '',
       subMenu: [  
         { name: 'Employees', href: '/employee' },
+        { name: 'Placement', href: '/placement' },
         { name: 'Candidates Status', href: '/candidateStatus' ,
           subMenu:[
             { name: 'Current Marketing', href: '/candidateMarketing'},
@@ -306,7 +307,7 @@ const menuItems: MenuItem[] = [
              }
           ]
          },
-        { name: 'Placement', href: '/placement' }
+      
       ]
     },
   ];
