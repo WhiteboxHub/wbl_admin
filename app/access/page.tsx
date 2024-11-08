@@ -5,37 +5,24 @@ import "react-dropdown/style.css";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-// import EditRowModal from "../../modals/access_modals/EditRowUser";
 import EditRowModal from "../../modals/Access/EditRowUser";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import ViewRowModal from "../../modals/access_modals/ViewRowUser";
 import { debounce } from "lodash";
 import withAuth from "@/modals/withAuth";
-// import withAuth from "@/components/withAuth";
-
-import {
-  AiOutlineEdit,
-  AiOutlineSearch,
-  AiOutlineReload,
-  AiOutlineEye,
-} from "react-icons/ai";
-import { User } from "../../types/index"; // Adjust the import path accordingly
+import { AiOutlineEdit, AiOutlineSearch, AiOutlineReload, AiOutlineEye } from "react-icons/ai";
+import { User } from "../../types/index";
 
 const Users = () => {
   const [rowData, setRowData] = useState<User[]>([]);
-  const [columnDefs, setColumnDefs] = useState<
-    { headerName: string; field: string }[]
-  >([]);
+  const [columnDefs, setColumnDefs] = useState<{ headerName: string; field: string }[]>([]);
   const [paginationPageSize] = useState<number>(200);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
-  const [modalState, setModalState] = useState<{
-    add: boolean;
-    edit: boolean;
-    view: boolean;
-  }>({ add: false, edit: false, view: false });
+  const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
   const [selectedRow, setSelectedRow] = useState<User | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -50,11 +37,10 @@ const Users = () => {
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-     
+
       const { data, totalRows } = response.data;
       const dataWithSerials = data.map((item: User) => ({
         ...item,
-       // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
       }));
       setRowData(dataWithSerials);
       setTotalRows(totalRows);
@@ -89,7 +75,6 @@ const Users = () => {
   const setupColumns = (data: User[]) => {
     if (data.length > 0) {
       const columns = [
-        //{ headerName: "Serial No", field: "serialNo", width: 100 },
         ...Object.keys(data[0]).map((key) => ({
           headerName: key.charAt(0).toUpperCase() + key.slice(1),
           field: key,
@@ -106,7 +91,8 @@ const Users = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit.");
+        setTimeout(() => setAlertMessage(null), 3000);
       }
     }
   };
@@ -118,7 +104,8 @@ const Users = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, view: true }));
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view.");
+        setTimeout(() => setAlertMessage(null), 3000);
       }
     }
   };
@@ -140,36 +127,40 @@ const Users = () => {
   const totalPages = Math.ceil(totalRows / paginationPageSize);
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
-
   return (
     <div className="relative">
+      {alertMessage && (
+        <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+          {alertMessage}
+        </div>
+      )}
       <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">Access Management</h1>
         </div>
 
         <div className="flex flex-wrap mb-4 items-center gap-4">
-        <div className="flex grow">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-           onChange={(e) => setSearchValue(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-64"
-          />
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-          >
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-        </div>
+          <div className="flex grow">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="border border-gray-300 rounded-md p-2 w-64"
+            />
+            <button
+              onClick={handleSearch}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+            >
+              <AiOutlineSearch className="mr-2" /> Search
+            </button>
+          </div>
           <button
             onClick={handleEditRow}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
           >
             <AiOutlineEdit className="mr-2" /> Edit
-          </button>  
+          </button>
           <button
             onClick={handleViewRow}
             className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
@@ -183,13 +174,11 @@ const Users = () => {
           >
             <AiOutlineReload className="mr-2" /> Refresh
           </button>
-          
-
         </div>
 
         <div
           className="ag-theme-alpine"
-          style={{ height: "370px", width: "100%", overflowY: 'visible' ,overflowX:'visible'}}
+          style={{ height: "370px", width: "100%", overflowY: 'visible', overflowX: 'visible' }}
         >
           {<AgGridReact
             ref={gridRef}
@@ -211,51 +200,51 @@ const Users = () => {
           />}
         </div>
         <div className="flex justify-between mt-4">
-        <div className="flex items-center">
-          {/* Double Left Icon */}
-          <button 
-            onClick={() => handlePageChange(1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaAngleDoubleLeft />
-          </button>
-          {/* Left Icon */}
-          <button 
-            onClick={() => handlePageChange(currentPage - 1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronLeft />
-          </button>
-          {/* Page Numbers */}
-          {pageOptions.map((page) => (
+          <div className="flex items-center">
+            {/* Double Left Icon */}
             <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+              onClick={() => handlePageChange(1)}
+              disabled={currentPage === 1}
+              className="p-2 disabled:opacity-50"
             >
-              {page}
+              <FaAngleDoubleLeft />
             </button>
-          ))}
-          {/* Right Icon */}
-          <button 
-            onClick={() => handlePageChange(currentPage + 1)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronRight />
-          </button>
-          {/* Double Right Icon */}
-          <button 
-            onClick={() => handlePageChange(totalPages)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaAngleDoubleRight />
-          </button>
+            {/* Left Icon */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="p-2 disabled:opacity-50"
+            >
+              <FaChevronLeft />
+            </button>
+            {/* Page Numbers */}
+            {pageOptions.map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+              >
+                {page}
+              </button>
+            ))}
+            {/* Right Icon */}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="p-2 disabled:opacity-50"
+            >
+              <FaChevronRight />
+            </button>
+            {/* Double Right Icon */}
+            <button
+              onClick={() => handlePageChange(totalPages)}
+              disabled={currentPage === totalPages}
+              className="p-2 disabled:opacity-50"
+            >
+              <FaAngleDoubleRight />
+            </button>
+          </div>
         </div>
-      </div>
         <EditRowModal
           isOpen={modalState.edit}
           onRequestClose={() => setModalState({ ...modalState, edit: false })}

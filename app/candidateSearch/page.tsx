@@ -9,6 +9,7 @@ import { Candidate } from "../../types/index"; // Adjust the import based on you
 
 const CandidateSearch = () => {
   const [searchInput, setSearchInput] = useState("");
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [candidates, setCandidates] = useState<Candidate[]>([]); // Define the type of candidates
   const [loading, setLoading] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(
@@ -53,6 +54,11 @@ const CandidateSearch = () => {
 
   return (
     <div className="p-8 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+    {alertMessage && ( // Conditional rendering of alert message
+      <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+        {alertMessage}
+      </div>
+    )}
       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
 
       <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8">

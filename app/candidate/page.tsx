@@ -33,6 +33,7 @@ interface BatchRow {
 }
 const Candidates = () => {
   const [rowData, setRowData] = useState<Candidate[]>([]);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [, setGroupedData] = useState<GroupedData>({});
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
@@ -233,10 +234,12 @@ const transformedRowData: TransformedRow[] = [];
         setSelectedRow(selectedRows[0]); // Set the selected row data
         setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
 
   useEffect(() => {
     fetchData();
@@ -251,10 +254,12 @@ const transformedRowData: TransformedRow[] = [];
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
     const handleDeleteRow = async () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
@@ -285,7 +290,8 @@ const transformedRowData: TransformedRow[] = [];
           alert("No valid candidate name found for the selected row.");
         }
       } else {
-        alert("Please select a row to delete.");
+        setAlertMessage("Please select a row to delete."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -300,6 +306,11 @@ const transformedRowData: TransformedRow[] = [];
 
   return (
     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+    {alertMessage && ( // Conditional rendering of alert message
+      <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+        {alertMessage}
+      </div>
+    )}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-gray-800">Candidate Management</h1>
         <div className="flex space-x-2">
