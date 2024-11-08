@@ -693,108 +693,7 @@ const Leads = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-// ... existing code ...
-// ... existing code ...
-// const handleDownloadPDF = () => {
-//   if (gridRef.current) {
-//     const selectedRows = gridRef.current.api.getSelectedRows();
-//     if (selectedRows.length === 1) { // Ensure only one row is selected
-//       const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
-//       // Add Title
-//       doc.text("Selected Lead Data", 15, 10);
-
-//       // Prepare the data for the table
-//       const row = selectedRows[0]; // Get the single selected row
-//       const pdfData = [
-//         {
-//           Name: row.name,
-//           Email: row.email,
-//           Phone: row.phone,
-//           Address: row.address,
-//           City: row.city,
-//           State: row.state,
-//           Country: row.country,
-//           Zip: row.zip,
-//           Course: row.course,
-//           Status: row.status,
-//           "Spouse Name": row.spousename,
-//           "Spouse Email": row.spouseemail,
-//           "Spouse Phone": row.spousephone,
-//           FAQ: row.faq,
-//           "Calls Made": row.callsmade,
-//           "Close Date": row.closedate,
-//           Notes: row.notes,
-//         },
-//       ];
-
-//       // Add autoTable with adjusted styling
-//       (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
-//         head: [
-//           [
-//             "Name",
-//             "Email",
-//             "Phone",
-//             "Address",
-//             "City",
-//             "State",
-//             "Country",
-//             "Zip",
-//             "Course",
-//             "Status",
-//             "Spouse Name",
-//             "Spouse Email",
-//             "Spouse Phone",
-//             "FAQ",
-//             "Calls Made",
-//             "Close Date",
-//             "Notes",
-//           ],
-//         ],
-//         body: pdfData.map((data) => Object.values(data)), // Convert object to array for table body
-//         styles: {
-//           fontSize: 8, // Slightly smaller font
-//           cellPadding: 4, // Add padding for readability
-//           overflow: 'linebreak', // Allow line breaks in cells
-//         },
-//         columnStyles: {
-//           0: { cellWidth: 15 }, // Name
-//           1: { cellWidth: 25 }, // Email
-//           2: { cellWidth: 20 }, // Phone
-//           3: { cellWidth: 30 }, // Address
-//           4: { cellWidth: 20 }, // City
-//           5: { cellWidth: 20 }, // State
-//           6: { cellWidth: 20 }, // Country
-//           7: { cellWidth: 15 }, // Zip
-//           8: { cellWidth: 20 }, // Course
-//           9: { cellWidth: 20 }, // Status
-//           10: { cellWidth: 25 }, // Spouse Name
-//           11: { cellWidth: 25 }, // Spouse Email
-//           12: { cellWidth: 20 }, // Spouse Phone
-//           13: { cellWidth: 20 }, // FAQ
-//           14: { cellWidth: 20 }, // Calls Made
-//           15: { cellWidth: 20 }, // Close Date
-//           16: { cellWidth: 40 }, // Notes (wider to accommodate longer text)
-//         },
-//         margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
-//         pageBreak: "avoid", // Prevent page breaks
-//         didDrawPage: function (data) {
-//           doc.setFontSize(10);
-//           doc.text(
-//             "Page " + doc.internal.pages.length,
-//             data.settings.margin.left,
-//             data.settings.margin.top + 10 // Adjust position for page number
-//           );
-//         },
-//       });
-
-//       // Save the PDF
-//       doc.save("Selected_Lead_data.pdf");
-//     } else {
-//       alert("Please select exactly one row to download.");
-//     }
-//   }
-// };
 // ... existing code ...
 const handleDownloadPDF = () => {
   if (gridRef.current) {
@@ -903,85 +802,6 @@ const handleDownloadPDF = () => {
     fetchData(searchValue);
   };
 
-  // const handleDownloadPDF = () => {
-  //   if (gridRef.current) {
-  //     const selectedRows = gridRef.current.api.getSelectedRows();
-  //     if (selectedRows.length > 0) {
-  //       const doc = new jsPDF({ orientation: "landscape" });
-
-  //       // Add Title
-  //       doc.text("Selected Lead Data", 15, 10);
-
-  //       // Prepare the data for the table
-  //       const pdfData = selectedRows.map((row) => [
-  //         row.name,
-  //         row.email,
-  //         row.phone,
-  //         row.address,
-  //         row.city,
-  //         row.state,
-  //         row.country,
-  //         row.zip,
-  //         row.course,
-  //         row.status,
-  //         row.spousename,
-  //         row.spouseemail,
-  //         row.spousephone,
-  //         row.faq,
-  //         row.callsmade,
-  //         row.closedate,
-  //         row.notes,
-  //       ]);
-
-  //       // Add autoTable with adjusted styling
-  //       (doc as unknown as { autoTable: (options: unknown) => void }).autoTable(
-  //         {
-  //           head: [
-  //             [
-  //               "Name",
-  //               "Email",
-  //               "Phone",
-  //               "Address",
-  //               "City",
-  //               "State",
-  //               "Country",
-  //               "Zip",
-  //               "Course",
-  //               "Status",
-  //               "Spouse Name",
-  //               "Spouse Email",
-  //               "Spouse Phone",
-  //               "FAQ",
-  //               "Calls Made",
-  //               "Close Date",
-  //               "Notes",
-  //             ],
-  //           ],
-  //           body: pdfData,
-  //           styles: {
-  //             fontSize: 8, // Slightly smaller font
-  //             cellPadding: 4, // Add padding for readability
-  //           },
-  //           margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
-  //           pageBreak: "auto", // Automatically break table rows if too long
-  //           didDrawPage: function (data: any) {
-  //             doc.setFontSize(10);
-  //             doc.text(
-  //               "Page " + doc.internal.pages.length,
-  //               data.settings.margin.left,
-  //               doc.internal.pageSize.height - 10
-  //             );
-  //           },
-  //         }
-  //       );
-
-  //       // Save the PDF
-  //       doc.save("Selected_Lead_data.pdf");
-  //     } else {
-  //       alert("Please select a row to download.");
-  //     }
-  //   }
-  // };
 
   const handleExportToExcel = () => {
     if (gridRef.current) {
@@ -1012,25 +832,25 @@ const handleDownloadPDF = () => {
               onClick={handleAddRow}
               className="flex items-center px-3 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700 text-xs md:text-base"
             >
-              <MdAdd className="mr-1" /> Add Lead
+              <MdAdd className="mr-2" />
             </button>
             <button
               onClick={handleEditRow}
               className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-base"
             >
-              <AiOutlineEdit className="mr-1" /> Edit
+              <AiOutlineEdit className="mr-1" />
             </button>
             <button
               onClick={handleViewRow}
               className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-base"
             >
-              <AiOutlineEye className="mr-1" /> View
+              <AiOutlineEye className="mr-1" />
             </button>
             <button
               onClick={handleDeleteRow}
               className="flex items-center px-3 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700 text-xs md:text-base"
             >
-              <MdDelete className="mr-1" /> Delete
+              <MdDelete className="mr-1" />
             </button>
           </div>
           <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
@@ -1038,7 +858,7 @@ const handleDownloadPDF = () => {
               onClick={handleRefresh}
               className="flex items-center px-3 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900 text-xs md:text-base"
             >
-              <AiOutlineReload className="mr-1" /> Refresh
+              <AiOutlineReload className="mr-1" />
             </button>
             <div className="flex space-x-2">
               <button

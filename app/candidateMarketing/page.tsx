@@ -334,7 +334,7 @@ const CandidateMarketing = () => {
   return (
     <div className="relative">
       <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">
             Current Marketing
           </h1>
@@ -344,25 +344,25 @@ const CandidateMarketing = () => {
               onClick={handleEditRow}
               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
             >
-              <AiOutlineEdit className="mr-2" /> Edit
+              <AiOutlineEdit className="mr-2" /> 
             </button>
             <button
               onClick={handleDeleteRow}
               className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
             >
-              <MdDelete className="mr-2" /> Delete
+              <MdDelete className="mr-2" />
             </button>
             <button
               onClick={handleViewRow}
               className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
             >
-              <AiOutlineEye className="mr-2" /> View
+              <AiOutlineEye className="mr-2" /> 
             </button>
             <button
               onClick={handleRefresh}
               className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
             >
-              <AiOutlineReload className="mr-2" /> Refresh
+              <AiOutlineReload className="mr-2" /> 
             </button>
             <Dropdown
               options={options as Option[]}

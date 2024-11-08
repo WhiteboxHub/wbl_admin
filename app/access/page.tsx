@@ -168,20 +168,20 @@ const Users = () => {
             onClick={handleEditRow}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
           >
-            <AiOutlineEdit className="mr-2" /> Edit
+            <AiOutlineEdit className="mr-2" />
           </button>  
           <button
             onClick={handleViewRow}
             className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
-            <AiOutlineEye className="mr-2" /> View
+            <AiOutlineEye className="mr-2" />
           </button>
 
           <button
             onClick={handleRefresh}
             className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
-            <AiOutlineReload className="mr-2" /> Refresh
+            <AiOutlineReload className="mr-2" />
           </button>
           
 
