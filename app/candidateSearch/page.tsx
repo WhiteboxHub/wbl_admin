@@ -1,19 +1,249 @@
+// "use client";
+// import React, { useState, useCallback } from "react";
+// import axios from "axios";
+// import withAuth from "@/modals/withAuth";
+// // import { AiOutlineSearch } from "react-icons/ai";
+// import { FaSpinner } from "react-icons/fa";
+// import { debounce } from "lodash";
+// import { Candidate } from "../../types/index"; // Adjust the import based on your project structure
+
+// const CandidateSearch = () => {
+//   const [searchInput, setSearchInput] = useState("");
+//   const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
+//   const [candidates, setCandidates] = useState<Candidate[]>([]); // Define the type of candidates
+//   const [loading, setLoading] = useState(false);
+//   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(
+//     null
+//   ); // Type as Candidate or null
+
+//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+//   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     setSearchInput(e.target.value);
+//     debouncedSearch(e.target.value);
+//   };
+
+//   // const fetchCandidates = async (name: string) => {
+//   //   setLoading(true);
+//     // try {
+//     //   const response = await axios.get(`${API_URL}/searchByName`, {
+//     //     params: { name },
+//     //   });
+//     //   setCandidates(response.data);
+//     // } catch (error) {
+//     //   console.error("Error fetching candidates:", error);
+//     // } finally {
+//     //   setLoading(false);
+//     // }
+
+
+//   // };
+
+
+//   const fetchCandidates = async (name: string) => {
+//     setLoading(true);
+  
+//     // Get the token from local storage or any other secure location where it's stored
+//     const token = localStorage.getItem("token");
+//     console.log(token);
+    
+  
+//     if (!token) {
+//       console.error("Token not found");
+//       setLoading(false);
+//       return;
+//     }
+  
+//     try {
+//       const response = await axios.get(`${API_URL}/searchByName`, {
+//         params: { name },
+//         headers: { AuthToken: localStorage.getItem("token") },
+//       });
+  
+//       setCandidates(response.data);
+//     } catch (error) {
+//       console.error("Error fetching candidates:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const debouncedSearch = useCallback(
+//     debounce((name) => {
+//       if (name && name.length > 2) {
+//         fetchCandidates(name);
+//       }
+//     }, 300),
+//     []
+//   );
+
+//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     fetchCandidates(searchInput);
+//   };
+
+//   return (
+//     <div className="p-8 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+//     {alertMessage && ( // Conditional rendering of alert message
+//       <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+//         {alertMessage}
+//       </div>
+//     )}
+//       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
+
+//       <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8">
+//         <input
+//           type="text"
+//           placeholder="Search Candidates..."
+//           value={searchInput}
+//           onChange={handleSearchInput}
+//           className="p-2 w-64 border border-gray-300 rounded-md mr-2"
+//         />
+        
+        
+//         <button
+//           type="submit"
+//           className="px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+//         >
+//          Search
+//         </button>
+//       </form>
+
+//       <div className="candidate-results">
+//         {loading ? (
+//           <div className="flex items-center space-x-2">
+//             <FaSpinner className="animate-spin text-blue-600" />{" "}
+//             <span>Loading...</span>
+//           </div>
+//         ) : (
+//           <div>
+//             {candidates.length > 0 ? (
+//               <div className="candidate-list bg-white p-4 rounded-lg shadow">
+//                 <h2 className="text-2xl font-semibold mb-2">Results:</h2>
+//                 <ul>
+//                   {candidates.map((candidate) => (
+//                     <li
+//                       key={candidate.id}
+//                       onClick={() => setSelectedCandidate(candidate)}
+//                       className="p-2 border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+//                     >
+//                       {candidate.name} - {candidate.email}
+//                     </li>
+//                   ))}
+//                 </ul>
+//               </div>
+//             ) : (
+//               <p>No candidates found.</p>
+//             )}
+//           </div>
+//         )}
+
+//         {selectedCandidate && (
+//           <div className="selected-candidate mt-4 bg-gray-50 p-4 rounded-lg shadow">
+//             <h3 className="text-xl font-bold">Selected Candidate:</h3>
+            
+//             <p>
+//               <strong>Name:</strong> {selectedCandidate.name}
+//             </p>
+//             <p>
+//               <strong>Email:</strong> {selectedCandidate.email}
+//             </p>
+//             <p>
+//               <strong>Enrolled Date:</strong> {selectedCandidate.enrolleddate}
+//             </p>
+//             <p>
+//               <strong>DOB:</strong> {selectedCandidate.dob}
+//             </p>
+//             <p>
+//               <strong>Status:</strong> {selectedCandidate.status}
+//             </p>
+//             <p>
+//               <strong>Batch:</strong> {selectedCandidate.batchname}
+//             </p>
+//             <p>
+//               <strong>Address:</strong> {selectedCandidate.address}
+//             </p>
+//             <p>
+//               <strong>Work Status:</strong> {selectedCandidate.workexperience}
+//             </p>
+//             <p>
+//               <strong>Education:</strong> {selectedCandidate.education}
+//             </p>
+//             <p>
+//               <strong>Wrk Experience :</strong> {selectedCandidate.workexperience}
+//             </p>
+//           </div>
+//         )}
+
+//             <div className="mt-4">
+//           <h4 className="text-lg font-semibold">More Information:</h4>
+          
+//         </div>
+//         <div className="mt-4">
+//           <h4 className="text-lg font-semibold">Agreement:</h4>
+//           {/* Add content for Agreement here */}
+//         </div>
+
+//         <div className="mt-4">
+//           <h4 className="text-lg font-semibold">Portal Login:</h4>
+//           {/* Add content for Portal Login here */}
+//         </div>
+
+//         <div className="mt-4">
+//           <h4 className="text-lg font-semibold">Login History:</h4>
+//           {/* Add content for Login History here */}
+//         </div>
+
+//         <div className="mt-4">
+//           <h4 className="text-lg font-semibold">Fee and Salary:</h4>
+//           {/* Add content for Fee and Salary here */}
+//         </div>
+
+
+
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default withAuth(CandidateSearch);
+
+
 "use client";
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import withAuth from "@/modals/withAuth";
-// import { AiOutlineSearch } from "react-icons/ai";
 import { FaSpinner } from "react-icons/fa";
 import { debounce } from "lodash";
-import { Candidate } from "../../types/index"; // Adjust the import based on your project structure
+import { Candidate } from "../../types/index";
 
-const CandidateSearch = () => {
+interface DropdownProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ title, children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="mt-4">
+      <button
+        className="text-lg font-semibold focus:outline-none"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {title}
+      </button>
+      {isOpen && <div className="mt-2">{children}</div>}
+    </div>
+  );
+};
+
+const CandidateSearch: React.FC = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [candidates, setCandidates] = useState<Candidate[]>([]); // Define the type of candidates
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(
-    null
-  ); // Type as Candidate or null
+  const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -22,14 +252,23 @@ const CandidateSearch = () => {
     debouncedSearch(e.target.value);
   };
 
-  const fetchCandidates = async (query: string) => {
+  const fetchCandidates = async (name: string) => {
     setLoading(true);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Token not found");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await axios.post(
-        `${API_URL}/ajax-content/get-candidate`,
-        { parent_id: query }
-      );
-      setCandidates(response.data); // Ensure response.data matches the Candidate interface
+      const response = await axios.get(`${API_URL}/searchByName`, {
+        params: { name },
+        headers: { AuthToken: token },
+      });
+
+      setCandidates(response.data);
     } catch (error) {
       console.error("Error fetching candidates:", error);
     } finally {
@@ -38,9 +277,9 @@ const CandidateSearch = () => {
   };
 
   const debouncedSearch = useCallback(
-    debounce((query) => {
-      if (query && query.length > 2) {
-        fetchCandidates(query);
+    debounce((name) => {
+      if (name && name.length > 2) {
+        fetchCandidates(name);
       }
     }, 300),
     []
@@ -53,6 +292,11 @@ const CandidateSearch = () => {
 
   return (
     <div className="p-8 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+      {alertMessage && (
+        <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+          {alertMessage}
+        </div>
+      )}
       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
 
       <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8">
@@ -67,14 +311,14 @@ const CandidateSearch = () => {
           type="submit"
           className="px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
         >
-         Search
+          Search
         </button>
       </form>
 
       <div className="candidate-results">
         {loading ? (
           <div className="flex items-center space-x-2">
-            <FaSpinner className="animate-spin text-blue-600" />{" "}
+            <FaSpinner className="animate-spin text-blue-600" />
             <span>Loading...</span>
           </div>
         ) : (
@@ -104,17 +348,164 @@ const CandidateSearch = () => {
           <div className="selected-candidate mt-4 bg-gray-50 p-4 rounded-lg shadow">
             <h3 className="text-xl font-bold">Selected Candidate:</h3>
             <p>
-              <strong>ID:</strong> {selectedCandidate.candidateid}
-            </p>
-            <p>
               <strong>Name:</strong> {selectedCandidate.name}
-            </p>
+            </p>  
             <p>
               <strong>Email:</strong> {selectedCandidate.email}
             </p>
             <p>
-              <strong>Assessment:</strong> {selectedCandidate.assessment}
+              <strong>Enrolled Date:</strong> {selectedCandidate.enrolleddate}
             </p>
+            <p>
+              <strong>DOB:</strong> {selectedCandidate.dob}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedCandidate.status}
+            </p>
+            <p>
+              <strong>Batch:</strong> {selectedCandidate.batchname}
+            </p>
+            <p>
+              <strong>Address:</strong> {selectedCandidate.address}
+            </p>
+            <p>
+              <strong>Work Status:</strong> {selectedCandidate.workexperience}
+            </p>
+            <p>
+              <strong>Education:</strong> {selectedCandidate.education}
+            </p>
+            <p>
+              <strong>Work Experience:</strong> {selectedCandidate.workexperience}
+            </p>
+
+            <Dropdown  title ="More Information">
+              <p>
+                <strong>Sec Name:</strong> {selectedCandidate.name}
+              </p>
+              <p>
+                <strong> Sec Email:</strong> {selectedCandidate.email}
+              </p>
+              <p>
+                <strong>Gurantor Name:</strong> {selectedCandidate.enrolleddate}
+              </p>
+              <p>
+                <strong>Gurantor Designation:</strong> {selectedCandidate.dob}
+              </p>
+              <p>
+                <strong>Gurantor Company :</strong> {selectedCandidate.company}
+              </p>
+              <p>
+                <strong>Emer Name:</strong> {selectedCandidate.name}
+              </p>
+              <p>
+                <strong>Emer Email:</strong> {selectedCandidate.email}
+              </p>
+              <p>
+                <strong>Emer Phone:</strong> {selectedCandidate.phone}
+              </p>
+              <p>
+                <strong>Emer Address:</strong> {selectedCandidate.address}
+              </p>
+            </Dropdown>
+
+            <Dropdown title="Agreement">
+              <p>
+                <strong>Contract:</strong> {selectedCandidate.contracturl}
+              </p>
+              <p>
+                <strong>Emp Agreement:</strong> {selectedCandidate.agreement}
+              </p>
+              <p>
+                <strong> Offer Letter:</strong> {selectedCandidate.offerletter}
+              </p>
+              <p>
+                <strong>DL:</strong> {selectedCandidate.driverslicense}
+              </p>
+              <p>
+                <strong>Work Permit:</strong> {selectedCandidate.workpermit}
+              </p>
+              <p>
+                <strong>SSN URL:</strong> {selectedCandidate.ssnvalidated}
+              </p>
+              <p>
+                <strong>SSN:</strong> {selectedCandidate.ssn}
+              </p>
+              <p>
+                <strong>Work Status:</strong> {selectedCandidate.workexperience}
+              </p>
+              <p>
+                <strong>Education:</strong> {selectedCandidate.education}
+              </p>
+            </Dropdown>
+
+            <Dropdown title="Portal Login">
+            <p>
+                <strong>Address:</strong> {selectedCandidate.address}
+              </p>
+              <p>
+                <strong>User Name:</strong> {selectedCandidate.name}
+              </p>
+              <p>
+                <strong>Phone:</strong> {selectedCandidate.email}
+              </p>
+              <p>
+                <strong>Last Login:</strong> {selectedCandidate.lastlogin}
+              </p>
+              <p>
+                <strong>Reg Data:</strong> {selectedCandidate.dob}
+              </p>
+              <p>
+                <strong>Login Count :</strong> {selectedCandidate.logincount }
+              </p>
+              
+            </Dropdown>
+            <Dropdown title="Notes 1">
+              <p>
+                <strong> Notes:</strong> {selectedCandidate.notes}
+              </p>
+             
+            </Dropdown>
+
+            <Dropdown title="Login History">
+              <p>
+                <strong>Login Count:</strong> {selectedCandidate.logincount}
+              </p>
+             
+            </Dropdown>
+
+            <Dropdown title="Original Resume">
+              <p>
+                <strong>Resume :</strong> {selectedCandidate.resumeid}
+              </p>
+              
+            </Dropdown>
+            <Dropdown title="Fee and Salary">
+              <p>
+                <strong>Fee Paid:</strong> {selectedCandidate.feepaid}
+              </p>
+              <p>
+                <strong>Fee Due :</strong> {selectedCandidate.feedue}
+              </p>
+              <p>
+                <strong>Term:</strong> {selectedCandidate.term}
+              </p>
+              <p>
+                <strong>Salary 1:</strong> {selectedCandidate.salary0}
+              </p>
+              <p>
+                <strong>Salary 2:</strong> {selectedCandidate.salary12}
+              </p>
+            </Dropdown>
+            <Dropdown title="Recruiter Assessment">
+              <p>
+                <strong>Instructor:</strong> {selectedCandidate.instructor}
+              </p>
+            </Dropdown>
+            <Dropdown title="Instructor Assessment">
+              <p>
+                <strong>Instructor:</strong> {selectedCandidate.instructor}
+              </p>
+            </Dropdown>
           </div>
         )}
       </div>
@@ -123,114 +514,3 @@ const CandidateSearch = () => {
 };
 
 export default withAuth(CandidateSearch);
-
-// "use client";
-// import React, { useState, useEffect, useCallback } from "react";
-// import axios from "axios";
-// import withAuth from "@/modals/withAuth";
-// import { AiOutlineSearch } from "react-icons/ai";
-// import { FaSpinner } from "react-icons/fa";
-// import { debounce } from "lodash";
-
-// const CandidateSearch = () => {
-//   const [searchInput, setSearchInput] = useState("");
-//   const [candidates, setCandidates] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [selectedCandidate, setSelectedCandidate] = useState(null);
-
-//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-//   const handleSearchInput = (e) => {
-//     setSearchInput(e.target.value);
-//     debouncedSearch(e.target.value);
-//   };
-
-//   const fetchCandidates = async (query) => {
-//     setLoading(true);
-//     try {
-//       const response = await axios.post(`${API_URL}/ajax-content/get-candidate`, { parent_id: query });
-//       setCandidates(response.data);
-//     } catch (error) {
-//       console.error("Error fetching candidates:", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const debouncedSearch = useCallback(
-//     debounce((query) => {
-//       if (query && query.length > 2) {
-//         fetchCandidates(query);
-//       }
-//     }, 300),
-//     []
-//   );
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     fetchCandidates(searchInput);
-//   };
-
-//   return (
-//     <div className="candidate-search-container p-6 bg-gray-100 rounded-lg shadow-lg">
-//       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
-
-//       <form onSubmit={handleSubmit} className="flex items-center mb-4">
-//         <input
-//           type="text"
-//           placeholder="Search Candidates..."
-//           value={searchInput}
-//           onChange={handleSearchInput}
-//           className="p-2 w-64 border border-gray-300 rounded-md mr-2"
-//         />
-//         <button
-//           type="submit"
-//           className="px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-//         >
-//           <AiOutlineSearch />
-//         </button>
-//       </form>
-
-//       <div className="candidate-results">
-//         {loading ? (
-//           <div className="flex items-center space-x-2">
-//             <FaSpinner className="animate-spin text-blue-600" /> <span>Loading...</span>
-//           </div>
-//         ) : (
-//           <div>
-//             {candidates.length > 0 ? (
-//               <div className="candidate-list bg-white p-4 rounded-lg shadow">
-//                 <h2 className="text-2xl font-semibold mb-2">Results:</h2>
-//                 <ul>
-//                   {candidates.map((candidate) => (
-//                     <li
-//                       key={candidate.id}
-//                       onClick={() => setSelectedCandidate(candidate)}
-//                       className="p-2 border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-//                     >
-//                       {candidate.name} - {candidate.email}
-//                     </li>
-//                   ))}
-//                 </ul>
-//               </div>
-//             ) : (
-//               <p>No candidates found.</p>
-//             )}
-//           </div>
-//         )}
-
-//         {selectedCandidate && (
-//           <div className="selected-candidate mt-4 bg-gray-50 p-4 rounded-lg shadow">
-//             <h3 className="text-xl font-bold">Selected Candidate:</h3>
-//             <p><strong>ID:</strong> {selectedCandidate.id}</p>
-//             <p><strong>Name:</strong> {selectedCandidate.name}</p>
-//             <p><strong>Email:</strong> {selectedCandidate.email}</p>
-//             <p><strong>Assessment:</strong> {selectedCandidate.assessment}</p>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default withAuth(CandidateSearch);

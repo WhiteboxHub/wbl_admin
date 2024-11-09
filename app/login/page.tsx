@@ -203,6 +203,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [loading, setLoading] = useState(false); // Loading state
 
   const router = useRouter();
@@ -238,6 +239,11 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    {alertMessage && ( // Conditional rendering of alert message
+      <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+        {alertMessage}
+      </div>
+    )}
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full"> {/* Adjusted padding */}
         <div className="flex justify-center mb-4 mr-8">
           <Image src={logo} alt="Logo" width={200} height={200} /> {/* Increased logo size */}
