@@ -33,6 +33,7 @@ const Employees = () => {
   >([]);
   const [paginationPageSize] = useState<number>(200);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [totalRows, setTotalRows] = useState<number>(0);
   const [modalState, setModalState] = useState<{
     add: boolean;
@@ -42,9 +43,10 @@ const Employees = () => {
   const [selectedRow, setSelectedRow] = useState<Employee | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const gridRef = useRef<AgGridReact>(null);
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
   const fetchData = useCallback(
     async (searchQuery = "", page = 1) => {
@@ -112,22 +114,26 @@ const Employees = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
 
   const handleViewRow = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        setSelectedRow(selectedRows[0]);
-        setModalState((prevState) => ({ ...prevState, view: true }));
+        setSelectedRow(selectedRows[0]); // Set the selected row data
+        setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
 
   const handleDeleteRow = async () => {
     if (gridRef.current) {
@@ -158,7 +164,8 @@ const Employees = () => {
           alert("No valid employee ID found for the selected row.");
         }
       } else {
-        alert("Please select a row to delete.");
+        setAlertMessage("Please select a row to delete."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -177,11 +184,14 @@ const Employees = () => {
     fetchData(searchValue);
   };
 
+  //*************************************************/
+
+
   const handleDownloadPDF = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        const doc = new jsPDF({ orientation: "landscape" });
+        const doc = new jsPDF({ orientation: "landscape" ,unit:"mm",format:"a4" });
 
         // Add Title
         doc.text("Selected Employee Data", 15, 10);
@@ -269,7 +279,7 @@ const Employees = () => {
       value: "Export to PDF",
       label: (
         <div className="flex items-center">
-          <FontAwesomeIcon icon={faFilePdf} className="mr-2" /> Export to PDF
+          <FontAwesomeIcon icon={faFilePdf} className="mr-2" />PDF
         </div>
       ),
     },
@@ -277,14 +287,22 @@ const Employees = () => {
       value: "Export to Excel",
       label: (
         <div className="flex items-center">
-          <FontAwesomeIcon icon={faFileExcel} className="mr-2" /> Export to
-          Excel
+          <FontAwesomeIcon icon={faFileExcel} className="mr-2" />Excel
         </div>
       ),
     },
   ];
 
-  const defaultOption = "Download";
+ const defaultOption = "Download";
+
+
+
+
+
+
+
+  //********************************************************** */
+
 
   const totalPages = Math.ceil(totalRows / paginationPageSize);
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -292,6 +310,11 @@ const Employees = () => {
   return (
     <div className="relative">
       <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+      {alertMessage && ( // Conditional rendering of alert message
+        <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+          {alertMessage}
+        </div>
+      )}
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">Employee List </h1>
 
@@ -300,37 +323,37 @@ const Employees = () => {
               onClick={handleAddRow}
               className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
             >
-              <MdAdd className="mr-2" /> Add Employee
+              <MdAdd className="mr-2" /> 
             </button>
             <button
               onClick={handleEditRow}
               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
             >
-              <AiOutlineEdit className="mr-2" /> Edit
+              <AiOutlineEdit className="mr-2" /> 
             </button>
             <button
               onClick={handleDeleteRow}
               className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
             >
-              <MdDelete className="mr-2" /> Delete
+              <MdDelete className="mr-2" /> 
             </button>
             <button
               onClick={handleViewRow}
               className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
             >
-              <AiOutlineEye className="mr-2" /> View
+              <AiOutlineEye className="mr-2" /> 
             </button>
             <button
               onClick={handleRefresh}
               className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
             >
-              <AiOutlineReload className="mr-2" /> Refresh
+              <AiOutlineReload className="mr-2" /> 
             </button>
             <Dropdown
               options={options as Option[]} // Cast options as Option[] since label is JSX now
-              value={defaultOption} // Set default option
+               value={defaultOption} // Set default option
               onChange={(selectedOption) => {
-                if (selectedOption.value === "Export to PDF") {
+                if (selectedOption.value === "Export to ") {
                   handleDownloadPDF();
                 } else if (selectedOption.value === "Export to Excel") {
                   handleExportToExcel();
@@ -409,7 +432,7 @@ const Employees = () => {
               className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
             >
               {page}
-            </button>
+            </button> 
           ))}
           {/* Right Icon */}
           <button 
@@ -451,3 +474,4 @@ const Employees = () => {
 };
 
 export default withAuth(Employees);
+

@@ -5,37 +5,24 @@ import "react-dropdown/style.css";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-// import EditRowModal from "../../modals/access_modals/EditRowUser";
 import EditRowModal from "../../modals/Access/EditRowUser";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import ViewRowModal from "../../modals/access_modals/ViewRowUser";
 import { debounce } from "lodash";
 import withAuth from "@/modals/withAuth";
-// import withAuth from "@/components/withAuth";
-
-import {
-  AiOutlineEdit,
-  AiOutlineSearch,
-  AiOutlineReload,
-  AiOutlineEye,
-} from "react-icons/ai";
-import { User } from "../../types/index"; // Adjust the import path accordingly
+import { AiOutlineEdit, AiOutlineSearch, AiOutlineReload, AiOutlineEye } from "react-icons/ai";
+import { User } from "../../types/index";
 
 const Users = () => {
   const [rowData, setRowData] = useState<User[]>([]);
-  const [columnDefs, setColumnDefs] = useState<
-    { headerName: string; field: string }[]
-  >([]);
+  const [columnDefs, setColumnDefs] = useState<{ headerName: string; field: string }[]>([]);
   const [paginationPageSize] = useState<number>(200);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
-  const [modalState, setModalState] = useState<{
-    add: boolean;
-    edit: boolean;
-    view: boolean;
-  }>({ add: false, edit: false, view: false });
+  const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
   const [selectedRow, setSelectedRow] = useState<User | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -50,11 +37,10 @@ const Users = () => {
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-     
+
       const { data, totalRows } = response.data;
       const dataWithSerials = data.map((item: User) => ({
         ...item,
-       // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
       }));
       setRowData(dataWithSerials);
       setTotalRows(totalRows);
@@ -89,7 +75,6 @@ const Users = () => {
   const setupColumns = (data: User[]) => {
     if (data.length > 0) {
       const columns = [
-        //{ headerName: "Serial No", field: "serialNo", width: 100 },
         ...Object.keys(data[0]).map((key) => ({
           headerName: key.charAt(0).toUpperCase() + key.slice(1),
           field: key,
@@ -106,7 +91,8 @@ const Users = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit.");
+        setTimeout(() => setAlertMessage(null), 3000);
       }
     }
   };
@@ -118,7 +104,8 @@ const Users = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, view: true }));
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view.");
+        setTimeout(() => setAlertMessage(null), 3000);
       }
     }
   };

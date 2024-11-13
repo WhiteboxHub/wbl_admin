@@ -11,6 +11,7 @@ interface Client {
 
 export default function ClientSearch() {
   const [searchInput, setSearchInput] = useState<string>('');
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [clients, setClients] = useState<Client[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -41,6 +42,11 @@ export default function ClientSearch() {
 
   return (
     <div className="p-8 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+    {alertMessage && ( // Conditional rendering of alert message
+      <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+        {alertMessage}
+      </div>
+    )}
       <h2 className="text-2xl font-semibold mb-4">Vendor Search</h2>
       <form onSubmit={handleSearch} className="flex space-x-4 mb-6">
         <input

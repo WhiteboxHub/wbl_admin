@@ -561,6 +561,7 @@ const Leads = () => {
     edit: boolean;
     view: boolean;
   }>({ add: false, edit: false, view: false });
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [selectedRow, setSelectedRow] = useState<Lead | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const gridRef = useRef<AgGridReact>(null);
@@ -633,22 +634,26 @@ const Leads = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
 
   const handleViewRow = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        setSelectedRow(selectedRows[0]);
-        setModalState((prevState) => ({ ...prevState, view: true }));
+        setSelectedRow(selectedRows[0]); // Set the selected row data
+        setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
 
   const handleDeleteRow = async () => {
     if (gridRef.current) {
@@ -679,7 +684,8 @@ const Leads = () => {
           alert("No valid lead ID found for the selected row.");
         }
       } else {
-        alert("Please select a row to delete.");
+        setAlertMessage("Please select a row to delete."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -693,108 +699,7 @@ const Leads = () => {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-// ... existing code ...
-// ... existing code ...
-// const handleDownloadPDF = () => {
-//   if (gridRef.current) {
-//     const selectedRows = gridRef.current.api.getSelectedRows();
-//     if (selectedRows.length === 1) { // Ensure only one row is selected
-//       const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
-//       // Add Title
-//       doc.text("Selected Lead Data", 15, 10);
-
-//       // Prepare the data for the table
-//       const row = selectedRows[0]; // Get the single selected row
-//       const pdfData = [
-//         {
-//           Name: row.name,
-//           Email: row.email,
-//           Phone: row.phone,
-//           Address: row.address,
-//           City: row.city,
-//           State: row.state,
-//           Country: row.country,
-//           Zip: row.zip,
-//           Course: row.course,
-//           Status: row.status,
-//           "Spouse Name": row.spousename,
-//           "Spouse Email": row.spouseemail,
-//           "Spouse Phone": row.spousephone,
-//           FAQ: row.faq,
-//           "Calls Made": row.callsmade,
-//           "Close Date": row.closedate,
-//           Notes: row.notes,
-//         },
-//       ];
-
-//       // Add autoTable with adjusted styling
-//       (doc as unknown as { autoTable: (options: unknown) => void }).autoTable({
-//         head: [
-//           [
-//             "Name",
-//             "Email",
-//             "Phone",
-//             "Address",
-//             "City",
-//             "State",
-//             "Country",
-//             "Zip",
-//             "Course",
-//             "Status",
-//             "Spouse Name",
-//             "Spouse Email",
-//             "Spouse Phone",
-//             "FAQ",
-//             "Calls Made",
-//             "Close Date",
-//             "Notes",
-//           ],
-//         ],
-//         body: pdfData.map((data) => Object.values(data)), // Convert object to array for table body
-//         styles: {
-//           fontSize: 8, // Slightly smaller font
-//           cellPadding: 4, // Add padding for readability
-//           overflow: 'linebreak', // Allow line breaks in cells
-//         },
-//         columnStyles: {
-//           0: { cellWidth: 15 }, // Name
-//           1: { cellWidth: 25 }, // Email
-//           2: { cellWidth: 20 }, // Phone
-//           3: { cellWidth: 30 }, // Address
-//           4: { cellWidth: 20 }, // City
-//           5: { cellWidth: 20 }, // State
-//           6: { cellWidth: 20 }, // Country
-//           7: { cellWidth: 15 }, // Zip
-//           8: { cellWidth: 20 }, // Course
-//           9: { cellWidth: 20 }, // Status
-//           10: { cellWidth: 25 }, // Spouse Name
-//           11: { cellWidth: 25 }, // Spouse Email
-//           12: { cellWidth: 20 }, // Spouse Phone
-//           13: { cellWidth: 20 }, // FAQ
-//           14: { cellWidth: 20 }, // Calls Made
-//           15: { cellWidth: 20 }, // Close Date
-//           16: { cellWidth: 40 }, // Notes (wider to accommodate longer text)
-//         },
-//         margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
-//         pageBreak: "avoid", // Prevent page breaks
-//         didDrawPage: function (data) {
-//           doc.setFontSize(10);
-//           doc.text(
-//             "Page " + doc.internal.pages.length,
-//             data.settings.margin.left,
-//             data.settings.margin.top + 10 // Adjust position for page number
-//           );
-//         },
-//       });
-
-//       // Save the PDF
-//       doc.save("Selected_Lead_data.pdf");
-//     } else {
-//       alert("Please select exactly one row to download.");
-//     }
-//   }
-// };
 // ... existing code ...
 const handleDownloadPDF = () => {
   if (gridRef.current) {
@@ -903,85 +808,6 @@ const handleDownloadPDF = () => {
     fetchData(searchValue);
   };
 
-  // const handleDownloadPDF = () => {
-  //   if (gridRef.current) {
-  //     const selectedRows = gridRef.current.api.getSelectedRows();
-  //     if (selectedRows.length > 0) {
-  //       const doc = new jsPDF({ orientation: "landscape" });
-
-  //       // Add Title
-  //       doc.text("Selected Lead Data", 15, 10);
-
-  //       // Prepare the data for the table
-  //       const pdfData = selectedRows.map((row) => [
-  //         row.name,
-  //         row.email,
-  //         row.phone,
-  //         row.address,
-  //         row.city,
-  //         row.state,
-  //         row.country,
-  //         row.zip,
-  //         row.course,
-  //         row.status,
-  //         row.spousename,
-  //         row.spouseemail,
-  //         row.spousephone,
-  //         row.faq,
-  //         row.callsmade,
-  //         row.closedate,
-  //         row.notes,
-  //       ]);
-
-  //       // Add autoTable with adjusted styling
-  //       (doc as unknown as { autoTable: (options: unknown) => void }).autoTable(
-  //         {
-  //           head: [
-  //             [
-  //               "Name",
-  //               "Email",
-  //               "Phone",
-  //               "Address",
-  //               "City",
-  //               "State",
-  //               "Country",
-  //               "Zip",
-  //               "Course",
-  //               "Status",
-  //               "Spouse Name",
-  //               "Spouse Email",
-  //               "Spouse Phone",
-  //               "FAQ",
-  //               "Calls Made",
-  //               "Close Date",
-  //               "Notes",
-  //             ],
-  //           ],
-  //           body: pdfData,
-  //           styles: {
-  //             fontSize: 8, // Slightly smaller font
-  //             cellPadding: 4, // Add padding for readability
-  //           },
-  //           margin: { top: 15, left: 15, right: 15 }, // Adjust margins for better fit
-  //           pageBreak: "auto", // Automatically break table rows if too long
-  //           didDrawPage: function (data: any) {
-  //             doc.setFontSize(10);
-  //             doc.text(
-  //               "Page " + doc.internal.pages.length,
-  //               data.settings.margin.left,
-  //               doc.internal.pageSize.height - 10
-  //             );
-  //           },
-  //         }
-  //       );
-
-  //       // Save the PDF
-  //       doc.save("Selected_Lead_data.pdf");
-  //     } else {
-  //       alert("Please select a row to download.");
-  //     }
-  //   }
-  // };
 
   const handleExportToExcel = () => {
     if (gridRef.current) {
@@ -1001,331 +827,168 @@ const handleDownloadPDF = () => {
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    // <div className="relative">
-    //   <div className="p-4 mt-20 mb-10 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl">
-    //     <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-    //       <h1 className="text-3xl font-bold text-gray-800">Leads Management</h1>
-    //     </div>
-    //     <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
-    //       <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
-    //         <button
-    //           onClick={handleAddRow}
-    //           className="flex items-center px-3 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700 text-xs md:text-base"
-    //         >
-    //           <MdAdd className="mr-1" /> Add Lead
-    //         </button>
-    //         <button
-    //           onClick={handleEditRow}
-    //           className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-base"
-    //         >
-    //           <AiOutlineEdit className="mr-1" /> Edit
-    //         </button>
-    //         <button
-    //           onClick={handleViewRow}
-    //           className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-base"
-    //         >
-    //           <AiOutlineEye className="mr-1" /> View
-    //         </button>
-    //         <button
-    //           onClick={handleDeleteRow}
-    //           className="flex items-center px-3 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700 text-xs md:text-base"
-    //         >
-    //           <MdDelete className="mr-1" /> Delete
-    //         </button>
-    //       </div>
-    //       <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
-    //         <button
-    //           onClick={handleRefresh}
-    //           className="flex items-center px-3 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900 text-xs md:text-base"
-    //         >
-    //           <AiOutlineReload className="mr-1" /> Refresh
-    //         </button>
-    //         <div className="flex space-x-2">
-    //           <button
-    //             onClick={handleDownloadPDF}
-    //             className="flex items-center p-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
-    //           >
-    //             <FontAwesomeIcon icon={faFilePdf} className="text-lg" />
-    //           </button>
-    //           <button
-    //             onClick={handleExportToExcel}
-    //             className="flex items-center p-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
-    //           >
-    //             <FontAwesomeIcon icon={faFileExcel} className="text-lg" />
-    //           </button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div className="flex flex-col md:flex-row mb-4 items-center">
-    //       <div className="flex w-full md:w-auto mb-2 md:mb-0">
-    //         <input
-    //           type="text"
-    //           placeholder="Search..."
-    //           value={searchValue}
-    //           onChange={(e) => setSearchValue(e.target.value)}
-    //           className="border border-gray-300 rounded-md p-1 w-full md:w-64 text-xs md:text-base"
-    //         />
-    //         <button
-    //           onClick={handleSearch}
-    //           className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-base"
-    //         >
-    //           <AiOutlineSearch className="mr-1" /> Search
-    //         </button>
-    //       </div>
-    //     </div>
-    //     <div
-    //       className="ag-theme-alpine"
-    //       style={{ height: "400px", width: "100%", overflowY: "auto" }}
-    //     >
-    //       <AgGridReact
-    //         ref={gridRef}
-    //         rowData={rowData}
-    //         columnDefs={columnDefs}
-    //         pagination={false}
-    //         domLayout="normal"
-    //         rowSelection="multiple"
-    //         defaultColDef={{
-    //           sortable: true,
-    //           filter: true,
-    //           resizable: true,
-    //           cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-    //           minWidth: 80,
-    //           maxWidth: 150,
-    //         }}
-    //         rowHeight={30}
-    //         headerHeight={35}
-    //       />
-    //     </div>
-    //     <div className="flex flex-col md:flex-row justify-between items-center mt-4">
-    //       <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
-    //         {/* Pagination Buttons */}
-    //         <div className="flex space-x-1 overflow-x-auto">
-    //           <button 
-    //             onClick={() => handlePageChange(1)} 
-    //             disabled={currentPage === 1}
-    //             className="p-2 disabled:opacity-50"
-    //           >
-    //             <FaAngleDoubleLeft />
-    //           </button>
-    //           <button 
-    //             onClick={() => handlePageChange(currentPage - 1)} 
-    //             disabled={currentPage === 1}
-    //             className="p-2 disabled:opacity-50"
-    //           >
-    //             <FaChevronLeft />
-    //           </button>
-    //           {pageOptions.map((page) => (
-    //             <button
-    //               key={page}
-    //               onClick={() => handlePageChange(page)}
-    //               className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
-    //             >
-    //               {page}
-    //             </button>
-    //           ))}
-    //           <button 
-    //             onClick={() => handlePageChange(currentPage + 1)} 
-    //             disabled={currentPage === totalPages}
-    //             className="p-2 disabled:opacity-50"
-    //           >
-    //             <FaChevronRight />
-    //           </button>
-    //           <button 
-    //             onClick={() => handlePageChange(totalPages)} 
-    //             disabled={currentPage === totalPages}
-    //             className="p-2 disabled:opacity-50"
-    //           >
-    //             <FaAngleDoubleRight />
-    //           </button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <AddRowModal
-    //       isOpen={modalState.add}
-    //       onRequestClose={() => setModalState({ ...modalState, add: false })}
-    //       onSave={fetchData}
-    //     />
-    //     <EditRowModal
-    //       isOpen={modalState.edit}
-    //       onRequestClose={() => setModalState({ ...modalState, edit: false })}
-    //       rowData={selectedRow}
-    //       onSave={fetchData}
-    //     />
-    //     <ViewRowModal
-    //       isOpen={modalState.view}
-    //       onRequestClose={() => setModalState({ ...modalState, view: false })}
-    //       rowData={selectedRow}
-    //     />
-    //   </div>
-    // </div>
-
-    // ... existing code ...
-<div className="relative">
-  <div className="p-4 mt-10 mb-4 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl"> 
-    {/* // Adjusted padding and margins */}
-    <div className="flex flex-col md:flex-row justify-between items-center mb-4"> 
-      {/* // Increased margin bottom for spacing */}
-      <h1 className="text-3xl font-bold text-gray-800" style={{ marginTop: '3.5rem' }}>Leads Management</h1> 
-      {/* // Added margin bottom of 2.5rem      // Added margin bottom for spacing */}
-    </div>
-    <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
-       {/* // Increased margin bottom for spacing */}
-      <div className="flex flex-wrap space-x-2 mb-2 md:mb-0">
-         {/* // Adjusted margin bottom */}
-        <button
-          onClick={handleAddRow}
-          className="flex items-center px-3 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700 text-xs md:text-sm" // Adjusted padding and font size
-        >
-          <MdAdd className="mr-1" /> Add Lead
-        </button>
-        <button
-          onClick={handleEditRow}
-          className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-sm" // Adjusted padding and font size
-        >
-          <AiOutlineEdit className="mr-1" /> Edit
-        </button>
-        <button
-          onClick={handleViewRow}
-          className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-sm" // Adjusted padding and font size
-        >
-          <AiOutlineEye className="mr-1" /> View
-        </button>
-        <button
-          onClick={handleDeleteRow}
-          className="flex items-center px-3 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700 text-xs md:text-sm" // Adjusted padding and font size
-        >
-          <MdDelete className="mr-1" /> Delete
-        </button>
-      </div>
-      <div className="flex flex-wrap space-x-2 mb-2 md:mb-0"> 
-        {/* // Adjusted margin bottom */}
-        <button
-          onClick={handleRefresh}
-          className="flex items-center px-3 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900 text-xs md:text-sm" // Adjusted padding and font size
-        >
-          <AiOutlineReload className="mr-1" /> Refresh
-        </button>
-        <div className="flex space-x-2">
-          <button
-            onClick={handleDownloadPDF}
-            className="flex items-center p-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700" // Adjusted padding
-          >
-            <FontAwesomeIcon icon={faFilePdf} className="text-lg" />
-          </button>
-          <button
-            onClick={handleExportToExcel}
-            className="flex items-center p-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700" // Adjusted padding
-          >
-            <FontAwesomeIcon icon={faFileExcel} className="text-lg" />
-          </button>
+    <div className="relative">
+      <div className="p-4 mt-20 mb-10 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl">
+      {alertMessage && ( // Conditional rendering of alert message
+        <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+          {alertMessage}
         </div>
-      </div>
-    </div>
-    <div className="flex flex-col md:flex-row mb-4 items-center"> 
-      {/* // Increased margin bottom for spacing */}
-      <div className="flex w-full md:w-auto mb-2 md:mb-0">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          className="border border-gray-300 rounded-md p-1 w-full md:w-64 text-xs md:text-sm" // Adjusted padding and font size
-        />
-        <button
-          onClick={handleSearch}
-          className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-sm" // Adjusted padding and font size
-        >
-          <AiOutlineSearch className="mr-1" /> Search
-        </button>
-      </div>
-    </div>
-    <div
-      className="ag-theme-alpine"
-      style={{ height: "400px", width: "100%", overflowY: "auto" }}
-    >
-      <AgGridReact
-        ref={gridRef}
-        rowData={rowData}
-        columnDefs={columnDefs}
-        pagination={false}
-        domLayout="normal"
-        rowSelection="multiple"
-        defaultColDef={{
-          sortable: true,
-          filter: true,
-          resizable: true,
-          cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
-          minWidth: 80,
-          maxWidth: 150,
-        }}
-        rowHeight={30}
-        headerHeight={30} // Adjusted header height for better fit
-      />
-    </div>
-    <div className="flex flex-col md:flex-row justify-between items-center mt-4"> 
-      {/* // Increased margin top for spacing */}
-      <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
-        {/* Pagination Buttons */}
-        <div className="flex space-x-1 overflow-x-auto">
-          <button 
-            onClick={() => handlePageChange(1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaAngleDoubleLeft />
-          </button>
-          <button 
-            onClick={() => handlePageChange(currentPage - 1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronLeft />
-          </button>
-          {pageOptions.map((page) => (
+      )}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+          <h1 className="text-3xl font-bold text-gray-800">Leads Management</h1>
+        </div>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
+          <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
             <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+              onClick={handleAddRow}
+              className="flex items-center px-3 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700 text-xs md:text-base"
             >
-              {page}
+              <MdAdd className="mr-2" />
             </button>
-          ))}
-          <button 
-            onClick={() => handlePageChange(currentPage + 1)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronRight />
-          </button>
-          <button 
-            onClick={() => handlePageChange(totalPages)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaAngleDoubleRight />
-          </button>
+            <button
+              onClick={handleEditRow}
+              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-base"
+            >
+              <AiOutlineEdit className="mr-1" />
+            </button>
+            <button
+              onClick={handleViewRow}
+              className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-base"
+            >
+              <AiOutlineEye className="mr-1" />
+            </button>
+            <button
+              onClick={handleDeleteRow}
+              className="flex items-center px-3 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700 text-xs md:text-base"
+            >
+              <MdDelete className="mr-1" />
+            </button>
+          </div>
+          <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
+            <button
+              onClick={handleRefresh}
+              className="flex items-center px-3 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900 text-xs md:text-base"
+            >
+              <AiOutlineReload className="mr-1" />
+            </button>
+            <div className="flex space-x-2">
+              <button
+                onClick={handleDownloadPDF}
+                className="flex items-center p-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
+              >
+                <FontAwesomeIcon icon={faFilePdf} className="text-lg" />
+              </button>
+              <button
+                onClick={handleExportToExcel}
+                className="flex items-center p-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
+              >
+                <FontAwesomeIcon icon={faFileExcel} className="text-lg" />
+              </button>
+            </div>
+          </div>
         </div>
+        <div className="flex flex-col md:flex-row mb-4 items-center">
+          <div className="flex w-full md:w-auto mb-2 md:mb-0">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="border border-gray-300 rounded-md p-1 w-full md:w-64 text-xs md:text-base"
+            />
+            <button
+              onClick={handleSearch}
+              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-base"
+            >
+              <AiOutlineSearch className="mr-1" /> Search
+            </button>
+          </div>
+        </div>
+        <div
+          className="ag-theme-alpine"
+          style={{ height: "400px", width: "100%", overflowY: "auto" }}
+        >
+          <AgGridReact
+            ref={gridRef}
+            rowData={rowData}
+            columnDefs={columnDefs}
+            pagination={false}
+            domLayout="normal"
+            rowSelection="multiple"
+            defaultColDef={{
+              sortable: true,
+              filter: true,
+              resizable: true,
+              cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+              minWidth: 80,
+              maxWidth: 150,
+            }}
+            rowHeight={30}
+            headerHeight={35}
+          />
+        </div>
+        <div className="flex flex-col md:flex-row justify-between items-center mt-4">
+          <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
+            {/* Pagination Buttons */}
+            <div className="flex space-x-1 overflow-x-auto">
+              <button 
+                onClick={() => handlePageChange(1)} 
+                disabled={currentPage === 1}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaAngleDoubleLeft />
+              </button>
+              <button 
+                onClick={() => handlePageChange(currentPage - 1)} 
+                disabled={currentPage === 1}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaChevronLeft />
+              </button>
+              {pageOptions.map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+                >
+                  {page}
+                </button>
+              ))}
+              <button 
+                onClick={() => handlePageChange(currentPage + 1)} 
+                disabled={currentPage === totalPages}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaChevronRight />
+              </button>
+              <button 
+                onClick={() => handlePageChange(totalPages)} 
+                disabled={currentPage === totalPages}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaAngleDoubleRight />
+              </button>
+            </div>
+          </div>
+        </div>
+        <AddRowModal
+          isOpen={modalState.add}
+          onRequestClose={() => setModalState({ ...modalState, add: false })}
+          onSave={fetchData}
+        />
+        <EditRowModal
+          isOpen={modalState.edit}
+          onRequestClose={() => setModalState({ ...modalState, edit: false })}
+          rowData={selectedRow}
+          onSave={fetchData}
+        />
+        <ViewRowModal
+          isOpen={modalState.view}
+          onRequestClose={() => setModalState({ ...modalState, view: false })}
+          rowData={selectedRow}
+        />
       </div>
     </div>
-    <AddRowModal
-      isOpen={modalState.add}
-      onRequestClose={() => setModalState({ ...modalState, add: false })}
-      onSave={fetchData}
-    />
-    <EditRowModal
-      isOpen={modalState.edit}
-      onRequestClose={() => setModalState({ ...modalState, edit: false })}
-      rowData={selectedRow}
-      onSave={fetchData}
-    />
-    <ViewRowModal
-      isOpen={modalState.view}
-      onRequestClose={() => setModalState({ ...modalState, view: false })}
-      rowData={selectedRow}
-    />
-  </div>
-</div>
-// ... existing code ...
   );
 }
 

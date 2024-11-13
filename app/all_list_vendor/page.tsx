@@ -24,10 +24,9 @@ import { MdDelete } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import { Po, Vendor } from "../../types/index"; // Adjust the import path accordingly
 
-
 const AllListVendor = () => {
   const [rowData, setRowData] = useState<Vendor[]>([]);
-
+  
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);
@@ -35,7 +34,6 @@ const AllListVendor = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalRows, setTotalRows] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  // const [loading,] = useState<boolean>(false);
   const [modalState, setModalState] = useState<{
     add: boolean;
     edit: boolean;
@@ -43,6 +41,7 @@ const AllListVendor = () => {
   }>({ add: false, edit: false, view: false });
   const [selectedRow, setSelectedRow] = useState<Vendor | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -57,15 +56,15 @@ const AllListVendor = () => {
         },
         headers: { AuthToken: localStorage.getItem("token") },
       });
-  
+
       const { data, totalRows } = response.data;
-  
+
       // Add serial numbers to each row
       const dataWithSerials = data.map((item: Po) => ({
         ...item,
         // serialNo: (currentPage - 1) * paginationPageSize + index + 1,
       }));
-  
+
       setRowData(dataWithSerials);
       setTotalRows(totalRows);
       setupColumns(dataWithSerials);
@@ -101,24 +100,6 @@ const AllListVendor = () => {
     }
   };
 
-  // interface BatchNameRendererProps {
-  //   data: {
-  //     isBatch: boolean; // Adjust the type if necessary
-  //     batchname: string | number | null | undefined; // Adjust the type if necessary
-  //   };
-  // }
-
-  // const BatchNameRenderer: React.FC<BatchNameRendererProps> = (props) => {
-  //   return (
-  //     <div style={{ height: '100%', display: 'flex', alignItems: 'center', padding: '0 10px' }}>
-  //       {props.data.isBatch ? (
-  //         <span className='font-bold'>{props.data.batchname}</span> // Bold batchname
-  //       ) : (
-  //         ''
-  //       )}
-  //     </div>
-  //   );
-  // };
   const setupColumns = (data: Vendor[]) => {
     if (data.length > 0) {
       const columns = [
@@ -171,7 +152,8 @@ const AllListVendor = () => {
         setSelectedRow(selectedRows[0]); // Set the selected row data
         setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -190,7 +172,8 @@ const AllListVendor = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -225,7 +208,8 @@ const AllListVendor = () => {
           alert("No valid vendor name found for the selected row.");
         }
       } else {
-        alert("Please select a row to delete.");
+        setAlertMessage("Please select a row to delete."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -239,6 +223,11 @@ const AllListVendor = () => {
 
   return (
     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+      {alertMessage && ( // Conditional rendering of alert message
+        <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+          {alertMessage}
+        </div>
+      )}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-gray-800">Recruiters Management</h1>
         <div className="flex space-x-2">
@@ -246,37 +235,37 @@ const AllListVendor = () => {
             onClick={handleAddRow}
             className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
           >
-            <MdAdd className="mr-2" /> Add
+            <MdAdd className="mr-2" />
           </button>
           <button
             onClick={handleEditRow}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
           >
-            <AiOutlineEdit className="mr-2" /> Edit
+            <AiOutlineEdit className="mr-2" />
           </button>
           <button
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
           >
-            <MdDelete className="mr-2" /> Delete
+            <MdDelete className="mr-2" />
           </button>
           <button
             onClick={handleViewRow}
             className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
-            <AiOutlineEye className="mr-2" /> View
+            <AiOutlineEye className="mr-2" />
           </button>
           <button
             onClick={handleRefresh}
             className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
           >
-            <AiOutlineReload className="mr-2" /> Refresh
+            <AiOutlineReload className="mr-2" />
           </button>
           <button
             onClick={handleDownloadPDF}
             className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
           >
-            <FaDownload className="mr-2" /> Download PDF
+            <FaDownload className="mr-2" />
           </button>
         </div>
       </div>
@@ -400,11 +389,10 @@ const AllListVendor = () => {
       )}
       {modalState.view && selectedRow && (
         <ViewRowModal
-        isOpen={modalState.view}
-        onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
-  
-        rowData={selectedRow}
-      />
+          isOpen={modalState.view}
+          onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
+          rowData={selectedRow}
+        />
       )}
     </div>
   );

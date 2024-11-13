@@ -756,6 +756,7 @@ const PO = () => {
   const [columnDefs, setColumnDefs] = useState<{ headerName: string; field: string }[]>([]);
   const [paginationPageSize] = useState<number>(100);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [totalRows, setTotalRows] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
@@ -832,7 +833,6 @@ const PO = () => {
   };
 
   const handleAddRow = () => setModalState((prevState) => ({ ...prevState, add: true }));
-
   const handleEditRow = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
@@ -840,10 +840,12 @@ const PO = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
 
   const handleDeleteRow = async () => {
     if (gridRef.current) {
@@ -868,7 +870,8 @@ const PO = () => {
           alert("No valid PO ID found for the selected row.");
         }
       } else {
-        alert("Please select a row to delete.");
+        setAlertMessage("Please select a row to delete."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -882,13 +885,15 @@ const PO = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
       if (selectedRows.length > 0) {
-        setSelectedRow(selectedRows[0]);
-        setModalState((prevState) => ({ ...prevState, view: true }));
+        setSelectedRow(selectedRows[0]); // Set the selected row data
+        setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
+
 
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
@@ -909,6 +914,11 @@ const PO = () => {
 
   return (
     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+    {alertMessage && ( // Conditional rendering of alert message
+      <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+        {alertMessage}
+      </div>
+    )}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-gray-800">PO Management</h1>
         <div className="flex space-x-2">
@@ -916,37 +926,37 @@ const PO = () => {
             onClick={handleAddRow}
             className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
           >
-            <MdAdd className="mr-2" /> Add PO
+            <MdAdd className="mr-2" />
           </button>
           <button
             onClick={handleEditRow}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
           >
-            <AiOutlineEdit className="mr-2" /> Edit
+            <AiOutlineEdit className="mr-2" /> 
           </button>
           <button
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
           >
-            <MdDelete className="mr-2" /> Delete
+            <MdDelete className="mr-2" />
           </button>
           <button
             onClick={handleViewRow}
             className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
-            <AiOutlineEye className="mr-2" /> View
+            <AiOutlineEye className="mr-2" /> 
           </button>
           <button
             onClick={handleRefresh}
             className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
           >
-            <AiOutlineReload className="mr-2" /> Refresh
+            <AiOutlineReload className="mr-2" /> 
           </button>
           <button
             onClick={handleDownloadPDF}
             className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
           >
-            <FaDownload className="mr-2" /> Download PDF
+            <FaDownload className="mr-2" />  
           </button>
         </div>
       </div>

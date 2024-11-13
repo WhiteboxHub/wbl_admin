@@ -1,3 +1,21 @@
+
+
+// const ComingSoon: React.FC = () => {
+//   return (
+//     <div className="flex flex-col items-center justify-center h-screen">
+//       <h1 className="text-4xl font-bold mb-4">Coming Soon</h1>
+//       <p className="text-lg text-gray-600">This feature is under development. Stay tuned!</p>
+//     </div>
+//   );
+// };
+
+// export default ComingSoon;
+
+
+
+
+
+
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -24,14 +42,8 @@ import { MdDelete } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import { Client } from "../../types/index"; // Adjust the import path accordingly
 
-// interface GroupedData {
-//   [batch: string]: Client[];
-// }
-
-
 const AllListClient = () => {
   const [rowData, setRowData] = useState<Client[]>([]);
-//   const [, setGroupedData] = useState<GroupedData>({});
   const [columnDefs, setColumnDefs] = useState<
     { headerName: string; field: string }[]
   >([]);
@@ -46,6 +58,7 @@ const AllListClient = () => {
   }>({ add: false, edit: false, view: false });
   const [selectedRow, setSelectedRow] = useState<Client | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -156,7 +169,8 @@ const AllListClient = () => {
         setSelectedRow(selectedRows[0]); // Set the selected row data
         setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
       } else {
-        alert("Please select a row to view.");
+        setAlertMessage("Please select a row to view."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -175,7 +189,8 @@ const AllListClient = () => {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
       } else {
-        alert("Please select a row to edit.");
+        setAlertMessage("Please select a row to edit."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -210,7 +225,8 @@ const AllListClient = () => {
           alert("No valid client name found for the selected row.");
         }
       } else {
-        alert("Please select a row to delete.");
+        setAlertMessage("Please select a row to delete."); // Set alert message
+        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
       }
     }
   };
@@ -224,6 +240,11 @@ const AllListClient = () => {
 
   return (
     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+      {alertMessage && ( // Conditional rendering of alert message
+        <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+          {alertMessage}
+        </div>
+      )}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold text-gray-800">Recruiters Management</h1>
         <div className="flex space-x-2">
@@ -231,37 +252,37 @@ const AllListClient = () => {
             onClick={handleAddRow}
             className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
           >
-            <MdAdd className="mr-2" /> Add
+            <MdAdd className="mr-2" />
           </button>
           <button
             onClick={handleEditRow}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
           >
-            <AiOutlineEdit className="mr-2" /> Edit
+            <AiOutlineEdit className="mr-2" />
           </button>
           <button
             onClick={handleDeleteRow}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
           >
-            <MdDelete className="mr-2" /> Delete
+            <MdDelete className="mr-2" />
           </button>
           <button
             onClick={handleViewRow}
             className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
           >
-            <AiOutlineEye className="mr-2" /> View
+            <AiOutlineEye className="mr-2" />
           </button>
           <button
             onClick={handleRefresh}
             className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
           >
-            <AiOutlineReload className="mr-2" /> Refresh
+            <AiOutlineReload className="mr-2" />
           </button>
           <button
             onClick={handleDownloadPDF}
             className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-md transition duration-300 hover:bg-purple-700"
           >
-            <FaDownload className="mr-2" /> Download PDF
+            <FaDownload className="mr-2" />
           </button>
         </div>
       </div>
@@ -375,13 +396,11 @@ const AllListClient = () => {
           refreshData={fetchData}
         />
       )}
-  
-{modalState.edit && selectedRow && (
-  <EditRowModal
+
+      {modalState.edit && selectedRow && (
+        <EditRowModal
           isOpen={modalState.edit}
           onRequestClose={() => setModalState((prev) => ({ ...prev, edit: false }))} // Corrected to set edit to false
-
-          // Ensure onClose is defined
           rowData={selectedRow}
           onSave={async () => {
             await fetchData(); // Ensure fetchData is awaited
@@ -390,14 +409,13 @@ const AllListClient = () => {
             throw new Error("Function not implemented.");
           } } refreshData={function (): void {
             throw new Error("Function not implemented.");
-          } }  />
-)}
+          } }        />
+      )}
 
       {modalState.view && selectedRow && (
         <ViewRowModal
           isOpen={modalState.view}
           onClose={() => setModalState((prev) => ({ ...prev, view: false }))}
-    
           rowData={selectedRow}
         />
       )}
@@ -406,17 +424,3 @@ const AllListClient = () => {
 };
 
 export default withAuth(AllListClient);
-
-
-// const ComingSoon: React.FC = () => {
-//   return (
-//     <div className="flex flex-col items-center justify-center h-screen">
-//       <h1 className="text-4xl font-bold mb-4">Coming Soon</h1>
-//       <p className="text-lg text-gray-600">This feature is under development. Stay tuned!</p>
-//     </div>
-//   );
-// };
-
-// export default ComingSoon;
-
-

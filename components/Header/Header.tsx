@@ -252,12 +252,14 @@ const menuItems: MenuItem[] = [
       href: '',
       subMenu: [  
         { name: 'Employees', href: '/employee' },
+       
         { name: 'Candidates Status', href: '/candidateStatus' ,
           subMenu:[
-            { name: 'Current Marketing', href: '/candidateMarketing'},
+            { name: 'List', href: '/candidateMarketing'},
             { name: 'All ', href: '/marketingCandidates'},
           ]
         },
+        { name: 'Placement', href: '/placement' },
         { name: 'Search', href: '/candidateSearch' },
       ]
     },
@@ -286,7 +288,7 @@ const menuItems: MenuItem[] = [
                 { name: 'By Client', href: '/byclient' },
                 { name: 'By palcement', href: '/byplacement' },
                 { name: 'All list', href: '/all_list_client' },
-                { name: 'Detailed', href: '/detailed' }
+                { name: 'Detailed', href: '/detailedclient' }
               ]
              }
           ]
@@ -301,12 +303,12 @@ const menuItems: MenuItem[] = [
                 { name: 'By Vendor', href: '/byvendor' },
                 { name: 'By palcement', href: '/byplacementv' },
                 { name: 'All list', href: '/all_list_vendor' },
-                { name: 'Detailed', href: '/detailedv' }
+                { name: 'Detailed', href: '/detailedvendor' }
               ]
              }
           ]
          },
-        { name: 'Placement', href: '/placement' }
+      
       ]
     },
   ];
