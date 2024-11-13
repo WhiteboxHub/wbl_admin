@@ -125,7 +125,9 @@ const Users = () => {
   };
 
   const totalPages = Math.ceil(totalRows / paginationPageSize);
-  const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const startPage = Math.max(1, currentPage );
+  const endPage = Math.min(totalPages, currentPage + 4);
+  const pageOptions = Array.from({ length: endPage - startPage + 1 }, (_, i) => i + startPage);
 
   return (
     <div className="relative">

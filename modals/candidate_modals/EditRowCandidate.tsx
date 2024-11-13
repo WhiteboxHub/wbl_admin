@@ -999,8 +999,7 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({
 
         <button
           type="submit"
-          className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold text-sm"
-        >
+          className="mt-6 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold text-sm">
           Save Candidate
         </button>
       </form>
