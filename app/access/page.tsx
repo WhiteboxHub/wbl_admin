@@ -141,57 +141,324 @@ const Users = () => {
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
 
-  return (
-    <div className="relative">
-      <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold text-gray-800">Access Management</h1>
-        </div>
+  // return (
+  //   <div className="relative">
+  //     <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+  //       <div className="flex justify-between items-center mb-4">
+  //         <h1 className="text-3xl font-bold text-gray-800">Access Management</h1>
+  //       </div>
 
-        <div className="flex flex-wrap mb-4 items-center gap-4">
-        <div className="flex grow">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-           onChange={(e) => setSearchValue(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-64"
-          />
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-          >
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-        </div>
-          <button
-            onClick={handleEditRow}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-          >
-            <AiOutlineEdit className="mr-2" /> Edit
-          </button>  
-          <button
-            onClick={handleViewRow}
-            className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
-          >
-            <AiOutlineEye className="mr-2" /> View
-          </button>
+  //       <div className="flex flex-wrap mb-4 items-center gap-4">
+  //       <div className="flex grow">
+  //         <input
+  //           type="text"
+  //           placeholder="Search..."
+  //           value={searchValue}
+  //          onChange={(e) => setSearchValue(e.target.value)}
+  //           className="border border-gray-300 rounded-md p-2 w-64"
+  //         />
+  //         <button
+  //           onClick={handleSearch}
+  //           className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+  //         >
+  //           <AiOutlineSearch className="mr-2" /> Search
+  //         </button>
+  //       </div>
+  //         <button
+  //           onClick={handleEditRow}
+  //           className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+  //         >
+  //           <AiOutlineEdit className="mr-2" /> Edit
+  //         </button>  
+  //         <button
+  //           onClick={handleViewRow}
+  //           className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
+  //         >
+  //           <AiOutlineEye className="mr-2" /> View
+  //         </button>
 
-          <button
-            onClick={handleRefresh}
-            className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
-          >
-            <AiOutlineReload className="mr-2" /> Refresh
-          </button>
+  //         <button
+  //           onClick={handleRefresh}
+  //           className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700"
+  //         >
+  //           <AiOutlineReload className="mr-2" /> Refresh
+  //         </button>
           
 
+  //       </div>
+
+  //       <div
+  //         className="ag-theme-alpine"
+  //         style={{ height: "370px", width: "100%", overflowY: 'visible' ,overflowX:'visible'}}
+  //       >
+  //         {<AgGridReact
+  //           ref={gridRef}
+  //           rowData={rowData}
+  //           columnDefs={columnDefs}
+  //           pagination={false}
+  //           domLayout="normal"
+  //           rowSelection="multiple"
+  //           defaultColDef={{
+  //             sortable: true,
+  //             filter: true,
+  //             resizable: true,
+  //             cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+  //             minWidth: 80,
+  //             maxWidth: 150,
+  //           }}
+  //           rowHeight={30}
+  //           headerHeight={35}
+  //         />}
+  //       </div>
+  //       <div className="flex justify-between mt-4">
+  //       <div className="flex items-center">
+  //         {/* Double Left Icon */}
+  //         <button 
+  //           onClick={() => handlePageChange(1)} 
+  //           disabled={currentPage === 1}
+  //           className="p-2 disabled:opacity-50"
+  //         >
+  //           <FaAngleDoubleLeft />
+  //         </button>
+  //         {/* Left Icon */}
+  //         <button 
+  //           onClick={() => handlePageChange(currentPage - 1)} 
+  //           disabled={currentPage === 1}
+  //           className="p-2 disabled:opacity-50"
+  //         >
+  //           <FaChevronLeft />
+  //         </button>
+  //         {/* Page Numbers */}
+  //         {pageOptions.map((page) => (
+  //           <button
+  //             key={page}
+  //             onClick={() => handlePageChange(page)}
+  //             className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+  //           >
+  //             {page}
+  //           </button>
+  //         ))}
+  //         {/* Right Icon */}
+  //         <button 
+  //           onClick={() => handlePageChange(currentPage + 1)} 
+  //           disabled={currentPage === totalPages}
+  //           className="p-2 disabled:opacity-50"
+  //         >
+  //           <FaChevronRight />
+  //         </button>
+  //         {/* Double Right Icon */}
+  //         <button 
+  //           onClick={() => handlePageChange(totalPages)} 
+  //           disabled={currentPage === totalPages}
+  //           className="p-2 disabled:opacity-50"
+  //         >
+  //           <FaAngleDoubleRight />
+  //         </button>
+  //       </div>
+  //     </div>
+  //       <EditRowModal
+  //         isOpen={modalState.edit}
+  //         onRequestClose={() => setModalState({ ...modalState, edit: false })}
+  //         rowData={selectedRow}
+  //         onSave={fetchData}
+  //       />
+  //       <ViewRowModal
+  //         isOpen={modalState.view}
+  //         onRequestClose={() => setModalState({ ...modalState, view: false })}
+  //         rowData={selectedRow}
+  //       />
+  //     </div>
+  //   </div>
+  // );
+  // return (
+  //   <div className="relative">
+  //     <div className="p-4 mt-10 mb-4 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl"> 
+  //       {/* // Adjusted padding and margins */}
+  //       <div className="flex flex-col md:flex-row justify-between items-center mb-4"> 
+  //         {/* // Increased margin bottom for spacing */}
+  //         <h1 className="text-3xl font-bold text-gray-800" style={{ marginTop: '3.5rem' }}>Access Management</h1> 
+  //         {/* // Added margin bottom for spacing */}
+  //       </div>
+
+  //       <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
+  //         {/* // Increased margin bottom for spacing */}
+  //         <div className="flex flex-wrap space-x-2 mb-2 md:mb-0">
+  //           {/* // Adjusted margin bottom */}
+  //           <div className="flex grow">
+  //             <input
+  //               type="text"
+  //               placeholder="Search..."
+  //               value={searchValue}
+  //               onChange={(e) => setSearchValue(e.target.value)}
+  //               className="border border-gray-300 rounded-md p-1 w-full md:w-64 text-xs md:text-sm" // Adjusted padding and font size
+  //             />
+  //             <button
+  //               onClick={handleSearch}
+  //               className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-sm" // Adjusted padding and font size
+  //             >
+  //               <AiOutlineSearch className="mr-1" /> Search
+  //             </button>
+  //           </div>
+  //           <button
+  //             onClick={handleEditRow}
+  //             className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-sm" // Adjusted padding and font size
+  //           >
+  //             <AiOutlineEdit className="mr-1" /> Edit
+  //           </button>  
+  //           <button
+  //             onClick={handleViewRow}
+  //             className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-sm" // Adjusted padding and font size
+  //           >
+  //             <AiOutlineEye className="mr-1" /> View
+  //           </button>
+  //           <button
+  //             onClick={handleRefresh}
+  //             className="flex items-center px-3 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-sm" // Adjusted padding and font size
+  //           >
+  //             <AiOutlineReload className="mr-1" /> Refresh
+  //           </button>
+  //         </div>
+  //       </div>
+
+  //       <div
+  //         className="ag-theme-alpine"
+  //         style={{ height: "370px", width: "100%", overflowY: 'visible', overflowX: 'visible' }}
+  //       >
+  //         <AgGridReact
+  //           ref={gridRef}
+  //           rowData={rowData}
+  //           columnDefs={columnDefs}
+  //           pagination={false}
+  //           domLayout="normal"
+  //           rowSelection="multiple"
+  //           defaultColDef={{
+  //             sortable: true,
+  //             filter: true,
+  //             resizable: true,
+  //             cellStyle: { color: "#333", fontSize: "0.75rem", padding: "1px" },
+  //             minWidth: 80,
+  //             maxWidth: 150,
+  //           }}
+  //           rowHeight={30}
+  //           headerHeight={35} // Adjusted header height for better fit
+  //         />
+  //       </div>
+
+  //       <div className="flex flex-col md:flex-row justify-between items-center mt-4"> 
+  //         {/* // Increased margin top for spacing */}
+  //         <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
+  //           {/* Pagination Buttons */}
+  //           <div className="flex space-x-1 overflow-x-auto">
+  //             <button 
+  //               onClick={() => handlePageChange(1)} 
+  //               disabled={currentPage === 1}
+  //               className="p-2 disabled:opacity-50"
+  //             >
+  //               <FaAngleDoubleLeft />
+  //             </button>
+  //             <button 
+  //               onClick={() => handlePageChange(currentPage - 1)} 
+  //               disabled={currentPage === 1}
+  //               className="p-2 disabled:opacity-50"
+  //             >
+  //               <FaChevronLeft />
+  //             </button>
+  //             {pageOptions.map((page) => (
+  //               <button
+  //                 key={page}
+  //                 onClick={() => handlePageChange(page)}
+  //                 className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+  //               >
+  //                 {page}
+  //               </button>
+  //             ))}
+  //             <button 
+  //               onClick={() => handlePageChange(currentPage + 1)} 
+  //               disabled={currentPage === totalPages}
+  //               className="p-2 disabled:opacity-50"
+  //             >
+  //               <FaChevronRight />
+  //             </button>
+  //             <button 
+  //               onClick={() => handlePageChange(totalPages)} 
+  //               disabled={currentPage === totalPages}
+  //               className="p-2 disabled:opacity-50"
+  //             >
+  //               <FaAngleDoubleRight />
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+
+  //       <EditRowModal
+  //         isOpen={modalState.edit}
+  //         onRequestClose={() => setModalState({ ...modalState, edit: false })}
+  //         rowData={selectedRow}
+  //         onSave={fetchData}
+  //       />
+  //       <ViewRowModal
+  //         isOpen={modalState.view}
+  //         onRequestClose={() => setModalState({ ...modalState, view: false })}
+  //         rowData={selectedRow}
+  //       />
+  //     </div>
+  //   </div>
+  // );
+  return (
+    <div className="relative">
+      <div className="p-4 mt-10 mb-4 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl"> 
+        {/* // Adjusted padding and margins */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4"> 
+          {/* // Increased margin bottom for spacing */}
+          <h1 className="text-3xl font-bold text-gray-800" style={{ marginTop: '3.5rem' }}>Access Management</h1> 
+          {/* // Added margin bottom for spacing */}
+        </div>
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
+          {/* // Increased margin bottom for spacing */}
+          <div className="flex flex-wrap space-x-2 mb-2 md:mb-0">
+            {/* // Adjusted margin bottom */}
+            <div className="flex grow">
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="border border-gray-300 rounded-md p-1 w-full md:w-64 text-xs md:text-sm" // Adjusted padding and font size
+              />
+              <button
+                onClick={handleSearch}
+                className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-sm" // Adjusted padding and font size
+              >
+                <AiOutlineSearch className="mr-1" /> Search
+              </button>
+            </div>
+            <button
+              onClick={handleEditRow}
+              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-sm" // Adjusted padding and font size
+            >
+              <AiOutlineEdit className="mr-1" /> Edit
+            </button>  
+            <button
+              onClick={handleViewRow}
+              className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-sm" // Adjusted padding and font size
+            >
+              <AiOutlineEye className="mr-1" /> View
+            </button>
+            <button
+              onClick={handleRefresh}
+              className="flex items-center px-3 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-sm" // Adjusted padding and font size
+            >
+              <AiOutlineReload className="mr-1" /> Refresh
+            </button>
+          </div>
         </div>
 
         <div
-          className="ag-theme-alpine"
-          style={{ height: "370px", width: "100%", overflowY: 'visible' ,overflowX:'visible'}}
+          className="ag-theme-alpine bg-white shadow-lg rounded-lg" // Added background and shadow for the table
+          style={{ height: "370px", width: "100%", overflowY: 'visible', overflowX: 'visible' }}
         >
-          {<AgGridReact
+          <AgGridReact
             ref={gridRef}
             rowData={rowData}
             columnDefs={columnDefs}
@@ -207,55 +474,56 @@ const Users = () => {
               maxWidth: 150,
             }}
             rowHeight={30}
-            headerHeight={35}
-          />}
+            headerHeight={35} // Adjusted header height for better fit
+          />
         </div>
-        <div className="flex justify-between mt-4">
-        <div className="flex items-center">
-          {/* Double Left Icon */}
-          <button 
-            onClick={() => handlePageChange(1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaAngleDoubleLeft />
-          </button>
-          {/* Left Icon */}
-          <button 
-            onClick={() => handlePageChange(currentPage - 1)} 
-            disabled={currentPage === 1}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronLeft />
-          </button>
-          {/* Page Numbers */}
-          {pageOptions.map((page) => (
-            <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
-            >
-              {page}
-            </button>
-          ))}
-          {/* Right Icon */}
-          <button 
-            onClick={() => handlePageChange(currentPage + 1)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaChevronRight />
-          </button>
-          {/* Double Right Icon */}
-          <button 
-            onClick={() => handlePageChange(totalPages)} 
-            disabled={currentPage === totalPages}
-            className="p-2 disabled:opacity-50"
-          >
-            <FaAngleDoubleRight />
-          </button>
+
+        <div className="flex flex-col md:flex-row justify-between items-center mt-4"> 
+          {/* // Increased margin top for spacing */}
+          <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
+            {/* Pagination Buttons */}
+            <div className="flex space-x-1 overflow-x-auto">
+              <button 
+                onClick={() => handlePageChange(1)} 
+                disabled={currentPage === 1}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaAngleDoubleLeft />
+              </button>
+              <button 
+                onClick={() => handlePageChange(currentPage - 1)} 
+                disabled={currentPage === 1}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaChevronLeft />
+              </button>
+              {pageOptions.map((page) => (
+                <button
+                  key={page}
+                  onClick={() => handlePageChange(page)}
+                  className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
+                >
+                  {page}
+                </button>
+              ))}
+              <button 
+                onClick={() => handlePageChange(currentPage + 1)} 
+                disabled={currentPage === totalPages}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaChevronRight />
+              </button>
+              <button 
+                onClick={() => handlePageChange(totalPages)} 
+                disabled={currentPage === totalPages}
+                className="p-2 disabled:opacity-50"
+              >
+                <FaAngleDoubleRight />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+
         <EditRowModal
           isOpen={modalState.edit}
           onRequestClose={() => setModalState({ ...modalState, edit: false })}
@@ -270,6 +538,7 @@ const Users = () => {
       </div>
     </div>
   );
+
 };
 
 export default withAuth(Users);
