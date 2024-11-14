@@ -209,34 +209,345 @@
 // export default withAuth(CandidateSearch);
 
 
+// "use client";
+// import React, { useState, useCallback } from "react";
+// import axios from "axios";
+// import withAuth from "@/modals/withAuth";
+// import { FaSpinner } from "react-icons/fa";
+// import { debounce } from "lodash";
+// import { Candidate } from "../../types/index";
+
+// interface DropdownProps {
+//   title: string;
+//   children: React.ReactNode;
+// }
+
+// const Dropdown: React.FC<DropdownProps> = ({ title, children }) => {
+//   const [isOpen, setIsOpen] = useState(false);
+
+//   return (
+//     <div className="mt-4">
+//       <button
+//         className="text-lg font-semibold focus:outline-none"
+//         onClick={() => setIsOpen(!isOpen)}
+//       >
+//         {title}
+//       </button>
+//       {isOpen && <div className="mt-2">{children}</div>}
+//     </div>
+//   );
+// };
+
+// const CandidateSearch: React.FC = () => {
+//   const [searchInput, setSearchInput] = useState("");
+//   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+//   const [candidates, setCandidates] = useState<Candidate[]>([]);
+//   const [loading, setLoading] = useState(false);
+//   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+
+//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+//   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     setSearchInput(e.target.value);
+//     debouncedSearch(e.target.value);
+//   };
+
+//   const fetchCandidates = async (name: string) => {
+//     setLoading(true);
+//     const token = localStorage.getItem("token");
+
+//     if (!token) {
+//       console.error("Token not found");
+//       setLoading(false);
+//       return;
+//     }
+
+//     try {
+//       const response = await axios.get(`${API_URL}/searchByName`, {
+//         params: { name },
+//         headers: { AuthToken: token },
+//       });
+
+//       setCandidates(response.data);
+//     } catch (error) {
+//       console.error("Error fetching candidates:", error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const debouncedSearch = useCallback(
+//     debounce((name) => {
+//       if (name && name.length > 2) {
+//         fetchCandidates(name);
+//       }
+//     }, 300),
+//     []
+//   );
+
+//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     fetchCandidates(searchInput);
+//   };
+
+//   return (
+//     <div className="p-8 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+//       {alertMessage && (
+//         <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
+//           {alertMessage}
+//         </div>
+//       )}
+//       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
+
+//       <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8">
+//         <input
+//           type="text"
+//           placeholder="Search Candidates..."
+//           value={searchInput}
+//           onChange={handleSearchInput}
+//           className="p-2 w-64 border border-gray-300 rounded-md mr-2"
+//         />
+//         <button
+//           type="submit"
+//           className="px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
+//         >
+//           Search
+//         </button>
+//       </form>
+
+//       <div className="candidate-results">
+//         {loading ? (
+//           <div className="flex items-center space-x-2">
+//             <FaSpinner className="animate-spin text-blue-600" />
+//             <span>Loading...</span>
+//           </div>
+//         ) : (
+//           <div>
+//             {candidates.length > 0 ? (
+//               <div className="candidate-list bg-white p-4 rounded-lg shadow">
+//                 <h2 className="text-2xl font-semibold mb-2">Results:</h2>
+//                 <ul>
+//                   {candidates.map((candidate) => (
+//                     <li
+//                       key={candidate.id}
+//                       onClick={() => setSelectedCandidate(candidate)}
+//                       className="p-2 border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+//                     >
+//                       {candidate.name} - {candidate.email}
+//                     </li>
+//                   ))}
+//                 </ul>
+//               </div>
+//             ) : (
+//               <p>No candidates found </p>
+//             )}
+//           </div>
+//         )}
+
+//         {selectedCandidate && (
+//           <div className="selected-candidate mt-4 bg-gray-50 p-4 rounded-lg shadow">
+//             <h3 className="text-xl font-bold">Selected Candidate:</h3>
+//             <p>
+//               <strong>Name:</strong> {selectedCandidate.name}
+//             </p>  
+//             <p>
+//               <strong>Email:</strong> {selectedCandidate.email}
+//             </p>
+//             <p>
+//               <strong>Enrolled Date:</strong> {selectedCandidate.enrolleddate}
+//             </p>
+//             <p>
+//               <strong>DOB:</strong> {selectedCandidate.dob}
+//             </p>
+//             <p>
+//               <strong>Status:</strong> {selectedCandidate.status}
+//             </p>
+//             <p>
+//               <strong>Batch:</strong> {selectedCandidate.batchname}
+//             </p>
+//             <p>
+//               <strong>Address:</strong> {selectedCandidate.address}
+//             </p>
+//             <p>
+//               <strong>Work Status:</strong> {selectedCandidate.workexperience}
+//             </p>
+//             <p>
+//               <strong>Education:</strong> {selectedCandidate.education}
+//             </p>
+//             <p>
+//               <strong>Work Experience:</strong> {selectedCandidate.workexperience}
+//             </p>
+
+//             <Dropdown  title ="More Information">
+//               <p>
+//                 <strong>Sec Name:</strong> {selectedCandidate.name}
+//               </p>
+//               <p>
+//                 <strong> Sec Email:</strong> {selectedCandidate.email}
+//               </p>
+//               <p>
+//                 <strong>Gurantor Name:</strong> {selectedCandidate.enrolleddate}
+//               </p>
+//               <p>
+//                 <strong>Gurantor Designation:</strong> {selectedCandidate.dob}
+//               </p>
+//               <p>
+//                 <strong>Gurantor Company :</strong> {selectedCandidate.guarantorcompany}
+//               </p>
+//               <p>
+//                 <strong>Emer Name:</strong> {selectedCandidate.name}
+//               </p>
+//               <p>
+//                 <strong>Emer Email:</strong> {selectedCandidate.email}
+//               </p>
+//               <p>
+//                 <strong>Emer Phone:</strong> {selectedCandidate.phone}
+//               </p>
+//               <p>
+//                 <strong>Emer Address:</strong> {selectedCandidate.address}
+//               </p>
+//             </Dropdown>
+
+//             <Dropdown title="Agreement">
+//               <p>
+//                 <strong>Contract:</strong> {selectedCandidate.contracturl}
+//               </p>
+//               <p>
+//                 <strong>Emp Agreement:</strong> {selectedCandidate.agreement}
+//               </p>
+//               <p>
+//                 <strong> Offer Letter:</strong> {selectedCandidate.offerletter}
+//               </p>
+//               <p>
+//                 <strong>DL:</strong> {selectedCandidate.driverslicense}
+//               </p>
+//               <p>
+//                 <strong>Work Permit:</strong> {selectedCandidate.workpermit}
+//               </p>
+//               <p>
+//                 <strong>SSN URL:</strong> {selectedCandidate.ssnvalidated}
+//               </p>
+//               <p>
+//                 <strong>SSN:</strong> {selectedCandidate.ssn}
+//               </p>
+//               <p>
+//                 <strong>Work Status:</strong> {selectedCandidate.workexperience}
+//               </p>
+//               <p>
+//                 <strong>Education:</strong> {selectedCandidate.education}
+//               </p>
+//             </Dropdown>
+
+//             <Dropdown title="Portal Login">
+//             <p>
+//                 <strong>Address:</strong> {selectedCandidate.address}
+//               </p>
+//               <p>
+//                 <strong>User Name:</strong> {selectedCandidate.name}
+//               </p>
+//               <p>
+//                 <strong>Phone:</strong> {selectedCandidate.email}
+//               </p>
+//               <p>
+//                 <strong>Last Login:</strong> {selectedCandidate.lastlogin}
+//               </p>
+//               <p>
+//                 <strong>Reg Data:</strong> {selectedCandidate.dob}
+//               </p>
+//               <p>
+//                 <strong>Login Count :</strong> {selectedCandidate.logincount }
+//               </p>
+              
+//             </Dropdown>
+//             <Dropdown title="Notes 1">
+//               <p>
+//                 <strong> Notes:</strong> {selectedCandidate.notes}
+//               </p>
+             
+//             </Dropdown>
+
+//             <Dropdown title="Login History">
+//               <p>
+//                 <strong>Login Count:</strong> {selectedCandidate.logincount}
+//               </p>
+             
+//             </Dropdown>
+
+//             <Dropdown title="Original Resume">
+//               <p>
+//                 <strong>Resume :</strong> {selectedCandidate.resumeid}
+//               </p>
+              
+//             </Dropdown>
+//             <Dropdown title="Fee and Salary">
+//               <p>
+//                 <strong>Fee Paid:</strong> {selectedCandidate.feepaid}
+//               </p>
+//               <p>
+//                 <strong>Fee Due :</strong> {selectedCandidate.feedue}
+//               </p>
+//               <p>
+//                 <strong>Term:</strong> {selectedCandidate.term}
+//               </p>
+//               <p>
+//                 <strong>Salary 1:</strong> {selectedCandidate.salary0}
+//               </p>
+//               <p>
+//                 <strong>Salary 2:</strong> {selectedCandidate.salary12}
+//               </p>
+//             </Dropdown>
+//             <Dropdown title="Recruiter Assessment">
+//               <p>
+//                 <strong>Instructor:</strong> {selectedCandidate.instructor}
+//               </p>
+//             </Dropdown>
+//             <Dropdown title="Instructor Assessment">
+//               <p>
+//                 <strong>Instructor:</strong> {selectedCandidate.instructor}
+//               </p>
+//             </Dropdown>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default withAuth(CandidateSearch);
+
+
+
+
+
+
+
 "use client";
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import withAuth from "@/modals/withAuth";
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { debounce } from "lodash";
 import { Candidate } from "../../types/index";
 
 interface DropdownProps {
   title: string;
   children: React.ReactNode;
+  isOpen: boolean;
+  onClick: () => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="mt-4">
-      <button
-        className="text-lg font-semibold focus:outline-none"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {title}
-      </button>
-      {isOpen && <div className="mt-2">{children}</div>}
-    </div>
-  );
-};
+const Dropdown: React.FC<DropdownProps> = ({ title, children, isOpen, onClick }) => (
+  <div className="mt-4">
+    <button
+      className="flex items-center justify-between text-lg font-semibold focus:outline-none border-b-2 pb-1 w-full text-left"
+      onClick={onClick}
+    >
+      <span>{title}</span>
+      {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+    </button>
+    {isOpen && <div className="mt-2">{children}</div>}
+  </div>
+);
 
 const CandidateSearch: React.FC = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -244,6 +555,7 @@ const CandidateSearch: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -288,6 +600,10 @@ const CandidateSearch: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetchCandidates(searchInput);
+  };
+
+  const toggleDropdown = (title: string) => {
+    setOpenDropdown(openDropdown === title ? null : title);
   };
 
   return (
@@ -339,7 +655,7 @@ const CandidateSearch: React.FC = () => {
                 </ul>
               </div>
             ) : (
-              <p>No candidates found.</p>
+              <p>No candidates found </p>
             )}
           </div>
         )}
@@ -378,130 +694,62 @@ const CandidateSearch: React.FC = () => {
               <strong>Work Experience:</strong> {selectedCandidate.workexperience}
             </p>
 
-            <Dropdown  title ="More Information">
+            <Dropdown title="More Information" isOpen={openDropdown === "More Information"} onClick={() => toggleDropdown("More Information")}>
               <p>
                 <strong>Sec Name:</strong> {selectedCandidate.name}
               </p>
               <p>
-                <strong> Sec Email:</strong> {selectedCandidate.email}
+                <strong>Sec Email:</strong> {selectedCandidate.email}
               </p>
-              <p>
-                <strong>Gurantor Name:</strong> {selectedCandidate.enrolleddate}
-              </p>
-              <p>
-                <strong>Gurantor Designation:</strong> {selectedCandidate.dob}
-              </p>
-              <p>
-                <strong>Gurantor Company :</strong> {selectedCandidate.company}
-              </p>
-              <p>
-                <strong>Emer Name:</strong> {selectedCandidate.name}
-              </p>
-              <p>
-                <strong>Emer Email:</strong> {selectedCandidate.email}
-              </p>
-              <p>
-                <strong>Emer Phone:</strong> {selectedCandidate.phone}
-              </p>
-              <p>
-                <strong>Emer Address:</strong> {selectedCandidate.address}
-              </p>
+              {/* Add other details here */}
             </Dropdown>
 
-            <Dropdown title="Agreement">
+            <Dropdown title="Agreement" isOpen={openDropdown === "Agreement"} onClick={() => toggleDropdown("Agreement")}>
               <p>
                 <strong>Contract:</strong> {selectedCandidate.contracturl}
               </p>
-              <p>
-                <strong>Emp Agreement:</strong> {selectedCandidate.agreement}
-              </p>
-              <p>
-                <strong> Offer Letter:</strong> {selectedCandidate.offerletter}
-              </p>
-              <p>
-                <strong>DL:</strong> {selectedCandidate.driverslicense}
-              </p>
-              <p>
-                <strong>Work Permit:</strong> {selectedCandidate.workpermit}
-              </p>
-              <p>
-                <strong>SSN URL:</strong> {selectedCandidate.ssnvalidated}
-              </p>
-              <p>
-                <strong>SSN:</strong> {selectedCandidate.ssn}
-              </p>
-              <p>
-                <strong>Work Status:</strong> {selectedCandidate.workexperience}
-              </p>
-              <p>
-                <strong>Education:</strong> {selectedCandidate.education}
-              </p>
+              {/* Add other details here */}
             </Dropdown>
 
-            <Dropdown title="Portal Login">
-            <p>
+            <Dropdown title="Portal Login" isOpen={openDropdown === "Portal Login"} onClick={() => toggleDropdown("Portal Login")}>
+              <p>
                 <strong>Address:</strong> {selectedCandidate.address}
               </p>
-              <p>
-                <strong>User Name:</strong> {selectedCandidate.name}
-              </p>
-              <p>
-                <strong>Phone:</strong> {selectedCandidate.email}
-              </p>
-              <p>
-                <strong>Last Login:</strong> {selectedCandidate.lastlogin}
-              </p>
-              <p>
-                <strong>Reg Data:</strong> {selectedCandidate.dob}
-              </p>
-              <p>
-                <strong>Login Count :</strong> {selectedCandidate.logincount }
-              </p>
-              
-            </Dropdown>
-            <Dropdown title="Notes 1">
-              <p>
-                <strong> Notes:</strong> {selectedCandidate.notes}
-              </p>
-             
+              {/* Add other details here */}
             </Dropdown>
 
-            <Dropdown title="Login History">
+            <Dropdown title="Notes 1" isOpen={openDropdown === "Notes 1"} onClick={() => toggleDropdown("Notes 1")}>
+              <p>
+                <strong>Notes:</strong> {selectedCandidate.notes}
+              </p>
+            </Dropdown>
+
+            <Dropdown title="Login History" isOpen={openDropdown === "Login History"} onClick={() => toggleDropdown("Login History")}>
               <p>
                 <strong>Login Count:</strong> {selectedCandidate.logincount}
               </p>
-             
             </Dropdown>
 
-            <Dropdown title="Original Resume">
+            <Dropdown title="Original Resume" isOpen={openDropdown === "Original Resume"} onClick={() => toggleDropdown("Original Resume")}>
               <p>
-                <strong>Resume :</strong> {selectedCandidate.resumeid}
+                <strong>Resume:</strong> {selectedCandidate.resumeid}
               </p>
-              
             </Dropdown>
-            <Dropdown title="Fee and Salary">
+
+            <Dropdown title="Fee and Salary" isOpen={openDropdown === "Fee and Salary"} onClick={() => toggleDropdown("Fee and Salary")}>
               <p>
                 <strong>Fee Paid:</strong> {selectedCandidate.feepaid}
               </p>
-              <p>
-                <strong>Fee Due :</strong> {selectedCandidate.feedue}
-              </p>
-              <p>
-                <strong>Term:</strong> {selectedCandidate.term}
-              </p>
-              <p>
-                <strong>Salary 1:</strong> {selectedCandidate.salary0}
-              </p>
-              <p>
-                <strong>Salary 2:</strong> {selectedCandidate.salary12}
-              </p>
+              {/* Add other details here */}
             </Dropdown>
-            <Dropdown title="Recruiter Assessment">
+
+            <Dropdown title="Recruiter Assessment" isOpen={openDropdown === "Recruiter Assessment"} onClick={() => toggleDropdown("Recruiter Assessment")}>
               <p>
                 <strong>Instructor:</strong> {selectedCandidate.instructor}
               </p>
             </Dropdown>
-            <Dropdown title="Instructor Assessment">
+
+            <Dropdown title="Instructor Assessment" isOpen={openDropdown === "Instructor Assessment"} onClick={() => toggleDropdown("Instructor Assessment")}>
               <p>
                 <strong>Instructor:</strong> {selectedCandidate.instructor}
               </p>

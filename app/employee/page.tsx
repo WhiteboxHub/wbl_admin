@@ -307,6 +307,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const totalPages = Math.ceil(totalRows / paginationPageSize);
   const pageOptions = Array.from({ length: totalPages }, (_, i) => i + 1);
 
+
+
+
   return (
     <div className="relative">
       <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
@@ -316,7 +319,28 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
         </div>
       )}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold text-gray-800">Employee List </h1>
+          <h1 className="text-3xl font-bold text-gray-800">Employee List </h1> </div>
+
+
+          <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
+            <div className="flex w-full md:w-auto mb-2 md:mb-0">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+            className="border border-gray-300 rounded-md p-2 w-64"
+          />
+          <button
+            onClick={handleSearch}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+          >
+            <AiOutlineSearch className="mr-2" /> Search
+          </button>
+        </div>
+
+
+
 
           <div className="flex space-x-2">
             <button
@@ -367,22 +391,11 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
               placeholderClassName="text-black"
             />
           </div>
-        </div>
-        <div className="flex mb-4">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchValue}
-         onChange={(e) => setSearchValue(e.target.value)}
-          className="border border-gray-300 rounded-md p-2 w-64"
-        />
-        <button
-          onClick={handleSearch}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-        >
-          <AiOutlineSearch className="mr-2" /> Search
-        </button>
-      </div>
+        
+          </div>
+
+
+
         <div
           className="ag-theme-alpine"
           style={{ height: "400px", width: "100%", overflowY: "auto" }}

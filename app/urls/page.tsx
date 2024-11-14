@@ -215,7 +215,33 @@ const Urls = () => {
       </div>
     )}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-bold text-gray-800">URL Management</h1>
+        <h1 className="text-3xl font-bold text-gray-800">URL Management</h1></div>
+
+
+
+
+
+
+
+        <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
+        <div className="flex w-full md:w-auto mb-2 md:mb-0">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="border border-gray-300 rounded-md p-2 w-64"
+        />
+        <button
+          onClick={handleSearch}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+        >
+          <AiOutlineSearch className="mr-2" /> Search
+        </button>
+      </div>
+
+
+
         <div className="flex space-x-2">
           <button
             onClick={handleAddRow}
@@ -254,23 +280,9 @@ const Urls = () => {
             <FaDownload className="mr-2" />  
           </button>
         </div>
-      </div>
-      <div className="flex mb-4">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          className="border border-gray-300 rounded-md p-2 w-64"
-        />
-        <button
-          onClick={handleSearch}
-          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-        >
-          <AiOutlineSearch className="mr-2" /> Search
-        </button>
-      </div>
-
+      
+      
+        </div>
       {loading ? (
         <div className="flex justify-center items-center h-48">
           <span className="text-xl">Loading...</span>

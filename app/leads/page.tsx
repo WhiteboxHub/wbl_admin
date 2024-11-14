@@ -811,17 +811,36 @@ const handleDownloadPDF = () => {
 
   return (
     <div className="relative">
-      <div className="p-4 mt-20 mb-10 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl">
       {alertMessage && ( // Conditional rendering of alert message
         <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
           {alertMessage}
         </div>
       )}
+      <div className="p-4 mt-20 mb-10 mx-auto bg-gray-100 rounded-lg shadow-md relative max-w-7xl">
         <div className="flex flex-col md:flex-row justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">Leads Management</h1>
         </div>
 
+
+        <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
+          <div className="flex w-full md:w-auto mb-2 md:mb-0">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="border border-gray-300 rounded-md p-2 w-64"
+            />
+            <button
+              onClick={handleSearch}
+              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-base"
+            >
+              <AiOutlineSearch className="mr-1" /> Search
+            </button>
+          </div>
         
+          
+
         <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
           <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
 
@@ -873,27 +892,10 @@ const handleDownloadPDF = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row mb-4 items-center">
-          <div className="flex w-full md:w-auto mb-2 md:mb-0">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              className="border border-gray-300 rounded-md p-1 w-full md:w-64 text-xs md:text-base"
-            />
-            <button
-              onClick={handleSearch}
-              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-base"
-            >
-              <AiOutlineSearch className="mr-1" /> Search
-            </button>
-          </div>
         </div>
-        <div
-          className="ag-theme-alpine"
-          style={{ height: "400px", width: "100%", overflowY: "auto" }}
-        >
+      
+        
+       <div className="ag-theme-alpine" style={{ height: "370px", width: "100%", overflowY: "visible", overflowX: 'visible'  }}>
           <AgGridReact
             ref={gridRef}
             rowData={rowData}

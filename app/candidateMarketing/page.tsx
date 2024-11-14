@@ -338,18 +338,43 @@ const CandidateMarketing = () => {
 
   return (
     <div className="relative">
-      <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+      
       {alertMessage && ( // Conditional rendering of alert message
         <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
           {alertMessage}
         </div>
       )}
+      <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100  justify-between rounded-lg shadow-md relative">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">
             Current Marketing
           </h1>
+        </div>
+
+        
+        <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
+    <div className="flex w-full md:w-auto mb-2 md:mb-0">
+
+
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+         onChange={(e) => setSearchValue(e.target.value)}
+          className="border border-gray-300 rounded-md p-2 w-64"
+        />
+        <button
+          onClick={handleSearch}
+          className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
+        >
+          <AiOutlineSearch className="mr-2" /> Search
+        </button>
+        </div>
+
+
 
           <div className="flex space-x-2">
+          
             <button
               onClick={handleEditRow}
               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
@@ -360,7 +385,7 @@ const CandidateMarketing = () => {
               onClick={handleDeleteRow}
               className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
             >
-              <MdDelete className="mr-2" />
+              <MdDelete className="mr-2" /> 
             </button>
             <button
               onClick={handleViewRow}
@@ -392,22 +417,10 @@ const CandidateMarketing = () => {
               placeholderClassName="text-black"
             />
           </div>
-        </div>
-        <div className="flex mb-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-64"
-          />
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-          >
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-        </div>
+        
+          </div>
+
+
         <div
           className="ag-theme-alpine"
           style={{ height: "400px", width: "100%", overflowY: "auto" }}
@@ -432,61 +445,56 @@ const CandidateMarketing = () => {
           />
         </div>
         <div className="flex justify-between mt-4">
-          <div className="flex items-center">
+        <div className="flex items-center">
+          <button 
+            onClick={() => handlePageChange(1)} 
+            disabled={currentPage === 1}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaAngleDoubleLeft />
+          </button>
+          <button 
+            onClick={() => handlePageChange(currentPage - 1)} 
+            disabled={currentPage === 1}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaChevronLeft />
+          </button>
+          {pageOptions.map((page) => (
             <button
-              onClick={() => handlePageChange(1)}
-              disabled={currentPage === 1}
-              className="p-2 disabled:opacity-50"
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`px-2 py-1 rounded-md ${currentPage === page ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}
             >
-              <FaAngleDoubleLeft />
+              {page}
             </button>
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="p-2 disabled:opacity-50"
-            >
-              <FaChevronLeft />
-            </button>
-            {pageOptions.map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-2 py-1 rounded-md ${
-                  currentPage === page
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-gray-800"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="p-2 disabled:opacity-50"
-            >
-              <FaChevronRight />
-            </button>
-            <button
-              onClick={() => handlePageChange(totalPages)}
-              disabled={currentPage === totalPages}
-              className="p-2 disabled:opacity-50"
-            >
-              <FaAngleDoubleRight />
-            </button>
-          </div>
+          ))}
+          <button 
+            onClick={() => handlePageChange(currentPage + 1)} 
+            disabled={currentPage === totalPages}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaChevronRight />
+          </button>
+          <button 
+            onClick={() => handlePageChange(totalPages)} 
+            disabled={currentPage === totalPages}
+            className="p-2 disabled:opacity-50"
+          >
+            <FaAngleDoubleRight />
+          </button>
         </div>
+      </div>
         <EditRowModal
           isOpen={modalState.edit}
           onRequestClose={() => setModalState({ ...modalState, edit: false })}
-          rowData={selectedRow as CandidateMarketing | null} 
+          rowData={selectedRow as RowData} // Ensure type compatibility
           onSave={fetchData}
         />
-
         <ViewRowModal
           isOpen={modalState.view}
           onRequestClose={() => setModalState({ ...modalState, view: false })}
-          rowData={selectedRow as CandidateMarketing } 
+          rowData={selectedRow ?? {} as CandidateMarketing}
         />
       </div>
     </div>
