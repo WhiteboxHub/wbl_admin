@@ -793,13 +793,13 @@ const CandidateSearch: React.FC = () => {
                 <strong>Phone:</strong> {selectedCandidate.email}
               </p>
                <p>
-                <strong>Last Login:</strong> {selectedCandidate.lastlogin}
+                {/* <strong>Last Login:</strong> {selectedCandidate.lastlogin} */}
                </p>
               <p>
                  <strong>Reg Data:</strong> {selectedCandidate.dob}
                </p>
               <p>
-               <strong>Login Count :</strong> {selectedCandidate.logincount }
+               {/* <strong>Login Count :</strong> {selectedCandidate.logincount } */}
               </p>
               {/* Add other details here */}
             </Dropdown>
@@ -812,13 +812,13 @@ const CandidateSearch: React.FC = () => {
 
             <Dropdown title="Login History" isOpen={openDropdown === "Login History"} onClick={() => toggleDropdown("Login History")}>
               <p>
-                <strong>Login Count:</strong> {selectedCandidate.logincount}
+                {/* <strong>Login Count:</strong> {selectedCandidate.logincount} */}
               </p>
             </Dropdown>
 
             <Dropdown title="Original Resume" isOpen={openDropdown === "Original Resume"} onClick={() => toggleDropdown("Original Resume")}>
               <p>
-                <strong>Resume:</strong> {selectedCandidate.resumeid}
+                {/* <strong>Resume:</strong> {selectedCandidate.resumeid} */}
               </p>
             </Dropdown>
 
@@ -842,13 +842,13 @@ const CandidateSearch: React.FC = () => {
 
             <Dropdown title="Recruiter Assessment" isOpen={openDropdown === "Recruiter Assessment"} onClick={() => toggleDropdown("Recruiter Assessment")}>
               <p>
-                <strong>Instructor:</strong> {selectedCandidate.instructor}
+                {/* <strong>Instructor:</strong> {selectedCandidate.instructor} */}
               </p>
             </Dropdown>
 
             <Dropdown title="Instructor Assessment" isOpen={openDropdown === "Instructor Assessment"} onClick={() => toggleDropdown("Instructor Assessment")}>
               <p>
-                <strong>Instructor:</strong> {selectedCandidate.instructor}
+                {/* <strong>Instructor:</strong> {selectedCandidate.instructor} */}
               </p>
             </Dropdown>
           </div>

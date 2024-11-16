@@ -319,7 +319,7 @@ import Modal from "react-modal";
 import axios from "axios";
 
 interface Candidate {
-  candidateid: string; // Ensure candidateid is always a string
+  candidateid: number; // Ensure candidateid is always a string
   name: string;
   enrolleddate: string;
   email: string;
