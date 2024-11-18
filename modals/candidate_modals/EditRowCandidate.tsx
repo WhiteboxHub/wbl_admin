@@ -382,7 +382,8 @@ const EditRowCandidate: React.FC<EditRowCandidateProps> = ({
   onSave,
 }) => {
   const [formData, setFormData] = useState<Candidate>({
-    candidateid: rowData.candidateid || "", // Ensure candidateid is always a string
+    // candidateid: rowData.candidateid || "", // Ensure candidateid is always a string
+    candidateid: rowData.candidateid ? Number(rowData.candidateid) : 0,
     name: rowData.name,
     enrolleddate: rowData.enrolleddate,
     email: rowData.email,

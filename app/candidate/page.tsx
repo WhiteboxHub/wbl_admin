@@ -539,7 +539,7 @@ interface GroupedData {
   [batch: string]: Candidate[];
 }
 
-const Candidates = () => {
+  const Candidates = () => {
   const [rowData, setRowData] = useState<Candidate[]>([]);
   // const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
   const [, setGroupedData] = useState<GroupedData>({});
@@ -594,6 +594,7 @@ const Candidates = () => {
             transformedRowData.push({
               ...candidate,
               batchname: '', // Clear batchname for candidate rows
+             // Add the required isBatch property
             });
           });
         }
@@ -704,10 +705,11 @@ const Candidates = () => {
       if (selectedRows.length > 0) {
         setSelectedRow(selectedRows[0]); // Set the selected row data
         setModalState((prevState) => ({ ...prevState, view: true })); // Open the view modal
-      } else {
-        // setAlertMessage("Please select a row to view."); // Set alert message
-        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
-      }
+      } 
+      // else {
+      //   // setAlertMessage("Please select a row to view."); // Set alert message
+      //   setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
+      // }
     }
   };
 
@@ -724,10 +726,11 @@ const Candidates = () => {
       if (selectedRows.length > 0) {
         setSelectedRow(selectedRows[0]);
         setModalState((prevState) => ({ ...prevState, edit: true }));
-      } else {
-        setAlertMessage("Please select a row to edit."); // Set alert message
-        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
-      }
+       } 
+       //else {
+      //   setAlertMessage("Please select a row to edit."); // Set alert message
+      //   setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
+      // }
     }
   };
 
@@ -760,10 +763,11 @@ const Candidates = () => {
         } else {
           alert("No valid candidate name found for the selected row.");
         }
-      } else {
-        setAlertMessage("Please select a row to delete."); // Set alert message
-        setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
-      }
+       } 
+       //else {
+      //   setAlertMessage("Please select a row to delete."); // Set alert message
+      //   setTimeout(() => setAlertMessage(null), 3000); // Clear alert message after 3 seconds
+      // }
     }
   };
 
