@@ -5,7 +5,7 @@ import axios from 'axios';
 interface CandidateMarketing {
   
   candidateid: number;
-  startdate: string;
+  startdate: number;
   mmid: number;
   instructorid: number;
   status: string;

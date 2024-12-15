@@ -200,10 +200,7 @@ const MarketingCandidates = () => {
     setCurrentPage(newPage);
   };
 
-  const handleSearch = () => {
-    fetchData(searchValue);
-  };
-
+ 
   const handleDownloadPDF = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
@@ -277,6 +274,11 @@ const MarketingCandidates = () => {
     }
   };
 
+
+  const handleSearch = () => {
+    fetchData(searchValue);
+  };
+
   const handleExportToExcel = () => {
     if (gridRef.current) {
       const selectedRows = gridRef.current.api.getSelectedRows();
@@ -318,15 +320,9 @@ const MarketingCandidates = () => {
         </div>
       )}
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold text-gray-800"> Marketing Candidates </h1></div>
-
-
-
-
-          <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
-    <div className="flex w-full md:w-auto mb-2 md:mb-0">
-
-
+        <h1 className="text-3xl font-bold text-gray-800"> Marketing Candidates </h1></div>
+        <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
+        <div className="flex w-full md:w-auto mb-2 md:mb-0">
         <input
           type="text"
           placeholder="Search..."
@@ -394,7 +390,7 @@ const MarketingCandidates = () => {
 
         <div
           className="ag-theme-alpine"
-          style={{ height: "400px", width: "100%", overflowY: "auto" }}
+          style={{ height: "370px", width: "100%", overflowY: "visible",overflowX: 'visible'  }}
         >
           <AgGridReact
             ref={gridRef}
@@ -415,8 +411,9 @@ const MarketingCandidates = () => {
             headerHeight={35}
           />
         </div>
-        <div className="flex justify-between mt-4">
-        <div className="flex items-center">
+        <div className="flex flex-col md:flex-row justify-between items-center mt-4">
+        <div className="flex items-center justify-center w-full md:w-auto overflow-x-auto">
+        <div className="flex space-x-1 overflow-x-auto">
           <button 
             onClick={() => handlePageChange(1)} 
             disabled={currentPage === 1}
@@ -454,6 +451,7 @@ const MarketingCandidates = () => {
           >
             <FaAngleDoubleRight />
           </button>
+          </div>
         </div>
       </div>
         <EditRowModal
