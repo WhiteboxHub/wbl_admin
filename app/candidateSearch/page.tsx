@@ -220,23 +220,29 @@ import { Candidate } from "../../types/index";
 interface DropdownProps {
   title: string;
   children: React.ReactNode;
+  isOpen: boolean;
+  onClick: () => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+// const Dropdown: React.FC<DropdownProps> = ({ title, children }) => {
 
-  return (
-    <div className="mt-4">
-      <button
-        className="text-lg font-semibold focus:outline-none"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {title}
-      </button>
-      {isOpen && <div className="mt-2">{children}</div>}
-    </div>
-  );
-};
+  // const [activeSection, setActiveSection] = useState<string | null>(null);
+ 
+
+  const Dropdown: React.FC<DropdownProps> = ({ title, children, isOpen, onClick }) => {
+    // const [isOpen, setIsOpen] = useState(false);
+    return (
+      <div className="mt-4">
+        <button
+          className="text-lg font-semibold focus:outline-none"
+          onClick={onClick}
+        >
+          {title}
+        </button>
+        {isOpen && <div className="mt-2">{children}</div>}
+      </div>
+    );
+  };
 
 const CandidateSearch: React.FC = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -244,8 +250,12 @@ const CandidateSearch: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const toggleSection = (section: string) => {
+    setActiveSection(activeSection === section ? null : section);
+  };
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
@@ -289,7 +299,13 @@ const CandidateSearch: React.FC = () => {
     e.preventDefault();
     fetchCandidates(searchInput);
   };
+  
+  // const [activeSection, setActiveSection] = useState<string | null>(null);
 
+  // const toggleSection = (section: string) => {
+  //   setActiveSection(activeSection === section ? null : section);
+  // };
+  
   return (
     <div className="p-8 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
       {alertMessage && (
@@ -298,7 +314,7 @@ const CandidateSearch: React.FC = () => {
         </div>
       )}
       <h1 className="text-3xl font-bold mb-4">Candidate Search</h1>
-
+  
       <form onSubmit={handleSubmit} className="flex items-center mb-5 mt-8">
         <input
           type="text"
@@ -314,7 +330,7 @@ const CandidateSearch: React.FC = () => {
           Search
         </button>
       </form>
-
+  
       <div className="candidate-results">
         {loading ? (
           <div className="flex items-center space-x-2">
@@ -343,21 +359,21 @@ const CandidateSearch: React.FC = () => {
             )}
           </div>
         )}
-
+  
         {selectedCandidate && (
           <div className="selected-candidate mt-4 bg-gray-50 p-4 rounded-lg shadow">
             <h3 className="text-xl font-bold">Selected Candidate:</h3>
             <p>
               <strong>Name:</strong> {selectedCandidate.name}
-            </p>  
+            </p>
             <p>
               <strong>Email:</strong> {selectedCandidate.email}
             </p>
             <p>
-              <strong>Enrolled Date:</strong> {selectedCandidate.enrolleddate}
+              <strong>Enrolled Date:</strong> {new Date(selectedCandidate.enrolleddate).toLocaleDateString()}
             </p>
             <p>
-              <strong>DOB:</strong> {selectedCandidate.dob}
+              <strong>DOB:</strong> {new Date(selectedCandidate.dob).toLocaleDateString()}
             </p>
             <p>
               <strong>Status:</strong> {selectedCandidate.status}
@@ -377,8 +393,8 @@ const CandidateSearch: React.FC = () => {
             <p>
               <strong>Work Experience:</strong> {selectedCandidate.workexperience}
             </p>
-
-            <Dropdown  title ="More Information">
+  
+            <Dropdown title="More Information" isOpen={activeSection === "More Information"} onClick={() => toggleSection("More Information")}>
               <p>
                 <strong>Sec Name:</strong> {selectedCandidate.name}
               </p>
@@ -407,8 +423,8 @@ const CandidateSearch: React.FC = () => {
                 <strong>Emer Address:</strong> {selectedCandidate.address}
               </p>
             </Dropdown>
-
-            <Dropdown title="Agreement">
+  
+            <Dropdown title="Agreement" isOpen={activeSection === "Agreement"} onClick={() => toggleSection("Agreement")}>
               <p>
                 <strong>Contract:</strong> {selectedCandidate.contracturl}
               </p>
@@ -437,9 +453,9 @@ const CandidateSearch: React.FC = () => {
                 <strong>Education:</strong> {selectedCandidate.education}
               </p>
             </Dropdown>
-
-            <Dropdown title="Portal Login">
-            <p>
+  
+            <Dropdown title="Portal Login" isOpen={activeSection === "Portal Login"} onClick={() => toggleSection("Portal Login")}>
+              <p>
                 <strong>Address:</strong> {selectedCandidate.address}
               </p>
               <p>
@@ -455,31 +471,29 @@ const CandidateSearch: React.FC = () => {
                 <strong>Reg Data:</strong> {selectedCandidate.dob}
               </p>
               <p>
-                <strong>Login Count :</strong> {selectedCandidate.logincount }
+                <strong>Login Count :</strong> {selectedCandidate.logincount}
               </p>
-              
             </Dropdown>
-            <Dropdown title="Notes 1">
+  
+            <Dropdown title="Notes 1" isOpen={activeSection === "Notes 1"} onClick={() => toggleSection("Notes 1")}>
               <p>
                 <strong> Notes:</strong> {selectedCandidate.notes}
               </p>
-             
             </Dropdown>
-
-            <Dropdown title="Login History">
+  
+            <Dropdown title="Login History" isOpen={activeSection === "Login History"} onClick={() => toggleSection("Login History")}>
               <p>
                 <strong>Login Count:</strong> {selectedCandidate.logincount}
               </p>
-             
             </Dropdown>
-
-            <Dropdown title="Original Resume">
+  
+            <Dropdown title="Original Resume" isOpen={activeSection === "Original Resume"} onClick={() => toggleSection("Original Resume")}>
               <p>
                 <strong>Resume :</strong> {selectedCandidate.resumeid}
               </p>
-              
             </Dropdown>
-            <Dropdown title="Fee and Salary">
+  
+            <Dropdown title="Fee and Salary" isOpen={activeSection === "Fee and Salary"} onClick={() => toggleSection("Fee and Salary")}>
               <p>
                 <strong>Fee Paid:</strong> {selectedCandidate.feepaid}
               </p>
@@ -496,12 +510,14 @@ const CandidateSearch: React.FC = () => {
                 <strong>Salary 2:</strong> {selectedCandidate.salary12}
               </p>
             </Dropdown>
-            <Dropdown title="Recruiter Assessment">
+  
+            <Dropdown title="Recruiter Assessment" isOpen={activeSection === "Recruiter Assessment"} onClick={() => toggleSection("Recruiter Assessment")}>
               <p>
                 <strong>Instructor:</strong> {selectedCandidate.instructor}
               </p>
             </Dropdown>
-            <Dropdown title="Instructor Assessment">
+  
+            <Dropdown title="Instructor Assessment" isOpen={activeSection === "Instructor Assessment"} onClick={() => toggleSection("Instructor Assessment")}>
               <p>
                 <strong>Instructor:</strong> {selectedCandidate.instructor}
               </p>
