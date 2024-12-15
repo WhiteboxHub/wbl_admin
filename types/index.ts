@@ -93,7 +93,7 @@ export interface Candidate{
   id: number;
   name: string;
   assessment: string;
-  candidateid: string; // Ensure candidateid is always a string
+  candidateid: number; // Ensure candidateid is always a string
   // name: string;
   enrolleddate: string;
   email: string;
@@ -178,7 +178,19 @@ export interface GroupedData {
 
 // TransformedCandidate interface to include additional properties
 export interface TransformedCandidate extends Candidate {
-  isBatch: boolean; // Indicates if the row is a batch row
+  batchname: string;
+  id: number;
+  name: string;
+  assessment: string;
+  candidateid: number;
+  enrolleddate: string;
+  email: string;
+  course: string;
+  phone: string;
+  status: string;
+  workstatus: string;
+  notes: string;
+  //isBatch?: boolean; // Indicates if the row is a batch row
 }
 
 // ErrorResponse interface for handling API error responses
@@ -512,4 +524,13 @@ export interface Vendor {
     yearsofexperience: string;
   }
   
+
+// In your types file (e.g., types/index.ts)
+
+export interface DetailedClient {
+  id: number;
+  name: string;
+  email: string;
+  // Add other fields here
+}
 

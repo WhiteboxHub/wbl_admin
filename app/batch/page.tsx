@@ -237,43 +237,70 @@ const handleDownloadPDF = () => {
   const pageOptions = Array.from({ length: endPage - startPage + 1 }, (_, i) => i + startPage);
 
   return (
-    <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md relative">
+    <div className="relative">
+    
     {alertMessage && ( // Conditional rendering of alert message
       <div className="fixed top-4 right-4 p-4 bg-red-500 text-white rounded-md shadow-md z-50">
         {alertMessage}
       </div>
     )}
-      <div className="flex justify-between items-center mb-4">
+    <div className="p-4 mt-20 mb-10 ml-20 mr-20 bg-gray-100 rounded-lg shadow-md ">
+      <div className="flex flex-col md:flex-row  items-center mb-4">
         <h1 className="text-3xl font-bold text-gray-800">Batch Management</h1>
-        <div className="flex space-x-2">
-          <button
-            onClick={handleAddRow}
-            className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700"
-          >
-            <MdAdd className="mr-2" />
-          </button>
-          <button
-            onClick={handleEditRow}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700"
-          >
-            <AiOutlineEdit className="mr-2" />
-          </button>
-          <button
-            onClick={handleDeleteRow}
-            className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700"
-          >
-            <MdDelete className="mr-2" />
-          </button>
-          <button
-            onClick={handleViewRow}
-            className="flex items-center px-4 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700"
-          >
-            <AiOutlineEye className="mr-2" />
-          </button>
-          <button
-            onClick={handleRefresh}
-            className="flex items-center px-4 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900"
-          >
+      </div>
+         {/* Search Functionality */}
+         <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
+          <div className="flex w-full md:w-auto mb-2 md:mb-0">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              className="border border-gray-300 rounded-md p-2 w-64"
+            />
+            <button
+              onClick={handleSearch}
+              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900 text-xs md:text-base"
+            >
+              <AiOutlineSearch className="mr-1" /> Search
+            </button>
+          </div>
+        
+          
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
+          <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
+
+            <button
+              onClick={handleAddRow}
+              className="flex items-center px-3 py-2 bg-green-600 text-white rounded-md transition duration-300 hover:bg-green-700 text-xs md:text-base"
+            >
+              <MdAdd className="mr-2" />
+            </button>
+            <button
+              onClick={handleEditRow}
+              className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-base"
+            >
+              <AiOutlineEdit className="mr-1" />
+            </button>
+            <button
+              onClick={handleViewRow}
+              className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-base"
+            >
+              <AiOutlineEye className="mr-1" />
+            </button>
+            <button
+              onClick={handleDeleteRow}
+              className="flex items-center px-3 py-2 bg-red-600 text-white rounded-md transition duration-300 hover:bg-red-700 text-xs md:text-base"
+            >
+              <MdDelete className="mr-1" />
+            </button>
+          </div>
+          <div className="flex flex-wrap space-x-2 mb-4 md:mb-0">
+            <button
+              onClick={handleRefresh}
+              className="flex items-center px-3 py-2 bg-gray-500 text-white rounded-md transition duration-300 hover:bg-gray-900 text-xs md:text-base"
+            >
             <AiOutlineReload className="mr-2" />
           </button>
           <button
@@ -282,30 +309,17 @@ const handleDownloadPDF = () => {
           >
             <FaDownload className="mr-2" />
           </button>
-        </div>
-      </div>
-          {/* Search Functionality */}
-          <div className="flex mb-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchValue}
-           onChange={(e) => setSearchValue(e.target.value)}
-            className="border border-gray-300 rounded-md p-2 w-64"
-          />
-          <button
-            onClick={handleSearch}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md ml-2 transition duration-300 hover:bg-blue-900"
-          >
-            <AiOutlineSearch className="mr-2" /> Search
-          </button>
-        </div>
+        
+         </div>
+     
+         </div>
 
-      {loading ? (
-        <div className="flex justify-center items-center h-48">
-          <span className="text-xl">Loading...</span>
-        </div>
-      ) : (
+    </div>
+              {loading ? (
+              <div className="flex justify-center items-center h-48">
+                  <span className="text-xl">Loading...</span>
+              </div>
+                    ) : (
         <div
         className="ag-theme-alpine"
         style={{ height: "400px", width: "100%", overflowY: "auto" }}
@@ -400,6 +414,7 @@ const handleDownloadPDF = () => {
           rowData={selectedRow}
         />
       )}
+    </div>
     </div>
   );
 };

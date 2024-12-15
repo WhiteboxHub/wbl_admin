@@ -11,7 +11,7 @@ interface Client {
 
 export default function ClientSearch() {
   const [searchInput, setSearchInput] = useState<string>('');
-  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
+  const [alertMessage,] = useState<string | null>(null); // Added state for alert message
   const [clients, setClients] = useState<Client[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');

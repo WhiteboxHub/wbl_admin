@@ -203,7 +203,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [alertMessage, setAlertMessage] = useState<string | null>(null); // Added state for alert message
+  const [alertMessage, ] = useState<string | null>(null); // Added state for alert message
   const [loading, setLoading] = useState(false); // Loading state
 
   const router = useRouter();
