@@ -423,7 +423,7 @@ export interface Vendor {
    export interface CandidateMarketing {
       id: number;
       candidateid: number;
-      startdate: string;
+      startdate: string | number;
       mmid: number;
       instructorid: number;
       status: string;
@@ -501,7 +501,7 @@ export interface Vendor {
   export interface CandidateMarketing {
   
     candidateid: number;
-    startdate: string;
+    startdate: number |string;
     mmid: number;
     instructorid: number;
     status: string;
