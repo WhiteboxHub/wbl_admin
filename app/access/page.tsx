@@ -22,7 +22,7 @@ const Users = () => {
   const [modalState, setModalState] = useState<{ add: boolean; edit: boolean; view: boolean }>({ add: false, edit: false, view: false });
   const [selectedRow, setSelectedRow] = useState<User | null>(null);
   const [searchValue, setSearchValue] = useState<string>("");
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+  const [, setAlertMessage] = useState<string | null>(null);
   const gridRef = useRef<AgGridReact>(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -403,9 +403,9 @@ const Users = () => {
           {/* // Added margin bottom for spacing */}
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-end md:space-x-2 mb-4">
+        <div className="flex flex-col md:flex-row mb-4 justify-between   items-center">
           {/* // Increased margin bottom for spacing */}
-          <div className="flex flex-wrap space-x-2 mb-2 md:mb-0">
+          <div className="flex flex-wrap w-full space-x-2 mb-2 md:mb-0">
             {/* // Adjusted margin bottom */}
             <div className="flex grow">
               <input
@@ -426,19 +426,19 @@ const Users = () => {
               onClick={handleEditRow}
               className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md transition duration-300 hover:bg-blue-700 text-xs md:text-sm" // Adjusted padding and font size
             >
-              <AiOutlineEdit className="mr-1" /> Edit
+              <AiOutlineEdit className="mr-1" /> 
             </button>  
             <button
               onClick={handleViewRow}
               className="flex items-center px-3 py-2 bg-gray-400 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-sm" // Adjusted padding and font size
             >
-              <AiOutlineEye className="mr-1" /> View
+              <AiOutlineEye className="mr-1" /> 
             </button>
             <button
               onClick={handleRefresh}
               className="flex items-center px-3 py-2 bg-gray-600 text-white rounded-md transition duration-300 hover:bg-gray-700 text-xs md:text-sm" // Adjusted padding and font size
             >
-              <AiOutlineReload className="mr-1" /> Refresh
+              <AiOutlineReload className="mr-1" /> 
             </button>
           </div>
         </div>
