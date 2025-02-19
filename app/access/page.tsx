@@ -9,7 +9,7 @@ import EditRowModal from "../../modals/Access/EditRowUser";
 import { FaChevronLeft, FaChevronRight, FaAngleDoubleLeft, FaAngleDoubleRight } from 'react-icons/fa';
 import ViewRowModal from "../../modals/access_modals/ViewRowUser";
 import { debounce } from "lodash";
-import withAuth from "@/modals/withAuth";
+// import withAuth from "@/modals/withAuth";
 import { AiOutlineEdit, AiOutlineSearch, AiOutlineReload, AiOutlineEye } from "react-icons/ai";
 import { User } from "../../types/index";
 
@@ -529,5 +529,5 @@ const Users = () => {
   );
 
 };
-
-export default withAuth(Users);
+export default Users;
+// export default withAuth(Users);
