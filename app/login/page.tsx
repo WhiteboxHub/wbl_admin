@@ -195,7 +195,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image"; // Import Image component
-import logo from '../../public/images/ip_logo1.jpg'; // Import the logoimport { useAuth } from "../../components/AuthContext"; // Import authentication context
+import logo from '../../public/images/ip_logo1.jpg';
 import { useAuth } from "../../components/AuthContext"; // Import authentication context
 
 const Login = () => {
